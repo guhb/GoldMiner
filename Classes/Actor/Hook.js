@@ -1,7 +1,7 @@
 Hook = cc.Sprite.extend({
     speed: null,
     zOrder: null,
-    appearPosition,
+    appearPosition: null,
     _state: {
         swing: 0,
         moving: 1       
@@ -12,7 +12,9 @@ Hook = cc.Sprite.extend({
         this.setTag(this.zOrder);
         this.setPosition(this.appearPosition);
         
-        va
+        // add animation
+        
+        
     },
     rotate: function () {
         
