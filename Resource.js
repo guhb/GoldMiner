@@ -1,20 +1,23 @@
 //image
 var s_bg01 = "Resources/bg01.jpg";
 var s_loading = "Resources/loading.png";
-var s_ship01 = "Resources/ship01.png";
 var s_menu = "Resources/menu.png";
 var s_logo = "Resources/logo.png";
-var s_cocos2dhtml5 = "Resources/cocos2d-html5.png";
 var s_gameOver = "Resources/gameOver.png";
 var s_menuTitle = "Resources/menuTitle.png";
-var s_Enemy = "Resources/Enemy.png";
 var s_flare = "Resources/flare.jpg";
-var s_bullet = "Resources/bullet.png";
 var s_explosion = "Resources/explosion.png";
 var s_explode1 = "Resources/explode1.jpg";
 var s_explode2= "Resources/explode2.jpg";
 var s_explode3 = "Resources/explode3.jpg";
-var s_hit = "Resources/hit.jpg";
+
+var s_small_stone = "Resources/small_stone.png";
+var s_big_stone = "Resources/big_stone.png";
+var s_smal_gold = "Resources/small_gold.png";
+var s_nor_gold = "Resources/nor_gold.png";
+var s_start = "Resources/start.png";
+var s_hook = "Resources/hook.png";
+var s_gift = "Resources/gift.png";
 
 //music
 var s_bgMusic = "Resources/Music/bgMusic";
@@ -37,21 +40,24 @@ var s_bullet_plist = "Resources/bullet.plist";
 var g_ressources = [
     //image
     {type:"image", src:s_bg01},
-    {type:"image", src:s_ship01},
     {type:"image", src:s_menu},
     {type:"image", src:s_logo},
-    {type:"image", src:s_cocos2dhtml5},
     {type:"image", src:s_gameOver},
     {type:"image", src:s_menuTitle},
-    {type:"image", src:s_Enemy},
     {type:"image", src:s_flare},
-    {type:"image", src:s_bullet},
     {type:"image", src:s_explosion},
     {type:"image", src:s_explode1},
     {type:"image", src:s_explode2},
     {type:"image", src:s_explode3},
-    {type:"image", src:s_hit},
-
+    
+    {type:"image", src:s_small_stone},
+    {type:"image", src:s_big_stone},
+    {type:"image", src:s_smal_gold},
+    {type:"image", src:s_nor_gold},
+    {type:"image", src:s_start},
+    {type:"image", src:s_hook},
+    {type:"image", src:s_gift},
+    
     //tmx
     {type:"tmx", src:s_level01},
 

@@ -1,8 +1,11 @@
 var Game = cc.Layer.extend({
-    _ship:null,
     init:function () {
-	    // Schedule the game init and splashing
-	}
+        // TODO Schedule the game init and splashing
+        // may be deprecated, and use SplashLayer to directly 
+        // transit to StartLayer instead
+    
+    
+    }
 });
 
 Game.create = function () {
