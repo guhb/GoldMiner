@@ -4,7 +4,7 @@ var StartLayer = cc.Layer.extend({
         var bRet = false;
         if (this._super) {
             winSize = cc.Director.sharedDirector().getWinSize();
-            var sp = cc.Sprite.create(s_loading);
+            var sp = cc.Sprite.create(s_background);
             sp.setAnchorPoint(cc.PointZero());
             this.addChild(sp, 0, 1);
 

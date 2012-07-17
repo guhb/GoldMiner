@@ -144,6 +144,26 @@ var GameLayer = cc.Layer.extend({
         scene.addChild(GameOver.create());
         cc.Director.sharedDirector().replaceScene(cc.TransitionFade.create(1.2, scene));
         this.getParent().removeChild(this);
+    },
+    onNextGame: function () {
+        var scene = cc.Scene.create();
+        scene.addChild(StoreLayer.create());
+        cc.Director.sharedDirector().replaceScene(cc.TransitionFade.create(1.2, scene));
+        this.getParent().removeChild(this);
+    },
+    onExit: function () {
+        /*
+        var scene = cc.Scene.create();
+        scene.addChild(StartLayer.create());
+        cc.Director.sharedDirector().replaceScene(cc.TransitionFade.create(1.2, scene));
+        this.getParent().removeChild(this);*/
+        history.go(-1);
+    },
+    onReturn: function () {
+        var scene = cc.Scene.create();
+        scene.addChild(StartLayer.create());
+        cc.Director.sharedDirector().replaceScene(cc.TransitionFade.create(1.2, scene));
+        this.getParent().removeChild(this);
     }
 });
 

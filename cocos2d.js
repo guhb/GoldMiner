@@ -90,6 +90,7 @@ cc.loadjs('Classes/Framework/GameLayer.js');
 cc.loadjs('Classes/Framework/GameOver.js');
 cc.loadjs('Classes/Framework/RecordLayer.js');
 cc.loadjs('Classes/Framework/SettingsLayer.js');
+cc.loadjs('Classes/Framework/ShopLayer.js');
 cc.loadjs('Classes/Framework/SplashLayer.js');
 cc.loadjs('Classes/Framework/StartLayer.js');
 
