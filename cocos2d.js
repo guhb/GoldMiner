@@ -81,7 +81,6 @@ cc.loadjs('Resource.js');
 // Config Module
 cc.loadjs('Classes/Config/global.js');
 cc.loadjs('Classes/Config/Level.js');
-cc.loadjs('Classes/Config/EnemyType.js');
 
 // Framework Module
 cc.loadjs('Classes/Framework/AboutLayer.js');
@@ -104,8 +103,8 @@ cc.loadjs('Classes/Actor/ToolObject.js');
 
 // Effect Module
 cc.loadjs('Classes/Effect/Effect.js');
-cc.loadjs('Classes/Effect/Exposion.js');
+cc.loadjs('Classes/Effect/Explosion.js');
 
 // Engine Module
 cc.loadjs('Classes/Engine/Engine.js');
-cc.loadjs('Classes/Engine/LevelManage.js');
+cc.loadjs('Classes/Engine/LevelManager.js');

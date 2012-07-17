@@ -12,4 +12,3 @@ var global = {
     score:0,
     sound:true,
 };
-me

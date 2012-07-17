@@ -1,4 +1,4 @@
-var SysMenu = cc.Layer.extend({
+var StartLayer = cc.Layer.extend({
     _ship:null,
     init:function () {
         var bRet = false;
@@ -38,7 +38,7 @@ var SysMenu = cc.Layer.extend({
             menu.setPosition(cc.ccp(winSize.width / 2, winSize.height / 2 - 80));
             this.schedule(this.update, 0.1);
 
-           var tmp = cc.TextureCache.sharedTextureCache().addImage(s_ship01);
+           var tmp = cc.TextureCache.sharedTextureCache().addImage(s_small_stone);
             this._ship = cc.Sprite.createWithTexture(tmp,cc.RectMake(0, 45, 60, 38));
             this.addChild(this._ship, 0, 4);
             this._ship.setPosition(cc.ccp(Math.random() * winSize.width, 0));
@@ -84,17 +84,17 @@ var SysMenu = cc.Layer.extend({
     }
 });
 
-SysMenu.create = function () {
-    var sg = new SysMenu();
+StartLayer.create = function () {
+    var sg = new StartLayer();
     if (sg && sg.init()) {
         return sg;
     }
     return null;
 };
 
-SysMenu.scene = function () {
+StartLayer.scene = function () {
     var scene = cc.Scene.create();
-    var layer = SysMenu.create();
+    var layer = StartLayer.create();
     scene.addChild(layer);
     return scene;
 };

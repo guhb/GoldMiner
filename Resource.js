@@ -11,6 +11,7 @@ var s_explode1 = "Resources/explode1.jpg";
 var s_explode2= "Resources/explode2.jpg";
 var s_explode3 = "Resources/explode3.jpg";
 
+var s_background = "Resources/background.png"
 var s_small_stone = "Resources/small_stone.png";
 var s_big_stone = "Resources/big_stone.png";
 var s_smal_gold = "Resources/small_gold.png";
@@ -50,6 +51,7 @@ var g_ressources = [
     {type:"image", src:s_explode2},
     {type:"image", src:s_explode3},
     
+    {type:"image", src:s_background},
     {type:"image", src:s_small_stone},
     {type:"image", src:s_big_stone},
     {type:"image", src:s_smal_gold},

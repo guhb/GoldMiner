@@ -2,7 +2,7 @@ var MIMETOOL = "minetool";
 var MILKTOOL = "milktool";
 
 ToolObject = cc.Sprite.extend({
-    type: null;
+    type: null,
 	ctor: function () {
 	    // TO DO
 	},

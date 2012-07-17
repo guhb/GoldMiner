@@ -1,4 +1,4 @@
-engine = function () {
+engine = {
     _dstScore: null,
 	_curScore: null,
 	_timeLimit: null,

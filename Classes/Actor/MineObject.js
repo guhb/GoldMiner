@@ -4,9 +4,9 @@ var ROCKOBJ = "rock";
 var GIFTOBJ = "gift";
 
 MineObject = cc.Sprite.extend({
-    type: null;
-	weight: 0;
-	size: [height: 0, width: 0];
+    type: null,
+	weight: 0,
+	size: {height: 0, width: 0},
 	ctor: function () {
 	},
 	ctor: function () {

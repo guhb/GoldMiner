@@ -93,16 +93,16 @@ var GameLayer = cc.Layer.extend({
     keyUp:function (e) {
         keys[e] = false;
     },
-	doSwingUpdate() {
+	doSwingUpdate: function () {
 	    // TO DO
 	},
-	doThrowUpdate() {
+	doThrowUpdate: function () {
 	    // TO DO
 	},
-	doRestrieveUpdate() {
+	doRestrieveUpdate: function () {
 	    // TO DO
 	},
-	updateTime () {
+	updateTime: function () {
 	    // TO DO
 	},
     update:function (dt) {
@@ -113,10 +113,11 @@ var GameLayer = cc.Layer.extend({
         cc.$("#cou").innerHTML = "Ship:" + 1 + ", Enemy: " + global.enemyContainer.length
             + ", Bullet:" + global.ebulletContainer.length + "," + global.sbulletContainer.length + " all:" + this.getChildren().length;
     },
-	checkHook() {
+    checkHook: function () {
 	    // TO DO
 		var hook, object;
-		for (var i = 0; i < global)
+		//for (var i = 0; i < global)
+            
 	},
     updateUI:function () {
         switch (hookStatus) {
@@ -132,9 +133,9 @@ var GameLayer = cc.Layer.extend({
 		}
 		updateInfo();
     },
-	updateInfo: function () {
-	    // Update Time, Score, Tool, Oject info, etc.
-	},
+    updateInfo: function () {
+	// Update Time, Score, Tool, Oject info, etc.
+    },
     initBackground:function () {
 	    // TO DO
     },
