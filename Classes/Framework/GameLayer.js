@@ -13,10 +13,7 @@ var GameLayer = cc.Layer.extend({
     init:function () {
         var bRet = false;
         if (this._super()) {
-            global.bulletNum = 0;
-            global.enemyNum = 0;
             Explosion.sharedExplosion();
-            Enemy.sharedEnemy();
             winSize = cc.Director.sharedDirector().getWinSize();
             this._levelManager = new LevelManager(this);
             this.initBackground();
@@ -62,27 +59,39 @@ var GameLayer = cc.Layer.extend({
         }
         return bRet;
     },
-    ccTouchesBegan:function (touches, event) {
-        if (!this.isMouseDown) {
-            var touch = touches[0];
-            this._beginPos = touch.locationInView(0);
+    ccTouchesBegan:function (touches, event) {		
+        if (this.hook.state == "swing") {
+            this.hook.throw(this.getDstPoint());
         }
-        this.isMouseDown = true;
     },
-    ccTouchesMoved:function (touches, event) {
-        if (this.isMouseDown) {
-            var curPos = this._ship.getPosition();
-            if(cc.Rect.CCRectIntersectsRect(this._ship.boundingBox(),this.screenRect)){
-                var touch = touches[0];
-                var location = touch.locationInView(touch.view());
+    getDstPoint: function () {
+        var size = cc.Director.sharedDirector().getWinSize();
+        var mx = size.width / 2;
+        var my = size.height - 50;
+		var desX = null;
+		var desY = null;
 
-                var move = cc.ccpSub(location,this._beginPos);
-                var nextPos = cc.ccpAdd(curPos,move);
-                this._ship.setPosition(nextPos);
-                this._beginPos = location;
-                curPos = nextPos;
-            }
-        }
+		if (this._handerSprite.state == "swing") {
+		    this._handerSprite.state = "throw";
+            this._handerSprite.isRotate = false;
+            this._handerSprite.stopSwing();
+		
+			var border = 10;
+            var angle = this._handerSprite.getRotation();
+            if (angle > this.criticalAngle) {
+				desX = 0 + border;
+                desY = my - Math.tan(((90-angle)*Math.PI)/180) * mx;
+			} else if (angle < this.criticalAngle && angle >0) {
+                desX = mx - Math.tan((angle*Math.PI)/180) * my;
+				desY = 0 + border;
+			} else if (angle > (-this.criticalAngle) && angle < 0) {
+                desX = mx + Math.tan((-angle*Math.PI)/180) * my
+				desY = 0 + border;	
+			} else if (angle < -this.criticalAngle) {
+				desX = size.width - border;
+                desY = my - Math.tan(((90+angle)*Math.PI)/180) * mx;
+			}
+			return cc.ccp(desX, desY);
     },
     ccTouchesEnded:function () {
         this.isMouseDown = false;
@@ -93,46 +102,35 @@ var GameLayer = cc.Layer.extend({
     keyUp:function (e) {
         keys[e] = false;
     },
-	doSwingUpdate: function () {
-	    // TO DO
-	},
-	doThrowUpdate: function () {
-	    // TO DO
-	},
-	doRestrieveUpdate: function () {
-	    // TO DO
-	},
 	updateTime: function () {
 	    // TO DO
 	},
+    draw: function () {
+        this._super();
+        var size = cc.Director.sharedDirector().getWinSize();
+        var lineWidth = cc.renderContext.lineWidth;
+        cc.renderContext.lineWidth = 2;
+        cc.drawingUtil.drawLine(new cc.ccp(size.width/2,size.height-50), this.hook.getPosition());
+    }
     update:function (dt) {
-        this.checkIsCollide();
-        this.removeInactiveUnit(dt);
-        this.checkIsReborn();
-        this.updateUI();
-        cc.$("#cou").innerHTML = "Ship:" + 1 + ", Enemy: " + global.enemyContainer.length
-            + ", Bullet:" + global.ebulletContainer.length + "," + global.sbulletContainer.length + " all:" + this.getChildren().length;
+        this.updateTime();
+        if (this.checkCollide()) this._hook.retrieve();
     },
-    checkHook: function () {
+    checkCollide: function () {
 	    // TO DO
-		var hook, object;
-		//for (var i = 0; i < global)
+		var hook = this._hook;
+        var objs = this._mineObjects;
+        for (var i=0; i<objs.length; i++) {
+            if (cc.Rect.CCRectIntersectsRect(
+                hook.getTextureRect(),objs[i].getTextureRect())) {
             
+                hook.addChild(objs[i]);
+                this._score += objs[i].score;
+                hook.speed = objs[i].speed;
+                return true;
+            }
+        }
 	},
-    updateUI:function () {
-        switch (hookStatus) {
-		    case swingstate:
-			    doSwingUpdate();
-				break;
-			case throwState:
-			    doThrowUpdate();
-				break;
-			case retrieveState:
-			    doRetrieveUpdate();
-				break;
-		}
-		updateInfo();
-    },
     updateInfo: function () {
 	// Update Time, Score, Tool, Oject info, etc.
     },

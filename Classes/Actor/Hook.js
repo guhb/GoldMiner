@@ -1,10 +1,8 @@
 Hook = cc.Sprite.extend({
-    state: null,
+    state: "swing",
     rotateSpeed: 1,
-    throwSpeed: 5,
-    retrieveSpeed: 5,
-    argX: 0,
-    argY: 0,
+    throwSpeed: 2,
+    retrieveSpeed: 1,
     swingAction: null,
     throwAction: null,
     retrieveAction: null,
@@ -31,7 +29,7 @@ Hook = cc.Sprite.extend({
         var seq = cc.Sequence.create(rotoLeft, cc.DelayTime.create(0.1), rotoLeft, cc.DelayTime.create(0.1));
         this.swingAction = cc.RepeatForever.create(seq, null);
         
-        this.originPosition = this.getPosition();
+        //this.originPosition = this.getPosition();
         this.swing();
     },
     swing: function () {
@@ -41,11 +39,10 @@ Hook = cc.Sprite.extend({
     stopSwing: function () {
         this.stopAction(this.swingAction);
     },
-    throw: function (DstPoint) {
+    throw: function (dstPoint) {
         this.state = "throw";
-         // Throw Action
-        this.throwAction = cc.MoveTo.create(this.throwSpeed,new cc.ccp(this.argX, this.argY));
-        //this.throwAction = cc.MoveTo.create(this.throwSpeed, dstPosition);
+        this.dstPosition = dstPoint;
+        this.throwAction = cc.MoveTo.create(this.throwSpeed, dstPoint);
         this.runAction(this.throwAction);
     },
     stopThrow: function () {
@@ -53,9 +50,8 @@ Hook = cc.Sprite.extend({
     },
     retrieve: function () {
         this.state = "retrieve";
-        //this.stopThrow();
-        this.retrieveAction = cc.MoveTo.create(this.RetrieveSpeed, new cc.ccp(0,0));
-        //this.retrieveAction = cc.MoveTo.create(this.RetrieveSpeed, this.originPosition);
+        this.stopAction(this.throwAction);
+        this.retrieveAction = cc.MoveTo.create(this.retrieveSpeed, this.originPosition);
         this.runAction(this.retrieveAction);
     },
     /*
@@ -70,26 +66,14 @@ Hook = cc.Sprite.extend({
        cc.renderContext.lineWidth = lineWidth;
     },*/
     update:function(){
-        //if (this.isRotate) {
-            //this.setRotation(this._currentRotation);
-        /*} else {
-        var len = cc.ccpDistance(new cc.Point(this.argX, this.argY), new cc.Point(0,0));
-        if (this.len <= len) {
-            this.len += this.speed;
-            var scale = this.len/len;
-            if (scale > 0.1) {
-            console.log("HanderSprite->scaling");
-            this.setScaleY(scale);
-            }
+        if (this.throwAction && this.throwAction.isDone()
+            && this.state == "throw") {
+            //console.log(this.throwAction);
+            this.retrieveHander();
+        } else if (this.retrieveAction && this.retrieveAction.isDone()
+                    && this.state == "retrieve") {
+            this.state = "swing";
+            this.swing();
         }
-        }*/
-        /*
-        if (!this.isRotate) {
-            this.stopAction(this.swingAction);
-        console.log("isRotate:" + this.isRotate);
-        }*/
-    },
-    destroy: function () {
-        
-    }       
+    }    
 });
