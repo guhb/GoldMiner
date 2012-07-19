@@ -29,29 +29,33 @@ var LevelManager = cc.Class.extend({
 
     createMap:function(){
         var round = this._currentRound % NUMBER_OF_ROUNDS;
-        
-        // add rock to game layer
         for (var i=0; i<Round[round].length; i++) {
              
-             var mine;
-             switch (Round[round][i].type) {
-                 case global.Tag.Pig:
-                     break;
-                 case global.Tag.Bomb:
-                     // bomb specific implementation
-                 case global.Tag.Bone:
-                     // bone specific implementation
-                     break;
-                 default:
-                     // general implementation
-                     var size = Math.round(Math.random());
-                     mine = new MineObject(Round[round][i], size);
-             }
-             
-             this._gameLayer.addChild(mine, global.zOrder.Mine);
-             global.mineContainer.push(mine);
-             console.log("add child");
+            var mine;
+            if (Round[round][i].type == global.Tag.Pig) {
+                mine = new MineObject(Round[round][i], 1);
+                var point1 = cc.ccp(Round[round][i].x, Round[round][i].y);
+                var point2 = cc.ccp(Round[round][i].x2, Round[round][i].y2);
+                if (!cc.Point.CCPointEqualToPoint(point1, point2)) {
+                    var tmpMove1 = cc.MoveTo.create(point1, point2);
+                    var tmpMove2 = cc.MoveTo.create(point2, point1);
+                    var seq = cc.Sequence.create(tmpMove1, cc.DelayTime.create(0.1),
+                                                 tmpMove2, cc.DelayTime.create(0.1));
+                    //var tmpAction = cc.RepeatForever.create(seq);
+                    mine.action = cc.RepeatForever.create(seq);
+                    //mine.runAction(mine.action);
+                    console.log("createMap->mine.action" + i + ": " + mine.action);
+                }
+            } else {
+                var size = Math.round(Math.random());
+                mine = new MineObject(Round[round][i], size);
+            }
+            if (mine != null) {
+                this._gameLayer.addChild(mine, global.zOrder.Mine);
+                global.mineContainer.push(mine);
+                if (mine.action != null) mine.runAction(mine.action);
+                console.log("createMap->add" + i + ": " + getTagName(mine.type));
+            } 
         }
-        
     }
 });

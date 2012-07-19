@@ -34,6 +34,8 @@ Hook = cc.Sprite.extend({
         if (this.state == "retrieve" && this.retrieveAction
             && this.retrieveAction.isDone() || this.state == "init") {
             this.state = "swing";
+            this.setRotation(0);
+            this.retrieveSpeed = 1;
             this.runAction(this.swingAction);
         } else {
             console.error("Swing could only started from after either a retrieve or init state.");
@@ -46,7 +48,7 @@ Hook = cc.Sprite.extend({
         } else {
             console.error("Could not stop swing other than in a swing state.");
         }
-        console.log("stop swing");
+        //console.log("stop swing");
     },
     launch: function (dstPoint) {
         if (this.state == "swing") {
@@ -56,7 +58,7 @@ Hook = cc.Sprite.extend({
         } else {
             console.error("Launch could only be started from a swing state.");
         }
-        console.log("launch");
+        //console.log("launch");
     },
     stopLaunch: function () {
         if (this.state == "launch") {
@@ -64,7 +66,7 @@ Hook = cc.Sprite.extend({
         } else {
             console.error("Could not stop a launch state other than in a launch state.");
         }
-        console.log("stop launch.");
+        //console.log("stop launch.");
     },
     retrieve: function () {
         if (this.lauchAction && this.launchAction.isDone() || this.state == "launch") {
@@ -75,20 +77,29 @@ Hook = cc.Sprite.extend({
         } else {
             console.error("Retrieve could only be started from a launch state, or when the launch is finished");
         }
-        console.log("retrieve");
+        //console.log("retrieve");
     },
     getState: function () {
         return this.state;
     },
+    setRetrieveSpeed: function (sp) {
+        if (sp && (sp > 0)) this.retrieveSpeed = sp;
+    },
+    getRetrieveSpeed: function () {
+        return this.retrieveSpeed;
+    },
+    getOriginPosition: function () {
+        return this.originPosition;
+    },
     update:function(){
         if (this.launchAction && this.launchAction.isDone()
             && this.state == "launch") {
-            console.log("retrieve");
+            //console.log("update->retrieve");
             this.retrieve();
         } else if (this.retrieveAction && this.retrieveAction.isDone()
                     && this.state == "retrieve") {
             this.swing();
-            console.log("Swing");
+            //console.log("update->Swing");
         }
     }    
 });

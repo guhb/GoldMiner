@@ -1,7 +1,7 @@
 var winSize = null;
 var keys = [];
 var global = {
-    round:0,
+    round:3,
     score:0,
     sound:true,
     Tag:{
@@ -17,4 +17,3 @@ var global = {
     },
     mineContainer: []
 };
-//var levelManager = new LevelManager();

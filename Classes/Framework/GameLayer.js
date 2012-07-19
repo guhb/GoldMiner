@@ -1,17 +1,19 @@
 var GameLayer = cc.Layer.extend({
-    _time_limit: 100,
-    _cur_score: null,
-    _dst_score: null,
+    _time_limit: 30,
+    _cur_score: 0,
+    _dst_score: 200,
     _hook: null,
     _mineObjects: [],
     _toolObjects: [],
     _levelManager: null,
-    //screenRect: null,
     explosionAnimation: [],
     _criticalAngle: null,
-    roundNum: 1,
+    _roundNum: 1,
     winSize: null,
-    init:function (roundNum) {
+    collectAction: null,
+    collectedObject: null,
+    
+    init:function () {
         var bRet = false;
         if (this._super()) {
             //Explosion.sharedExplosion();
@@ -20,8 +22,6 @@ var GameLayer = cc.Layer.extend({
             //this._levelManager = new LevelManager(this);
             //this.initBackground();
             //this.screenRect = new cc.Rect(0, 0, winSize.width, winSize.height + 10);
-            
-            console.log("size: " + this.winSize.width);
 
             // background
             var bg = cc.Sprite.create(s_background);
@@ -30,13 +30,13 @@ var GameLayer = cc.Layer.extend({
             this.addChild(bg, -10);
             
             // dst score
-            this.lbDstScore = cc.LabelTTF.create("Goal: 0", cc.TEXT_ALIGNMENT_RIGHT, "Arial", 14);
+            this.lbDstScore = cc.LabelTTF.create("Goal: 0", cc.TEXT_ALIGNMENT_LEFT, "Arial", 14);
             this.lbDstScore.setColor(cc.RED());
             this.addChild(this.lbDstScore, 30);
             this.lbDstScore.setPosition(cc.ccp(this.winSize.width - 200, this.winSize.height - 30));
             
             // cur score
-            this.lbCurScore = cc.LabelTTF.create("Score: 0", cc.TEXT_ALIGNMENT_RIGHT, "Arial", 14);
+            this.lbCurScore = cc.LabelTTF.create("Score: 0", cc.TEXT_ALIGNMENT_LEFT, "Arial", 14);
             this.lbCurScore.setColor(cc.RED());
             this.addChild(this.lbCurScore, 30);
             this.lbCurScore.setPosition(cc.ccp(this.winSize.width - 200, this.winSize.height - 60));
@@ -100,123 +100,132 @@ var GameLayer = cc.Layer.extend({
         var levelManager = new LevelManager(this);
         levelManager.createMap();
     },
-    ccTouchesBegan:function (touches, event) {		
+    
+    ccTouchesBegan:function (touches, event) {
         if (this._hook.state == "swing") {
             this._hook.launch(this.getDstPoint());
         }
     },
+    
     getDstPoint: function () {
         var size = cc.Director.sharedDirector().getWinSize();
         var mx = size.width / 2;
         var my = size.height - 50;
-		var desX = null;
-		var desY = null;
+        var desX = null;
+        var desY = null;
         var border = 10;
 
-		if (this._hook.state == "swing") {
+        if (this._hook.state == "swing") {
             this._hook.stopSwing();
             var angle = this._hook.getRotation();
             if (angle > this._criticalAngle) {
-				desX = 0 + border;
+                desX = 0 + border;
                 desY = my - Math.tan(((90-angle)*Math.PI)/180) * mx;
-			} else if (angle < this._criticalAngle && angle >0) {
+            } else if (angle < this._criticalAngle && angle >0) {
                 desX = mx - Math.tan((angle*Math.PI)/180) * my;
-				desY = 0 + border;
-			} else if (angle > (-this._criticalAngle) && angle < 0) {
+                desY = 0 + border;
+            } else if (angle > (-this._criticalAngle) && angle < 0) {
                 desX = mx + Math.tan((-angle*Math.PI)/180) * my
-				desY = 0 + border;
-			} else if (angle < -this._criticalAngle) {
-				desX = size.width - border;
+                desY = 0 + border;
+            } else if (angle < -this._criticalAngle) {
+                desX = size.width - border;
                 desY = my - Math.tan(((90+angle)*Math.PI)/180) * mx;
-			}
-			return cc.ccp(desX, desY);
+            }
+            return cc.ccp(desX, desY);
         }
         console.error("Could not get dstPosition");
     },
+    
     ccTouchesEnded:function () {
         //this.isMouseDown = false;
     },
+    
     keyDown:function (e) {
         keys[e] = true;
     },
+    
     keyUp:function (e) {
         keys[e] = false;
     },
+    
     draw: function () {
         this._super();
-        //var size = cc.Director.sharedDirector().getWinSize();
         cc.renderContext.lineWidth = 2;
-        //cc.drawingUtil.drawLine(new cc.ccp(this.winSize.width/2,this.winSize.height-50), this._hook.getPosition());
-        cc.drawingUtil.drawLine(new cc.ccp(480,590), this._hook.getPosition());
-        //cc.drawingUtil.drawLine(new cc.ccp(480,590), new cc.ccp(0,0));
-        //console.log("size:" + size.width/2 + " " + size.heigt-50);
-        //console.log("pos:" + this._hook.getPositionX() + " " + this._hook.getPositionY());
+        cc.drawingUtil.drawLine(new cc.ccp(this.winSize.width/2,this.winSize.height-50), this._hook.getPosition());
     },
-    updateTime: function () {
-	    // TO DO
-	},
-    updateScore: function () {
     
+    checkTime: function () {
+        if (this._time_limit <= 0) {
+            global.round++;
+            this.onNextGame();
+        }
     },
+    
+    updateScore: function (inc) {
+        this._cur_score += inc;
+        this.lbCurScore.setString("Score: " + this._cur_score);
+        if (this._cur_score >= this._dst_score) {
+            global.round++;
+            this.onNextGame();
+        }
+    },
+    
     update:function (dt) {
-        this.updateTime();
-        if (this.checkCollision()) this._hook.retrieve();
-    },
-    checkCollision: function () {
-	    // TO DO
-        /*
-        for (var i=0; i<global.mineContainer.length; i++) {
-            if (cc.Rect.CCRectIntersectsRect(this._hook.getTextureRect(),
-                global.mineContainer[i].getTextureRect())) {
-            
-                //this.removeChild(global.mineContainer[i]);
-                //this._hook.addChild(global.mineContainer[i]);
-                
-                console.log(this._hook.getTextureRect().CCRectGetMaxY());
-                
-                this._score += global.mineContainer[i].getValue();
-                this._hook.retriveSpeed = global.mineContainer[i].getWeight()/50 * this._hook.retrieveSpeed;
-                return true;
+        this.checkCollision();
+        if (this.collectAction && this.collectAction.isDone()) {
+            if (this.collectedObject != null) {
+                this.collectedObject.setIsVisible(false);
+                this.updateScore(this.collectedObject.getValue());
+                //console.log(getTagName(this.collectedObject.type));
+                this.collectedObject = null;
             }
-        }*/
-        var distance = null;
-		for (var i=0; i<global.mineContainer.length; i++) {
-			var xlen = (this._hook.getPositionX() - global.mineContainer[i].getPositionX())
-                        * (this._hook.getPositionX() - global.mineContainer[i].getPositionX());
-			var ylen = (this._hook.getPositionY() - global.mineContainer[i].getPositionY())
-                        * (this._hook.getPositionY() - global.mineContainer[i].getPositionY());
-			distance = Math.sqrt(xlen + ylen);
-			if(distance < 30)			
-			{	
-			    //this._hook.stopThrow();
-				
-				//this.objs[i].setIsVisible(false);
-				this.removeChild(global.mineContainer[i]);
-				this._hook.addChild(global.mineContainer[i],10);
-				//this._handerSprite.addChild(this.objs[i]);
-				this._hook.retrieve();
-			}
-		}
-        
-	},
-    onRoundEnd: function () {
-         var scene = cc.Scene.create();
-         scene.addChild(GameLayer.create(++this.roundNum));
-         cc.Director.sharedDirector().replaceScene(cc.TransitionFade.create(1.2, scene));
-         this.getParent().removeChild(this);
+        }
     },
+    
+    checkCollision: function () {
+        var distance = null;
+        for (var i=0; i<global.mineContainer.length; i++) {
+            if (global.mineContainer[i] != null) {
+                var xlen = (this._hook.getPositionX() - global.mineContainer[i].getPositionX())
+                        * (this._hook.getPositionX() - global.mineContainer[i].getPositionX());
+                var ylen = (this._hook.getPositionY() - global.mineContainer[i].getPositionY())
+                        * (this._hook.getPositionY() - global.mineContainer[i].getPositionY());
+            
+                distance = Math.sqrt(xlen + ylen);
+                if (distance < 30) {
+                    if (global.mineContainer[i].type == global.Tag.Pig)
+                        global.mineContainer[i].stopAllActions();
+                    
+                    this.collectAction = cc.MoveTo.create(this._hook.getRetrieveSpeed(),
+                                                          this._hook.getOriginPosition());
+                    global.mineContainer[i].runAction(this.collectAction);
+                    this.collectedObject = global.mineContainer[i];
+                    global.mineContainer[i] = null;
+                    //this._hook.stopLaunch();
+                    //var tmpAction = cc.MoveTo.create(this._hook.getPosition(), this.collectedObject.getPosition());
+                    //this._hook.setPosition(this.collectedObject.getPosition());
+                    //this._hook.runAction(tmpAction);
+                    this._hook.retrieve();
+                }
+            }
+        }
+    },
+    
     onGameOver:function () {
         var scene = cc.Scene.create();
         scene.addChild(GameOver.create());
         cc.Director.sharedDirector().replaceScene(cc.TransitionFade.create(1.2, scene));
         this.getParent().removeChild(this);
     },
+    
     onNextGame: function () {
+        global.round++;
         var scene = cc.Scene.create();
         scene.addChild(StoreLayer.create());
         cc.Director.sharedDirector().replaceScene(cc.TransitionFade.create(1.2, scene));
         this.getParent().removeChild(this);
     },
+    
     onReturn: function () {
         var scene = cc.Scene.create();
         scene.addChild(StartLayer.create());
@@ -225,9 +234,9 @@ var GameLayer = cc.Layer.extend({
     }
 });
 
-GameLayer.create = function (roundNum) {
+GameLayer.create = function () {
     var sg = new GameLayer();
-    if (sg && sg.init(roundNum)) {
+    if (sg && sg.init()) {
         return sg;
     }
     return null;
@@ -235,7 +244,7 @@ GameLayer.create = function (roundNum) {
 
 GameLayer.scene = function () {
     var scene = cc.Scene.create();
-    var layer = GameLayer.create(1);
+    var layer = GameLayer.create();
     scene.addChild(layer, 1);
     return scene;
 };
