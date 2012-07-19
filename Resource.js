@@ -12,13 +12,17 @@ var s_explode2= "Resources/explode2.jpg";
 var s_explode3 = "Resources/explode3.jpg";
 
 var s_background = "Resources/background.png"
-var s_small_stone = "Resources/small_stone.png";
-var s_big_stone = "Resources/big_stone.png";
-var s_smal_gold = "Resources/small_gold.png";
-var s_nor_gold = "Resources/nor_gold.png";
+var s_big_rock = "Resources/big_stone.png";
+var s_small_rock = "Resources/small_stone.png";
+var s_big_gold = "Resources/nor_gold.png";
+var s_small_gold = "Resources/small_gold.png";
+var s_pig = "Resources/nor_gold.png";
+var s_big_diamond = "Resources/gift.png";
+var s_small_diamond = "Resources/gift.png";
+var s_bone = "Resources/gift.png";
+var s_bomb = "Resources/gift.png";
 var s_start = "Resources/start.png";
 var s_hook = "Resources/hook.png";
-var s_gift = "Resources/gift.png";
 
 //music
 var s_bgMusic = "Resources/Music/bgMusic";
@@ -52,13 +56,17 @@ var g_ressources = [
     {type:"image", src:s_explode3},
     
     {type:"image", src:s_background},
-    {type:"image", src:s_small_stone},
-    {type:"image", src:s_big_stone},
-    {type:"image", src:s_smal_gold},
-    {type:"image", src:s_nor_gold},
+    {type:"image", src:s_big_rock},
+    {type:"image", src:s_small_rock},
+    {type:"image", src:s_big_gold},
+    {type:"image", src:s_small_gold},
+    {type:"image", src:s_pig},
+    {type:"image", src:s_big_diamond},
+    {type:"image", src:s_small_diamond},
+    {type:"image", src:s_bone},
+    {type:"image", src:s_bomb},
     {type:"image", src:s_start},
     {type:"image", src:s_hook},
-    {type:"image", src:s_gift},
     
     //tmx
     {type:"tmx", src:s_level01},

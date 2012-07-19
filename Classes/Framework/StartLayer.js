@@ -38,12 +38,13 @@ var StartLayer = cc.Layer.extend({
             menu.setPosition(cc.ccp(winSize.width / 2, winSize.height / 2 - 80));
             this.schedule(this.update, 0.1);
 
-           var tmp = cc.TextureCache.sharedTextureCache().addImage(s_small_stone);
+            /*
+            var tmp = cc.TextureCache.sharedTextureCache().addImage(s_small_stone);
             this._ship = cc.Sprite.createWithTexture(tmp,cc.RectMake(0, 45, 60, 38));
             this.addChild(this._ship, 0, 4);
             this._ship.setPosition(cc.ccp(Math.random() * winSize.width, 0));
             this._ship.runAction(cc.MoveBy.create(2, cc.ccp(Math.random() * winSize.width, this._ship.getPosition().y + winSize.height + 100)));
-
+            */
             if (global.sound) {
                 cc.AudioManager.sharedEngine().setBackgroundMusicVolume(0.7);
                 cc.AudioManager.sharedEngine().playBackgroundMusic(s_mainMainMusic, true);
@@ -55,7 +56,7 @@ var StartLayer = cc.Layer.extend({
     },
     onNewGame:function (pSender) {
         var scene = cc.Scene.create();
-        scene.addChild(GameLayer.create());
+        scene.addChild(GameLayer.create(1));
         scene.addChild(GameControlMenu.create());
         cc.Director.sharedDirector().replaceScene(cc.TransitionFade.create(1.2, scene));
     },
@@ -72,10 +73,12 @@ var StartLayer = cc.Layer.extend({
         cc.Director.sharedDirector().replaceScene(cc.TransitionFade.create(1.2, scene));
     },
     update:function () {
+        /*
         if (this._ship.getPosition().y > 480) {
             this._ship.setPosition(cc.ccp(Math.random() * winSize.width, 10));
             this._ship.runAction(cc.MoveBy.create(parseInt(5 * Math.random()), cc.ccp(Math.random() * winSize.width, this._ship.getPosition().y + 480)));
         }
+        */
     },
     onButtonEffect:function(){
         if (global.sound) {

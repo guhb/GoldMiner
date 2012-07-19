@@ -1,19 +1,19 @@
-var GameLayer = cc.Layer.extend({
+var RecordLayer = cc.Layer.extend({
     ctor: function () {
 	}
 });
 
-GameLayer.create = function () {
-    var sg = new GameLayer();
+RecordLayer.create = function () {
+    var sg = new RecordLayer();
     if (sg && sg.init()) {
         return sg;
     }
     return null;
 };
 
-GameLayer.scene = function () {
+RecordLayer.scene = function () {
     var scene = cc.Scene.create();
-    var layer = GameLayer.create();
+    var layer = RecordLayer.create();
     scene.addChild(layer, 1);
     return scene;
 };

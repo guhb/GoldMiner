@@ -4,7 +4,7 @@ var GameControlMenu = cc.Layer.extend({
         if (this._super()) {
             cc.MenuItemFont.setFontSize(18);
             cc.MenuItemFont.setFontName("Arial");
-            var systemMenu = cc.MenuItemFont.create("Main Menu", this, this.sysMenu);
+            var systemMenu = cc.MenuItemFont.create("End", this, this.startLayer);
             var menu = cc.Menu.create(systemMenu, null);
             menu.setPosition(cc.ccp(0, 0));
             systemMenu.setAnchorPoint(cc.ccp(0, 0));
@@ -15,9 +15,9 @@ var GameControlMenu = cc.Layer.extend({
 
         return bRet;
     },
-    sysMenu:function (pSender) {
+    startLayer:function (pSender) {
         var scene = cc.Scene.create();
-        scene.addChild(SysMenu.create());
+        scene.addChild(StartLayer.create());
         cc.Director.sharedDirector().replaceScene(cc.TransitionFade.create(1.2,scene));
     }
 });

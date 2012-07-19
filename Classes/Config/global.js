@@ -1,14 +1,20 @@
 var winSize = null;
 var keys = [];
 var global = {
-    mode: {
-        easy: 0,
-	normal: 1,
-	hard: 2,
-	challenge: 3
-    },
-    level:1,
-    life:4,
+    round:0,
     score:0,
     sound:true,
+    Tag:{
+        Rock: 900,
+        Gold: 901,
+        Pig: 902,
+        Diamond: 903,
+        Bone: 904,
+        Bomb: 905
+    },
+    zOrder: {
+        Mine: 40
+    },
+    mineContainer: []
 };
+//var levelManager = new LevelManager();

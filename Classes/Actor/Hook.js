@@ -1,13 +1,13 @@
 Hook = cc.Sprite.extend({
-    state: "swing",
+    state: "init",
+    rotateLimit: 80,
     rotateSpeed: 1,
-    throwSpeed: 2,
+    launchSpeed: 1,
     retrieveSpeed: 1,
     swingAction: null,
-    throwAction: null,
+    launchAction: null,
     retrieveAction: null,
     originPosition: null,
-    dstPosition: null,
 
     ctor: function () {
         // TODO animation, etc.
@@ -18,62 +18,77 @@ Hook = cc.Sprite.extend({
         this.setPosition(this.appearPosition);
         
         // add animation
-        
         */
         this._super();
         this.initWithFile(s_hook);
         
         // Swing Action
-        var rotoLeft = cc.RotateTo.create(rotateSpeed, 90);
-        var rotoRight = cc.RotateTo.create(rotateSpeed, -90);
-        var seq = cc.Sequence.create(rotoLeft, cc.DelayTime.create(0.1), rotoLeft, cc.DelayTime.create(0.1));
-        this.swingAction = cc.RepeatForever.create(seq, null);
-        
-        //this.originPosition = this.getPosition();
+        var rotoLeft = cc.RotateTo.create(this.rotateSpeed, this.rotateLimit);
+        var rotoRight = cc.RotateTo.create(this.rotateSpeed, -this.rotateLimit);
+        var seq = cc.Sequence.create(rotoLeft, cc.DelayTime.create(0.1), rotoRight, cc.DelayTime.create(0.1));
+        this.swingAction = cc.RepeatForever.create(seq);
         this.swing();
+        //console.log("Hook created.");
     },
     swing: function () {
-        this.state = "swing";
-        this.runAction(this.swingAction);
+        if (this.state == "retrieve" && this.retrieveAction
+            && this.retrieveAction.isDone() || this.state == "init") {
+            this.state = "swing";
+            this.runAction(this.swingAction);
+        } else {
+            console.error("Swing could only started from after either a retrieve or init state.");
+        }
+        //console.log("swing");
     },
     stopSwing: function () {
-        this.stopAction(this.swingAction);
+        if (this.state == "swing") {
+            this.stopAction(this.swingAction);
+        } else {
+            console.error("Could not stop swing other than in a swing state.");
+        }
+        console.log("stop swing");
     },
-    throw: function (dstPoint) {
-        this.state = "throw";
-        this.dstPosition = dstPoint;
-        this.throwAction = cc.MoveTo.create(this.throwSpeed, dstPoint);
-        this.runAction(this.throwAction);
+    launch: function (dstPoint) {
+        if (this.state == "swing") {
+            this.state = "launch";
+            this.launchAction = cc.MoveTo.create(this.launchSpeed, dstPoint);
+            this.runAction(this.launchAction);
+        } else {
+            console.error("Launch could only be started from a swing state.");
+        }
+        console.log("launch");
     },
-    stopThrow: function () {
-        this.stopAction(this.throwAction);
+    stopLaunch: function () {
+        if (this.state == "launch") {
+            this.stopAction(this.launchAction);
+        } else {
+            console.error("Could not stop a launch state other than in a launch state.");
+        }
+        console.log("stop launch.");
     },
     retrieve: function () {
-        this.state = "retrieve";
-        this.stopAction(this.throwAction);
-        this.retrieveAction = cc.MoveTo.create(this.retrieveSpeed, this.originPosition);
-        this.runAction(this.retrieveAction);
+        if (this.lauchAction && this.launchAction.isDone() || this.state == "launch") {
+            this.state = "retrieve";
+            this.stopAction(this.launchAction);
+            this.retrieveAction = cc.MoveTo.create(this.retrieveSpeed, this.originPosition);
+            this.runAction(this.retrieveAction);
+        } else {
+            console.error("Retrieve could only be started from a launch state, or when the launch is finished");
+        }
+        console.log("retrieve");
     },
-    /*
-    draw: function () {
-       this._super();
-       var size = cc.Director.sharedDirector().getWinSize();
-       var lineWidth = cc.renderContext.lineWidth;
-       cc.renderContext.lineWidth = 10;
-       cc.drawingUtil.drawLine(this.getPosition(),new cc.ccp(10,10));
-           //console.log("Point1" + size.width/2 + size.height-50 +
-           //"Point2" + this.getPosition.x + this.getPosition.y);
-       cc.renderContext.lineWidth = lineWidth;
-    },*/
+    getState: function () {
+        return this.state;
+    },
     update:function(){
-        if (this.throwAction && this.throwAction.isDone()
-            && this.state == "throw") {
-            //console.log(this.throwAction);
-            this.retrieveHander();
+        if (this.launchAction && this.launchAction.isDone()
+            && this.state == "launch") {
+            console.log("retrieve");
+            this.retrieve();
         } else if (this.retrieveAction && this.retrieveAction.isDone()
                     && this.state == "retrieve") {
-            this.state = "swing";
             this.swing();
+            console.log("Swing");
         }
     }    
 });

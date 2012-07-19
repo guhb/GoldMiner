@@ -82,30 +82,30 @@ cc.loadjs('Resource.js');
 cc.loadjs('Classes/Config/global.js');
 cc.loadjs('Classes/Config/Level.js');
 
+// Engine Module
+//cc.loadjs('Classes/Engine/Engine.js');
+cc.loadjs('Classes/Engine/LevelManager.js');
+
 // Framework Module
-cc.loadjs('Classes/Framework/AboutLayer.js');
-cc.loadjs('Classes/Framework/Game.js');
-cc.loadjs('Classes/Framework/GameControlMenu.js');
+//cc.loadjs('Classes/Framework/AboutLayer.js');
+//cc.loadjs('Classes/Framework/Game.js');
+//cc.loadjs('Classes/Framework/GameControlMenu.js');
 cc.loadjs('Classes/Framework/GameLayer.js');
-cc.loadjs('Classes/Framework/GameOver.js');
-cc.loadjs('Classes/Framework/RecordLayer.js');
-cc.loadjs('Classes/Framework/SettingsLayer.js');
-cc.loadjs('Classes/Framework/ShopLayer.js');
-cc.loadjs('Classes/Framework/SplashLayer.js');
+//cc.loadjs('Classes/Framework/GameOver.js');
+//cc.loadjs('Classes/Framework/RecordLayer.js');
+//cc.loadjs('Classes/Framework/SettingsLayer.js');
+//cc.loadjs('Classes/Framework/ShopLayer.js');
+//cc.loadjs('Classes/Framework/SplashLayer.js');
 cc.loadjs('Classes/Framework/StartLayer.js');
 
 // Actor Module
 cc.loadjs('Classes/Actor/Hook.js');
-cc.loadjs('Classes/Actor/Map.js');
+//cc.loadjs('Classes/Actor/Map.js');
 cc.loadjs('Classes/Actor/MineObject.js');
-cc.loadjs('Classes/Actor/Miner.js');
-cc.loadjs('Classes/Actor/Seller.js');
-cc.loadjs('Classes/Actor/ToolObject.js');
+//cc.loadjs('Classes/Actor/Miner.js');
+//cc.loadjs('Classes/Actor/Seller.js');
+//cc.loadjs('Classes/Actor/ToolObject.js');
 
 // Effect Module
-cc.loadjs('Classes/Effect/Effect.js');
-cc.loadjs('Classes/Effect/Explosion.js');
-
-// Engine Module
-cc.loadjs('Classes/Engine/Engine.js');
-cc.loadjs('Classes/Engine/LevelManager.js');
+//cc.loadjs('Classes/Effect/Effect.js');
+//cc.loadjs('Classes/Effect/Explosion.js');

@@ -1,39 +1,26 @@
-var DIAMONDOBJ = "diamond";
-var GOLDOBJ = "gold";
-var ROCKOBJ = "rock";
-var GIFTOBJ = "gift";
-
 MineObject = cc.Sprite.extend({
     type: null,
 	weight: 0,
-	size: {height: 0, width: 0},
-	ctor: function () {
+    size: 0,
+    value: 0,
+    
+	create: function (object, size) {
+        this.type = object.type;
+        if (size = 1) {
+            this.value = MineType[type].big.value;
+            this.weight = MineType[type].big.weight;
+            this.initWithFile(MineType[type].big.image);
+        } else {
+            this.value = MineType[type].small.value;
+            this.weight = MineType[type].small.weight;
+            this.initWithFile(MineType[type].small.image);
+        }
+        this.setPositon(object.pos);
 	},
-	ctor: function () {
-	    //
+	getValue: function () {
+	    return this.value;
 	},
-	create: function () {
-	    // TO DO
-		// return ~
-	},
-	update: function () {
-	    // update position
-		//this.setPosition(cc.ccp(newX, newY));
-	},
-	collect: function () {
-	    // how to add score?
-		//this.getParent().addChild('effect');
-		this.getParent().removeChild(this);
-		if (global.sound) {
-		    //cc.AudioManager.sharedEngine().playEffect('sound');
-		}
-	},
-	hookRect: function () {
-	    var a = this.getContentSize();
-		var r = new cc.RectMake(this.getPositonX() - a.width/2,
-		                        this,getPositionY() - a.height/2,
-								a.width,
-								a.height);
-		return r;
-	}
+    getWeight: function () {
+        return this.weight;
+    }
 });

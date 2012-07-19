@@ -1,45 +1,82 @@
 var GameLayer = cc.Layer.extend({
-    _time_limit: null,
+    _time_limit: 100,
     _cur_score: null,
     _dst_score: null,
     _hook: null,
-    _mineObjects: null,
-    _toolObjects: null,
+    _mineObjects: [],
+    _toolObjects: [],
     _levelManager: null,
-    screenRect: null,
+    //screenRect: null,
     explosionAnimation: [],
-    isMouseDown: false,
-    _beginPos: cc.PointZero(),
-    init:function () {
+    _criticalAngle: null,
+    roundNum: 1,
+    winSize: null,
+    init:function (roundNum) {
         var bRet = false;
         if (this._super()) {
-            Explosion.sharedExplosion();
-            winSize = cc.Director.sharedDirector().getWinSize();
-            this._levelManager = new LevelManager(this);
-            this.initBackground();
-            this.screenRect = new cc.Rect(0, 0, winSize.width, winSize.height + 10);
+            //Explosion.sharedExplosion();
+            this.winSize = cc.Director.sharedDirector().getWinSize();
+            this.setAnchorPoint(cc.ccp(0, 0));
+            //this._levelManager = new LevelManager(this);
+            //this.initBackground();
+            //this.screenRect = new cc.Rect(0, 0, winSize.width, winSize.height + 10);
+            
+            console.log("size: " + this.winSize.width);
 
-            // score
-            this.lbScore = cc.LabelTTF.create("Score: 0", cc.SizeMake(winSize.width / 2, 50), cc.TEXT_ALIGNMENT_RIGHT, "Arial", 14);
-            this.addChild(this.lbScore, 1000);
-            this.lbScore.setPosition(cc.ccp(winSize.width - 100, winSize.height - 15));
-
-            // ship life
-            var shipTexture = cc.TextureCache.sharedTextureCache().addImage(s_ship01);
-            var life = cc.Sprite.createWithTexture(shipTexture, cc.RectMake(0, 0, 60, 38));
-            life.setScale(0.6);
-            life.setPosition(cc.ccp(30, 460));
-            this.addChild(life, 1, 5);
+            // background
+            var bg = cc.Sprite.create(s_background);
+            bg.setAnchorPoint(cc.ccp(0, 0));
+            bg.setPosition(this.winSize.width/2, this.winSize.height - 50);
+            this.addChild(bg, -10);
+            
+            // dst score
+            this.lbDstScore = cc.LabelTTF.create("Goal: 0", cc.TEXT_ALIGNMENT_RIGHT, "Arial", 14);
+            this.lbDstScore.setColor(cc.RED());
+            this.addChild(this.lbDstScore, 30);
+            this.lbDstScore.setPosition(cc.ccp(this.winSize.width - 200, this.winSize.height - 30));
+            
+            // cur score
+            this.lbCurScore = cc.LabelTTF.create("Score: 0", cc.TEXT_ALIGNMENT_RIGHT, "Arial", 14);
+            this.lbCurScore.setColor(cc.RED());
+            this.addChild(this.lbCurScore, 30);
+            this.lbCurScore.setPosition(cc.ccp(this.winSize.width - 200, this.winSize.height - 60));
+            
+            // time
+            this.lbTime = cc.LabelTTF.create("Time: 0", cc.TEXT_ALIGNMENT_RIGHT, "Arial", 14);
+            this.lbTime.setColor(cc.RED());
+            this.addChild(this.lbTime, 30);
+            this.lbTime.setPosition(cc.ccp(this.winSize.width - 100, this.winSize.height - 30));
 
             // ship Life count
-            this._lbLife = cc.LabelTTF.create("0", "Arial", 20);
-            this._lbLife.setPosition(cc.ccp(60, 463));
+            this._lbLife = cc.LabelTTF.create("Round: 0", "Arial", 20);
+            this._lbLife.setPosition(cc.ccp(60, this.winSize.height-30));
             this._lbLife.setColor(cc.RED());
-            this.addChild(this._lbLife, 1000);
-
-            // ship
-            this._ship = new Ship();
-            this.addChild(this._ship, this._ship.zOrder, global.Tag.Ship);
+            this.addChild(this._lbLife, 10);
+            
+            var that = this;
+            if(this._time_limit>=0)
+            {
+                this.roundInterval = setInterval(
+                    function(){
+                        that._time_limit--;
+                        that.lbTime.setString("00:"+that._time_limit);
+                    },
+                    1000
+                );
+            }
+            
+            // hook
+            this._hook = new Hook();
+            this.addChild(this._hook, 30);
+            this._hook.setAnchorPoint(new cc.ccp(0.5, 1));
+            this._hook.setPosition(new cc.ccp(this.winSize.width/2, this.winSize.height-50));
+            this._hook.originPosition = new cc.ccp(this.winSize.width/2, this.winSize.height-50);
+            this._hook.scheduleUpdate();
+            this._criticalAngle = Math.atan((this.winSize.width/2)/(this.winSize.height-50))/Math.PI*180;
+            
+            // create map
+            //this._levelManager = new LevelManager();
+            //this._levelManager.createMap(this);
 
             // accept touch now!
             this.setIsTouchEnabled(true);
@@ -49,7 +86,7 @@ var GameLayer = cc.Layer.extend({
 
             // schedule
             this.schedule(this.update);
-            this.schedule(this.scoreCounter, 1);
+            //this.schedule(this.scoreCounter, 1);
 
             if (global.sound) {
                 cc.AudioManager.sharedEngine().playBackgroundMusic(s_bgMusic, true);
@@ -59,9 +96,13 @@ var GameLayer = cc.Layer.extend({
         }
         return bRet;
     },
+    createMap: function (roundNum) {
+        var levelManager = new levelManager(this);
+        levelManager.createMap();
+    },
     ccTouchesBegan:function (touches, event) {		
-        if (this.hook.state == "swing") {
-            this.hook.throw(this.getDstPoint());
+        if (this._hook.state == "swing") {
+            this._hook.launch(this.getDstPoint());
         }
     },
     getDstPoint: function () {
@@ -70,31 +111,30 @@ var GameLayer = cc.Layer.extend({
         var my = size.height - 50;
 		var desX = null;
 		var desY = null;
+        var border = 10;
 
-		if (this._handerSprite.state == "swing") {
-		    this._handerSprite.state = "throw";
-            this._handerSprite.isRotate = false;
-            this._handerSprite.stopSwing();
-		
-			var border = 10;
-            var angle = this._handerSprite.getRotation();
-            if (angle > this.criticalAngle) {
+		if (this._hook.state == "swing") {
+            this._hook.stopSwing();
+            var angle = this._hook.getRotation();
+            if (angle > this._criticalAngle) {
 				desX = 0 + border;
                 desY = my - Math.tan(((90-angle)*Math.PI)/180) * mx;
-			} else if (angle < this.criticalAngle && angle >0) {
+			} else if (angle < this._criticalAngle && angle >0) {
                 desX = mx - Math.tan((angle*Math.PI)/180) * my;
 				desY = 0 + border;
-			} else if (angle > (-this.criticalAngle) && angle < 0) {
+			} else if (angle > (-this._criticalAngle) && angle < 0) {
                 desX = mx + Math.tan((-angle*Math.PI)/180) * my
-				desY = 0 + border;	
-			} else if (angle < -this.criticalAngle) {
+				desY = 0 + border;
+			} else if (angle < -this._criticalAngle) {
 				desX = size.width - border;
                 desY = my - Math.tan(((90+angle)*Math.PI)/180) * mx;
 			}
 			return cc.ccp(desX, desY);
+        }
+        console.error("Could not get dstPosition");
     },
     ccTouchesEnded:function () {
-        this.isMouseDown = false;
+        //this.isMouseDown = false;
     },
     keyDown:function (e) {
         keys[e] = true;
@@ -102,40 +142,44 @@ var GameLayer = cc.Layer.extend({
     keyUp:function (e) {
         keys[e] = false;
     },
-	updateTime: function () {
-	    // TO DO
-	},
     draw: function () {
         this._super();
-        var size = cc.Director.sharedDirector().getWinSize();
-        var lineWidth = cc.renderContext.lineWidth;
+        //var size = cc.Director.sharedDirector().getWinSize();
         cc.renderContext.lineWidth = 2;
-        cc.drawingUtil.drawLine(new cc.ccp(size.width/2,size.height-50), this.hook.getPosition());
-    }
+        //cc.drawingUtil.drawLine(new cc.ccp(this.winSize.width/2,this.winSize.height-50), this._hook.getPosition());
+        cc.drawingUtil.drawLine(new cc.ccp(480,590), this._hook.getPosition());
+        //cc.drawingUtil.drawLine(new cc.ccp(480,590), new cc.ccp(0,0));
+        //console.log("size:" + size.width/2 + " " + size.heigt-50);
+        //console.log("pos:" + this._hook.getPositionX() + " " + this._hook.getPositionY());
+    },
+    updateTime: function () {
+	    // TO DO
+	},
+    updateScore: function () {
+    
+    },
     update:function (dt) {
         this.updateTime();
-        if (this.checkCollide()) this._hook.retrieve();
+        //if (this.checkCollide()) this._hook.retrieve();
     },
-    checkCollide: function () {
+    checkCollision: function () {
 	    // TO DO
-		var hook = this._hook;
-        var objs = this._mineObjects;
-        for (var i=0; i<objs.length; i++) {
-            if (cc.Rect.CCRectIntersectsRect(
-                hook.getTextureRect(),objs[i].getTextureRect())) {
+        for (var i=0; i<global.mineContainer.length; i++) {
+            if (cc.Rect.CCRectIntersectsRect(this._hook.getTextureRect(),
+                global.mineContainer[i].getTextureRect())) {
             
-                hook.addChild(objs[i]);
-                this._score += objs[i].score;
-                hook.speed = objs[i].speed;
+                this._hook.addChild(objs[i]);
+                this._score += global.mineContainer[i].getValue();
+                this._hook.retriveSpeed = global.mineContainer[i].getWeight()/50 * this._hook.retrieveSpeed;
                 return true;
             }
         }
 	},
-    updateInfo: function () {
-	// Update Time, Score, Tool, Oject info, etc.
-    },
-    initBackground:function () {
-	    // TO DO
+    onRoundEnd: function () {
+         var scene = cc.Scene.create();
+         scene.addChild(GameLayer.create(++this.roundNum));
+         cc.Director.sharedDirector().replaceScene(cc.TransitionFade.create(1.2, scene));
+         this.getParent().removeChild(this);
     },
     onGameOver:function () {
         var scene = cc.Scene.create();
@@ -149,14 +193,6 @@ var GameLayer = cc.Layer.extend({
         cc.Director.sharedDirector().replaceScene(cc.TransitionFade.create(1.2, scene));
         this.getParent().removeChild(this);
     },
-    onExit: function () {
-        /*
-        var scene = cc.Scene.create();
-        scene.addChild(StartLayer.create());
-        cc.Director.sharedDirector().replaceScene(cc.TransitionFade.create(1.2, scene));
-        this.getParent().removeChild(this);*/
-        history.go(-1);
-    },
     onReturn: function () {
         var scene = cc.Scene.create();
         scene.addChild(StartLayer.create());
@@ -165,9 +201,9 @@ var GameLayer = cc.Layer.extend({
     }
 });
 
-GameLayer.create = function () {
+GameLayer.create = function (roundNum) {
     var sg = new GameLayer();
-    if (sg && sg.init()) {
+    if (sg && sg.init(roundNum)) {
         return sg;
     }
     return null;
@@ -175,7 +211,8 @@ GameLayer.create = function () {
 
 GameLayer.scene = function () {
     var scene = cc.Scene.create();
-    var layer = GameLayer.create();
+    var layer = GameLayer.create(1);
+    //levelManager = new LevelManager(layer);
     scene.addChild(layer, 1);
     return scene;
 };
