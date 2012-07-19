@@ -3,23 +3,27 @@ MineObject = cc.Sprite.extend({
 	weight: 0,
     size: 0,
     value: 0,
-    
-	create: function (object, size) {
-        this.type = object.type;
+    ctor: function (object, size) {
+        var type = getTagName(object.type);
+        
         if (size = 1) {
+            console.log("type:" + type);
+            this.initWithFile(MineType[type].big.image);
             this.value = MineType[type].big.value;
             this.weight = MineType[type].big.weight;
-            this.initWithFile(MineType[type].big.image);
         } else {
+            this.initWithFile(MineType[type].small.image);
             this.value = MineType[type].small.value;
             this.weight = MineType[type].small.weight;
-            this.initWithFile(MineType[type].small.image);
         }
-        this.setPositon(object.pos);
-	},
+        this.setPosition(cc.ccp(object.x, object.y));
+        this.type = object.type;
+    },
+    
 	getValue: function () {
 	    return this.value;
 	},
+    
     getWeight: function () {
         return this.weight;
     }

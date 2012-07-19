@@ -41,14 +41,16 @@ var LevelManager = cc.Class.extend({
                      // bomb specific implementation
                  case global.Tag.Bone:
                      // bone specific implementation
+                     break;
                  default:
                      // general implementation
                      var size = Math.round(Math.random());
-                     mine = new Mine.create(Round[round][i], size);
+                     mine = new MineObject(Round[round][i], size);
              }
              
              this._gameLayer.addChild(mine, global.zOrder.Mine);
              global.mineContainer.push(mine);
+             console.log("add child");
         }
         
     }

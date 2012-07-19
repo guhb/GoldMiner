@@ -77,6 +77,7 @@ var GameLayer = cc.Layer.extend({
             // create map
             //this._levelManager = new LevelManager();
             //this._levelManager.createMap(this);
+            this.createMap();
 
             // accept touch now!
             this.setIsTouchEnabled(true);
@@ -96,10 +97,38 @@ var GameLayer = cc.Layer.extend({
         }
         return bRet;
     },
-    createMap: function (roundNum) {
-        var levelManager = new levelManager(this);
+    
+    createMap: function () {
+        var levelManager = new LevelManager(this);
         levelManager.createMap();
-    },
+    },/*
+    createMap:function(){
+        var round = this.roundNum % NUMBER_OF_ROUNDS;
+        
+        // add rock to game layer
+        for (var i=0; i<Round[round].length; i++) {
+             
+             var mine;
+             switch (Round[round][i].type) {
+                 case global.Tag.Pig:
+                     break;
+                 case global.Tag.Bomb:
+                     // bomb specific implementation
+                 case global.Tag.Bone:
+                     // bone specific implementation
+                     break;
+                 default:
+                     // general implementation
+                     var size = Math.round(Math.random());
+                     mine = new MineObject(Round[round][i], size);
+             }
+             
+             this.addChild(mine, global.zOrder.Mine);
+             global.mineContainer.push(mine);
+             console.log("add child" + i);
+        }
+        
+    },*/
     ccTouchesBegan:function (touches, event) {		
         if (this._hook.state == "swing") {
             this._hook.launch(this.getDstPoint());

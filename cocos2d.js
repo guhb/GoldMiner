@@ -81,6 +81,7 @@ cc.loadjs('Resource.js');
 // Config Module
 cc.loadjs('Classes/Config/global.js');
 cc.loadjs('Classes/Config/Level.js');
+cc.loadjs('Classes/Config/MineType.js');
 
 // Engine Module
 //cc.loadjs('Classes/Engine/Engine.js');
