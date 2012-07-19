@@ -75,8 +75,6 @@ var GameLayer = cc.Layer.extend({
             this._criticalAngle = Math.atan((this.winSize.width/2)/(this.winSize.height-50))/Math.PI*180;
             
             // create map
-            //this._levelManager = new LevelManager();
-            //this._levelManager.createMap(this);
             this.createMap();
 
             // accept touch now!
@@ -101,34 +99,7 @@ var GameLayer = cc.Layer.extend({
     createMap: function () {
         var levelManager = new LevelManager(this);
         levelManager.createMap();
-    },/*
-    createMap:function(){
-        var round = this.roundNum % NUMBER_OF_ROUNDS;
-        
-        // add rock to game layer
-        for (var i=0; i<Round[round].length; i++) {
-             
-             var mine;
-             switch (Round[round][i].type) {
-                 case global.Tag.Pig:
-                     break;
-                 case global.Tag.Bomb:
-                     // bomb specific implementation
-                 case global.Tag.Bone:
-                     // bone specific implementation
-                     break;
-                 default:
-                     // general implementation
-                     var size = Math.round(Math.random());
-                     mine = new MineObject(Round[round][i], size);
-             }
-             
-             this.addChild(mine, global.zOrder.Mine);
-             global.mineContainer.push(mine);
-             console.log("add child" + i);
-        }
-        
-    },*/
+    },
     ccTouchesBegan:function (touches, event) {		
         if (this._hook.state == "swing") {
             this._hook.launch(this.getDstPoint());
@@ -189,20 +160,44 @@ var GameLayer = cc.Layer.extend({
     },
     update:function (dt) {
         this.updateTime();
-        //if (this.checkCollide()) this._hook.retrieve();
+        if (this.checkCollision()) this._hook.retrieve();
     },
     checkCollision: function () {
 	    // TO DO
+        /*
         for (var i=0; i<global.mineContainer.length; i++) {
             if (cc.Rect.CCRectIntersectsRect(this._hook.getTextureRect(),
                 global.mineContainer[i].getTextureRect())) {
             
-                this._hook.addChild(objs[i]);
+                //this.removeChild(global.mineContainer[i]);
+                //this._hook.addChild(global.mineContainer[i]);
+                
+                console.log(this._hook.getTextureRect().CCRectGetMaxY());
+                
                 this._score += global.mineContainer[i].getValue();
                 this._hook.retriveSpeed = global.mineContainer[i].getWeight()/50 * this._hook.retrieveSpeed;
                 return true;
             }
-        }
+        }*/
+        var distance = null;
+		for (var i=0; i<global.mineContainer.length; i++) {
+			var xlen = (this._hook.getPositionX() - global.mineContainer[i].getPositionX())
+                        * (this._hook.getPositionX() - global.mineContainer[i].getPositionX());
+			var ylen = (this._hook.getPositionY() - global.mineContainer[i].getPositionY())
+                        * (this._hook.getPositionY() - global.mineContainer[i].getPositionY());
+			distance = Math.sqrt(xlen + ylen);
+			if(distance < 30)			
+			{	
+			    //this._hook.stopThrow();
+				
+				//this.objs[i].setIsVisible(false);
+				this.removeChild(global.mineContainer[i]);
+				this._hook.addChild(global.mineContainer[i],10);
+				//this._handerSprite.addChild(this.objs[i]);
+				this._hook.retrieve();
+			}
+		}
+        
 	},
     onRoundEnd: function () {
          var scene = cc.Scene.create();
@@ -241,7 +236,6 @@ GameLayer.create = function (roundNum) {
 GameLayer.scene = function () {
     var scene = cc.Scene.create();
     var layer = GameLayer.create(1);
-    //levelManager = new LevelManager(layer);
     scene.addChild(layer, 1);
     return scene;
 };
