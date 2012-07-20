@@ -8,7 +8,7 @@ var GameLayer = cc.Layer.extend({
     _levelManager: null,
     explosionAnimation: [],
     _criticalAngle: null,
-    _roundNum: 1,
+    _round: 1,
     winSize: null,
     collectAction: null,
     collectedObject: null,
@@ -19,61 +19,12 @@ var GameLayer = cc.Layer.extend({
             //Explosion.sharedExplosion();
             this.winSize = cc.Director.sharedDirector().getWinSize();
             this.setAnchorPoint(cc.ccp(0, 0));
-            //this._levelManager = new LevelManager(this);
-            //this.initBackground();
-            //this.screenRect = new cc.Rect(0, 0, winSize.width, winSize.height + 10);
-
-            // background
-            var bg = cc.Sprite.create(s_background);
-            bg.setAnchorPoint(cc.ccp(0, 0));
-            bg.setPosition(this.winSize.width/2, this.winSize.height - 50);
-            this.addChild(bg, -10);
             
-            // dst score
-            this.lbDstScore = cc.LabelTTF.create("Goal: 0", cc.TEXT_ALIGNMENT_LEFT, "Arial", 14);
-            this.lbDstScore.setColor(cc.RED());
-            this.addChild(this.lbDstScore, 30);
-            this.lbDstScore.setPosition(cc.ccp(this.winSize.width - 200, this.winSize.height - 30));
-            
-            // cur score
-            this.lbCurScore = cc.LabelTTF.create("Score: 0", cc.TEXT_ALIGNMENT_LEFT, "Arial", 14);
-            this.lbCurScore.setColor(cc.RED());
-            this.addChild(this.lbCurScore, 30);
-            this.lbCurScore.setPosition(cc.ccp(this.winSize.width - 200, this.winSize.height - 60));
-            
-            // time
-            this.lbTime = cc.LabelTTF.create("Time: 0", cc.TEXT_ALIGNMENT_RIGHT, "Arial", 14);
-            this.lbTime.setColor(cc.RED());
-            this.addChild(this.lbTime, 30);
-            this.lbTime.setPosition(cc.ccp(this.winSize.width - 100, this.winSize.height - 30));
-
-            // ship Life count
-            this._lbLife = cc.LabelTTF.create("Round: 0", "Arial", 20);
-            this._lbLife.setPosition(cc.ccp(60, this.winSize.height-30));
-            this._lbLife.setColor(cc.RED());
-            this.addChild(this._lbLife, 10);
-            
-            var that = this;
-            if(this._time_limit>=0)
-            {
-                this.roundInterval = setInterval(
-                    function(){
-                        that._time_limit--;
-                        that.lbTime.setString("00:"+that._time_limit);
-                    },
-                    1000
-                );
-            }
-            
-            // hook
-            this._hook = new Hook();
-            this.addChild(this._hook, 30);
-            this._hook.setAnchorPoint(new cc.ccp(0.5, 1));
-            this._hook.setPosition(new cc.ccp(this.winSize.width/2, this.winSize.height-50));
-            this._hook.originPosition = new cc.ccp(this.winSize.width/2, this.winSize.height-50);
-            this._hook.scheduleUpdate();
-            this._criticalAngle = Math.atan((this.winSize.width/2)/(this.winSize.height-50))/Math.PI*180;
-            
+            // init
+            this.initBackground();
+            this.initLabels();
+            this.initTimeCounter();
+            this.initHook();
             // create map
             this.createMap();
 
@@ -96,17 +47,146 @@ var GameLayer = cc.Layer.extend({
         return bRet;
     },
     
-    createMap: function () {
-        var levelManager = new LevelManager(this);
-        levelManager.createMap();
+    initBackground: function () {
+        // background
+        var bg = cc.Sprite.create(s_background);
+        bg.setAnchorPoint(cc.ccp(0, 0));
+        bg.setPosition(this.winSize.width/2, this.winSize.height - 50);
+        this.addChild(bg, -10);
     },
     
+    initLabels: function () {
+        // dst score
+        this._lbDstScore = cc.LabelTTF.create("Goal: 000", cc.TEXT_ALIGNMENT_LEFT, "Arial", 14);
+        this._lbDstScore.setColor(cc.RED());
+        this.addChild(this._lbDstScore, 30);
+        this._lbDstScore.setPosition(cc.ccp(this.winSize.width - 100, this.winSize.height - 30));
+        
+        // cur score
+        this._lbCurScore = cc.LabelTTF.create("Score: 000", cc.TEXT_ALIGNMENT_LEFT, "Arial", 14);
+        this._lbCurScore.setColor(cc.RED());
+        this.addChild(this._lbCurScore, 30);
+        this._lbCurScore.setPosition(cc.ccp(this.winSize.width - 100, this.winSize.height - 60));
+        
+        // time
+        this._lbTime = cc.LabelTTF.create("Time: 00:00", cc.TEXT_ALIGNMENT_LEFT, "Arial", 14);
+        this._lbTime.setColor(cc.RED());
+        this.addChild(this._lbTime, 30);
+        this._lbTime.setPosition(cc.ccp(this.winSize.width - 100, this.winSize.height - 90));
+
+        // round count
+        this._lbRound = cc.LabelTTF.create("Round: 0", "Arial", 20);
+        this._lbRound.setPosition(cc.ccp(60, this.winSize.height-30));
+        this._lbRound.setColor(cc.RED());
+        this.addChild(this._lbRound, 10);
+    },
+    
+    initTimeCounter: function () {
+        var that = this;
+        if(this._time_limit >= 0)
+        {
+            this.roundInterval = setInterval(
+                function(){
+                    that._time_limit--;
+                    that._lbTime.setString("Time: 00:"+that._time_limit);
+                },
+                1000
+            );
+        }
+    },
+    
+    initHook: function () {
+        // hook
+        this._hook = new Hook();
+        this.addChild(this._hook, 30);
+        this._hook.setAnchorPoint(new cc.ccp(0.5, 1));
+        this._hook.setPosition(new cc.ccp(this.winSize.width/2, this.winSize.height-50));
+        this._hook.originPosition = new cc.ccp(this.winSize.width/2, this.winSize.height-50);
+        this._hook.scheduleUpdate();
+        this._criticalAngle = Math.atan((this.winSize.width/2)/(this.winSize.height-50))/Math.PI*180;
+    },
+    
+    createMap: function () {
+        this._levelManager = new LevelManager(this);
+        this._levelManager.createMap();
+    },
+        
     ccTouchesBegan:function (touches, event) {
         if (this._hook.state == "swing") {
             this._hook.launch(this.getDstPoint());
         }
     },
+
+    ccTouchesEnded:function () {
+        //this.isMouseDown = false;
+    },
     
+    keyDown:function (e) {
+        keys[e] = true;
+    },
+    
+    keyUp:function (e) {
+        keys[e] = false;
+    },
+    
+    draw: function () {
+        this._super();
+        cc.renderContext.lineWidth = 2;
+        cc.drawingUtil.drawLine(new cc.ccp(this.winSize.width/2,this.winSize.height-50),
+                               this._hook.getPosition());
+    },
+    
+    setCurScore: function (score) {
+        if (score != null && typeof(score) == "number") {
+            this._cur_score = score
+            this._lbCurScore.setString("Score: " + this._cur_score);
+        }
+    },
+    
+    setDstScore: function (score) {
+        if (score != null && typeof(score) == "number") {
+            this._dst_score = score
+            this._lbDstScore.setString("Goal: " + this._dst_score);
+        }
+    },
+    
+    setTimeLimit: function (limit) {
+        if (limit != null && typeof(limit) == "number") {
+            this._time_limit = limit
+        }
+    },
+    
+    setRound: function (round) {
+        if (round != null && typeof(round) == "number") {
+            this._round = round
+            this._lbRound.setString("Round: " + this._round);
+        }
+    },
+    
+    updateScore: function (inc) {
+        this._cur_score += inc;
+        this._lbCurScore.setString("Score: " + this._cur_score);
+        if (this._cur_score >= this._dst_score) {
+            global.round++;
+            global.cur_score = this._cur_score;
+            this.onNextGame();
+        }
+    },
+    
+    update:function (dt) {
+        this.onTimeLimit();
+        this.checkCollision();
+        if (this.collectAction && this.collectAction.isDone()) {
+            if (this.collectedObject != null) {
+                this.collectedObject.setIsVisible(false);
+                this.updateScore(this.collectedObject.getValue());
+                //console.log(getTagName(this.collectedObject.type));
+                this.collectedObject = null;
+                this.collectAction = null;
+            }
+        }
+    },
+        
     getDstPoint: function () {
         var size = cc.Director.sharedDirector().getWinSize();
         var mx = size.width / 2;
@@ -134,52 +214,6 @@ var GameLayer = cc.Layer.extend({
             return cc.ccp(desX, desY);
         }
         console.error("Could not get dstPosition");
-    },
-    
-    ccTouchesEnded:function () {
-        //this.isMouseDown = false;
-    },
-    
-    keyDown:function (e) {
-        keys[e] = true;
-    },
-    
-    keyUp:function (e) {
-        keys[e] = false;
-    },
-    
-    draw: function () {
-        this._super();
-        cc.renderContext.lineWidth = 2;
-        cc.drawingUtil.drawLine(new cc.ccp(this.winSize.width/2,this.winSize.height-50), this._hook.getPosition());
-    },
-    
-    checkTime: function () {
-        if (this._time_limit <= 0) {
-            global.round++;
-            this.onNextGame();
-        }
-    },
-    
-    updateScore: function (inc) {
-        this._cur_score += inc;
-        this.lbCurScore.setString("Score: " + this._cur_score);
-        if (this._cur_score >= this._dst_score) {
-            global.round++;
-            this.onNextGame();
-        }
-    },
-    
-    update:function (dt) {
-        this.checkCollision();
-        if (this.collectAction && this.collectAction.isDone()) {
-            if (this.collectedObject != null) {
-                this.collectedObject.setIsVisible(false);
-                this.updateScore(this.collectedObject.getValue());
-                //console.log(getTagName(this.collectedObject.type));
-                this.collectedObject = null;
-            }
-        }
     },
     
     checkCollision: function () {
@@ -210,6 +244,14 @@ var GameLayer = cc.Layer.extend({
             }
         }
     },
+   
+    onTimeLimit: function () {
+        if (this._time_limit <= 0) {
+            global.round++;
+            global.cur_score = this._cur_score;
+            this.onNextGame();
+        }
+    },
     
     onGameOver:function () {
         var scene = cc.Scene.create();
@@ -219,7 +261,6 @@ var GameLayer = cc.Layer.extend({
     },
     
     onNextGame: function () {
-        global.round++;
         var scene = cc.Scene.create();
         scene.addChild(StoreLayer.create());
         cc.Director.sharedDirector().replaceScene(cc.TransitionFade.create(1.2, scene));

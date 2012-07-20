@@ -6,7 +6,7 @@ var StoreLayer = cc.Layer.extend({
             // background
             winSize = cc.Director.sharedDirector().getWinSize();
             var bg = cc.Sprite.create(s_background);
-            bg.setAnchorPoint(cc.ccp(0, 0));
+            //bg.setAnchorPoint(cc.ccp(0, 0));
             bg.setPosition(winSize.width/2, winSize.height - 50);
             this.addChild(bg, -10);
             
@@ -32,19 +32,11 @@ var StoreLayer = cc.Layer.extend({
             if (global.sound) {
                 cc.AudioManager.sharedEngine().playBackgroundMusic(s_bgMusic, true);
             }
-            
             bRet = true;
         }
         return bRet;
-        
     },
-    onAccept: function () {
-        var scene = cc.Scene.create();
-        scene.addChild(GameLayer.create());
-        cc.Director.sharedDirector().replaceScene(cc.TransitionFade.create(1.2, scene));
-        this.getParent().removeChild(this);
-    },
-        
+
     ccTouchesBegan:function (touches, event) {
         if (this._hook.state == "swing") {
             this._hook.launch(this.getDstPoint());
@@ -61,6 +53,13 @@ var StoreLayer = cc.Layer.extend({
     
     keyUp:function (e) {
         keys[e] = false;
+    },
+    
+    onAccept: function () {
+        var scene = cc.Scene.create();
+        scene.addChild(GameLayer.create());
+        cc.Director.sharedDirector().replaceScene(cc.TransitionFade.create(1.2, scene));
+        this.getParent().removeChild(this);
     },
     
     onReturn: function () {

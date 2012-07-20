@@ -7,12 +7,8 @@ var LevelManager = cc.Class.extend({
         }
         this._currentRound = global.round;
         this._gameLayer = gameLayer;
-        this.setRound(this._currentRound);
     },
 
-    setRound:function(round){
-        // compute the dst score and time limit
-    },
     _minuteToSecond:function(minuteStr){
         if(!minuteStr)
             return 0;
@@ -25,6 +21,18 @@ var LevelManager = cc.Class.extend({
             }
         }
         return minuteStr;
+    },
+    
+    // compute the dst score and time limit
+    updateGameStatus: function () {
+        global.dst_score += global.round * Math.round(Math.random() * 200) + global.cur_score;
+        this._gameLayer.setDstScore(global.dst_score);
+        this._gameLayer.setCurScore(global.cur_score);
+        if (global.time_limit >= 10) {
+            this._gameLayer._time_limit = global.time_limit 
+                                          - Math.round(global.round * Math.random());
+        }
+        this._gameLayer.setRound(global.round);
     },
 
     createMap:function(){
@@ -57,5 +65,6 @@ var LevelManager = cc.Class.extend({
                 console.log("createMap->add" + i + ": " + getTagName(mine.type));
             } 
         }
+        this.updateGameStatus();
     }
 });
