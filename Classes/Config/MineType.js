@@ -26,7 +26,7 @@ var MineType = {
     },
     
     Pig: {
-        value: 10,
+        value: 100,
         weight: 50,
         image: s_pig
     },
@@ -46,7 +46,7 @@ var MineType = {
     
     Bone: {
         value: 10,
-        weight: 10,
+        weight: 40,
         image: s_bone
     },
     

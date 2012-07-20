@@ -30,18 +30,20 @@ Hook = cc.Sprite.extend({
         this.swing();
         //console.log("Hook created.");
     },
+    
     swing: function () {
         if (this.state == "retrieve" && this.retrieveAction
             && this.retrieveAction.isDone() || this.state == "init") {
             this.state = "swing";
             this.setRotation(0);
-            this.retrieveSpeed = 1;
+            this.retrieveSpeed = 1; // resume
             this.runAction(this.swingAction);
         } else {
             console.error("Swing could only started from after either a retrieve or init state.");
         }
         //console.log("swing");
     },
+    
     stopSwing: function () {
         if (this.state == "swing") {
             this.stopAction(this.swingAction);
@@ -50,6 +52,7 @@ Hook = cc.Sprite.extend({
         }
         //console.log("stop swing");
     },
+    
     launch: function (dstPoint) {
         if (this.state == "swing") {
             this.state = "launch";
@@ -60,6 +63,7 @@ Hook = cc.Sprite.extend({
         }
         //console.log("launch");
     },
+    
     stopLaunch: function () {
         if (this.state == "launch") {
             this.stopAction(this.launchAction);
@@ -68,6 +72,7 @@ Hook = cc.Sprite.extend({
         }
         //console.log("stop launch.");
     },
+    
     retrieve: function () {
         if (this.lauchAction && this.launchAction.isDone() || this.state == "launch") {
             this.state = "retrieve";
@@ -79,18 +84,23 @@ Hook = cc.Sprite.extend({
         }
         //console.log("retrieve");
     },
+    
     getState: function () {
         return this.state;
     },
+    
     setRetrieveSpeed: function (sp) {
         if (sp && (sp > 0)) this.retrieveSpeed = sp;
     },
+    
     getRetrieveSpeed: function () {
         return this.retrieveSpeed;
     },
+    
     getOriginPosition: function () {
         return this.originPosition;
     },
+    
     update:function(){
         if (this.launchAction && this.launchAction.isDone()
             && this.state == "launch") {

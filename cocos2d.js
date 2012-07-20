@@ -88,13 +88,13 @@ cc.loadjs('Classes/Config/MineType.js');
 cc.loadjs('Classes/Engine/LevelManager.js');
 
 // Framework Module
-//cc.loadjs('Classes/Framework/AboutLayer.js');
+cc.loadjs('Classes/Framework/AboutLayer.js');
 //cc.loadjs('Classes/Framework/Game.js');
-//cc.loadjs('Classes/Framework/GameControlMenu.js');
+cc.loadjs('Classes/Framework/GameControlMenu.js');
 cc.loadjs('Classes/Framework/GameLayer.js');
 //cc.loadjs('Classes/Framework/GameOver.js');
 //cc.loadjs('Classes/Framework/RecordLayer.js');
-//cc.loadjs('Classes/Framework/SettingsLayer.js');
+cc.loadjs('Classes/Framework/SettingsLayer.js');
 cc.loadjs('Classes/Framework/StoreLayer.js');
 //cc.loadjs('Classes/Framework/SplashLayer.js');
 cc.loadjs('Classes/Framework/StartLayer.js');
@@ -108,5 +108,5 @@ cc.loadjs('Classes/Actor/MineObject.js');
 //cc.loadjs('Classes/Actor/ToolObject.js');
 
 // Effect Module
-//cc.loadjs('Classes/Effect/Effect.js');
+cc.loadjs('Classes/Effect/Effect.js');
 //cc.loadjs('Classes/Effect/Explosion.js');

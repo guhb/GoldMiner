@@ -49,36 +49,36 @@ var GameLayer = cc.Layer.extend({
     
     initBackground: function () {
         // background
-        var bg = cc.Sprite.create(s_background);
+        var bg = cc.Sprite.create(s_background3);
         bg.setAnchorPoint(cc.ccp(0, 0));
         bg.setPosition(this.winSize.width/2, this.winSize.height - 50);
-        this.addChild(bg, -10);
+        this.addChild(bg, global.zOrder.Background);
     },
     
     initLabels: function () {
         // dst score
         this._lbDstScore = cc.LabelTTF.create("Goal: 000", cc.TEXT_ALIGNMENT_LEFT, "Arial", 14);
         this._lbDstScore.setColor(cc.RED());
-        this.addChild(this._lbDstScore, 30);
+        this.addChild(this._lbDstScore, global.zOrder.Label);
         this._lbDstScore.setPosition(cc.ccp(this.winSize.width - 100, this.winSize.height - 30));
         
         // cur score
         this._lbCurScore = cc.LabelTTF.create("Score: 000", cc.TEXT_ALIGNMENT_LEFT, "Arial", 14);
         this._lbCurScore.setColor(cc.RED());
-        this.addChild(this._lbCurScore, 30);
+        this.addChild(this._lbCurScore, global.zOrder.Label);
         this._lbCurScore.setPosition(cc.ccp(this.winSize.width - 100, this.winSize.height - 60));
         
         // time
         this._lbTime = cc.LabelTTF.create("Time: 00:00", cc.TEXT_ALIGNMENT_LEFT, "Arial", 14);
         this._lbTime.setColor(cc.RED());
-        this.addChild(this._lbTime, 30);
+        this.addChild(this._lbTime, global.zOrder.Label);
         this._lbTime.setPosition(cc.ccp(this.winSize.width - 100, this.winSize.height - 90));
 
         // round count
         this._lbRound = cc.LabelTTF.create("Round: 0", "Arial", 20);
         this._lbRound.setPosition(cc.ccp(60, this.winSize.height-30));
         this._lbRound.setColor(cc.RED());
-        this.addChild(this._lbRound, 10);
+        this.addChild(this._lbRound, global.zOrder.Label);
     },
     
     initTimeCounter: function () {
@@ -98,7 +98,7 @@ var GameLayer = cc.Layer.extend({
     initHook: function () {
         // hook
         this._hook = new Hook();
-        this.addChild(this._hook, 30);
+        this.addChild(this._hook, global.zOrder.Hook);
         this._hook.setAnchorPoint(new cc.ccp(0.5, 1));
         this._hook.setPosition(new cc.ccp(this.winSize.width/2, this.winSize.height-50));
         this._hook.originPosition = new cc.ccp(this.winSize.width/2, this.winSize.height-50);
@@ -132,6 +132,7 @@ var GameLayer = cc.Layer.extend({
     draw: function () {
         this._super();
         cc.renderContext.lineWidth = 2;
+        cc.renderContext.strokeStyle = "#eedc4a";
         cc.drawingUtil.drawLine(new cc.ccp(this.winSize.width/2,this.winSize.height-50),
                                this._hook.getPosition());
     },
@@ -220,26 +221,22 @@ var GameLayer = cc.Layer.extend({
         var distance = null;
         for (var i=0; i<global.mineContainer.length; i++) {
             if (global.mineContainer[i] != null) {
-                var xlen = (this._hook.getPositionX() - global.mineContainer[i].getPositionX())
-                        * (this._hook.getPositionX() - global.mineContainer[i].getPositionX());
-                var ylen = (this._hook.getPositionY() - global.mineContainer[i].getPositionY())
-                        * (this._hook.getPositionY() - global.mineContainer[i].getPositionY());
+                var xlen = Math.pow(this._hook.getPositionX() - global.mineContainer[i].getPositionX(), 2);
+                var ylen = Math.pow(this._hook.getPositionY() - global.mineContainer[i].getPositionY(), 2);
             
                 distance = Math.sqrt(xlen + ylen);
                 if (distance < 30) {
                     if (global.mineContainer[i].type == global.Tag.Pig)
                         global.mineContainer[i].stopAllActions();
-                    
+                        
+                    this._hook.setRetrieveSpeed(global.mineContainer[i].weight/50);
                     this.collectAction = cc.MoveTo.create(this._hook.getRetrieveSpeed(),
                                                           this._hook.getOriginPosition());
                     global.mineContainer[i].runAction(this.collectAction);
                     this.collectedObject = global.mineContainer[i];
                     global.mineContainer[i] = null;
-                    //this._hook.stopLaunch();
-                    //var tmpAction = cc.MoveTo.create(this._hook.getPosition(), this.collectedObject.getPosition());
-                    //this._hook.setPosition(this.collectedObject.getPosition());
-                    //this._hook.runAction(tmpAction);
                     this._hook.retrieve();
+                    console.log(getTagName(this.collectedObject.type));
                 }
             }
         }

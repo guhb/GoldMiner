@@ -2,7 +2,7 @@ var AboutLayer = cc.Layer.extend({
     init:function () {
         var bRet = false;
         if (this._super()) {
-            var sp = cc.Sprite.create(s_loading);
+            var sp = cc.Sprite.create(s_background2);
             sp.setAnchorPoint(cc.PointZero());
             this.addChild(sp, 0, 1);
 
@@ -11,24 +11,20 @@ var AboutLayer = cc.Layer.extend({
             title.setPosition(cc.ccp(winSize.width / 2, winSize.height - 120));
             this.addChild(title);
 
-            var about = cc.LabelTTF.create("\n \n This showcase utilizes many features from Cocos2d-html5 engine, including: Parallax background, tilemap, actions, ease, frame animation, schedule, Labels, keyboard Dispatcher, Scene Transition. Art and audio is copyrighted by Enigmata Genus Revenge, you may not use any copyrigted material without permission. This showcase is licensed under GPL",cc.SizeMake(winSize.width * 0.85 ,100),cc.TEXT_ALIGNMENT_LEFT,"Arial",14)
+            var about = cc.LabelTTF.create("\n \n Color Shell \n \n A game that play like the Gold Miner.",cc.SizeMake(winSize.width * 0.85 ,100),cc.TEXT_ALIGNMENT_LEFT,"Arial",14)
             about.setPosition(cc.ccp(winSize.width/2,winSize.height/2 + 20));
             this.addChild(about);
 
-            var author = cc.LabelTTF.create("Programmer: \n Shengxiang Chen",cc.SizeMake(winSize.width * 0.85 ,100),cc.TEXT_ALIGNMENT_LEFT,"Arial",14)
+            var author = cc.LabelTTF.create("Programmer",cc.SizeMake(winSize.width * 0.85 ,100),cc.TEXT_ALIGNMENT_CENTER,"Arial",14)
             author.setPosition(cc.ccp(winSize.width/2,140));
             this.addChild(author);
-
-            author = cc.LabelTTF.create("Dingping Lv",cc.SizeMake(winSize.width * 0.85 ,100),cc.TEXT_ALIGNMENT_CENTER,"Arial",14)
-            author.setPosition(cc.ccp(winSize.width/2,120));
-            this.addChild(author);
-
-            author = cc.LabelTTF.create("Effects animation: \n Hao Wu",cc.SizeMake(winSize.width * 0.85 ,100),cc.TEXT_ALIGNMENT_LEFT,"Arial",14)
+            
+            author = cc.LabelTTF.create("Koh Ou Ping",cc.SizeMake(winSize.width * 0.85 ,100),cc.TEXT_ALIGNMENT_CENTER,"Arial",14)
             author.setPosition(cc.ccp(winSize.width/2,100));
             this.addChild(author);
 
-            author = cc.LabelTTF.create("Quality Assurance: \n Sean Lin",cc.SizeMake(winSize.width * 0.85 ,80),cc.TEXT_ALIGNMENT_LEFT,"Arial",14)
-            author.setPosition(cc.ccp(winSize.width/2,80));
+            author = cc.LabelTTF.create("Xi Ling Ran",cc.SizeMake(winSize.width * 0.85 ,100),cc.TEXT_ALIGNMENT_CENTER,"Arial",14)
+            author.setPosition(cc.ccp(winSize.width/2,120));
             this.addChild(author);
 
             var label = cc.LabelTTF.create("Go back", "Arial", 14);

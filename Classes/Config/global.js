@@ -1,11 +1,11 @@
 var winSize = null;
 var keys = [];
 var global = {
-    round:1,
-    cur_score:0,
-    dst_score:500,
+    round: 1,
+    cur_score: 0,
+    dst_score: 500,
     time_limit: 60,
-    sound:true,
+    sound: true,
     Tag:{
         Rock: 900,
         Gold: 901,
@@ -15,7 +15,17 @@ var global = {
         Bomb: 905
     },
     zOrder: {
-        Mine: 40
+        Background: -10,
+        Label: 20,
+        Miner: 25,
+        Hook: 30,
+        Rock: 41,
+        Gold: 42,
+        Pig: 43,
+        Diamond: 44,
+        Bone: 45,
+        Bomb: 46,
+        Menu: 60
     },
     mineContainer: [],
     debug: false
