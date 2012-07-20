@@ -35,5 +35,9 @@ var global = {
         this.dst_score = 500;
         this.time_limit = 60;
         this.MineType = MineType;
+        this.mineContainer = [];
+    },
+    cleanMineContainer: function () {
+        this.mineContainer = [];
     }
 };

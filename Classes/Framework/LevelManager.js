@@ -65,6 +65,7 @@ var LevelManager = cc.Class.extend({
     },
 
     createMap:function(){
+        global.cleanMineContainer();
         var round = this._currentRound % NUMBER_OF_ROUNDS;
         this.updateGameStatus();
         if (this._currentRound != 1) this.updateMineType();
