@@ -4,7 +4,7 @@ var global = {
     round: 1,
     cur_score: 0,
     dst_score: 500,
-    time_limit: 60,
+    time_limit: 20,
     sound: true,
     Tag:{
         Rock: 900,
@@ -28,5 +28,12 @@ var global = {
         Menu: 60
     },
     mineContainer: [],
-    debug: false
+    MineType: null,
+    debug: false,
+    resume: function () {
+        this.cur_score = 0;
+        this.dst_score = 500;
+        this.time_limit = 60;
+        this.MineType = MineType;
+    }
 };

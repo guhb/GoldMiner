@@ -25,6 +25,7 @@ var LevelManager = cc.Class.extend({
     
     updateMineType: function () {
         var types = ["Rock", "Gold", "Pig", "Diamond", "Bone", "Bomb"];
+        var MineType = global.MineType;
         for (var i = 0; i < types.length; i++) {
             switch (types[i]) {
                 case "Rock":
@@ -51,7 +52,9 @@ var LevelManager = cc.Class.extend({
     
     // compute the dst score and time limit
     updateGameStatus: function () {
-        global.dst_score += global.round * Math.round(Math.random() * 1000);
+        if (global.dst_round != 1) {
+            global.dst_score += global.round * Math.round(Math.random() * 200);
+        }
         this._gameLayer.setDstScore(global.dst_score);
         this._gameLayer.setCurScore(global.cur_score);
         if (global.time_limit >= 10) {
@@ -73,7 +76,6 @@ var LevelManager = cc.Class.extend({
                 var point1 = cc.ccp(Round[round][i].x, Round[round][i].y);
                 var point2 = cc.ccp(this._gameLayer.winSize.width - Round[round][i].x2,
                                     Round[round][i].y2);
-                //console.log(this._gameLayer.winSize.width);
                 if (!cc.Point.CCPointEqualToPoint(point1, point2)) {
                     var tmpMove1 = cc.MoveTo.create(point1, point2);
                     var tmpMove2 = cc.MoveTo.create(point2, point1);
@@ -92,10 +94,15 @@ var LevelManager = cc.Class.extend({
                 mine = new MineObject(Round[round][i], size);
             }
             if (mine != null) {
-                this._gameLayer.addChild(mine, mine.zOrder);
-                global.mineContainer.push(mine);
+                try {
+                    this._gameLayer.addChild(mine, mine.zOrder);
+                    global.mineContainer.push(mine);
+                } catch (err) {
+                    console.error("Failed to add MineOject. Type: " + getTagName(mine.type));
+                }
+
                 //if (mine.action != null) mine.runAction(mine.action);
-                console.log("createMap->add" + i + ": " + getTagName(mine.type));
+                console.log("createMap->add " + i + " : " + getTagName(mine.type));
             } 
         }
     }

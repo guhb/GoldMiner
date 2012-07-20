@@ -218,41 +218,41 @@ var GameLayer = cc.Layer.extend({
     },
     
     checkCollision: function () {
-        var distance = null;
-        for (var i=0; i<global.mineContainer.length; i++) {
-            if (global.mineContainer[i] != null) {
-                var xlen = Math.pow(this._hook.getPositionX() - global.mineContainer[i].getPositionX(), 2);
-                var ylen = Math.pow(this._hook.getPositionY() - global.mineContainer[i].getPositionY(), 2);
-            
-                distance = Math.sqrt(xlen + ylen);
-                if (distance < 30) {
-                    if (global.mineContainer[i].type == global.Tag.Pig)
-                        global.mineContainer[i].stopAllActions();
-                        
-                    this._hook.setRetrieveSpeed(global.mineContainer[i].weight/50);
-                    this.collectAction = cc.MoveTo.create(this._hook.getRetrieveSpeed(),
-                                                          this._hook.getOriginPosition());
-                    global.mineContainer[i].runAction(this.collectAction);
-                    this.collectedObject = global.mineContainer[i];
-                    global.mineContainer[i] = null;
-                    this._hook.retrieve();
-                    console.log(getTagName(this.collectedObject.type));
+        if (this._hook.getState() == "launch") {
+            var distance = null;
+            for (var i=0; i<global.mineContainer.length; i++) {
+                if (global.mineContainer[i] != null) {
+                    var xlen = Math.pow(this._hook.getPositionX() - global.mineContainer[i].getPositionX(), 2);
+                    var ylen = Math.pow(this._hook.getPositionY() - global.mineContainer[i].getPositionY(), 2);
+                
+                    distance = Math.sqrt(xlen + ylen);
+                    if (distance < 30) {
+                        if (global.mineContainer[i].type == global.Tag.Pig)
+                            global.mineContainer[i].stopAllActions();
+                            
+                        this._hook.setRetrieveSpeed(global.mineContainer[i].weight/50);
+                        this.collectAction = cc.MoveTo.create(this._hook.getRetrieveSpeed(),
+                                                            this._hook.getOriginPosition());
+                        global.mineContainer[i].runAction(this.collectAction);
+                        this.collectedObject = global.mineContainer[i];
+                        global.mineContainer[i] = null;
+                        this._hook.retrieve();
+                        console.log(getTagName(this.collectedObject.type));
+                    }
                 }
             }
         }
     },
    
     onTimeLimit: function () {
-        if (this._time_limit <= 0) {
-            global.round++;
-            global.cur_score = this._cur_score;
-            this.onNextGame();
+        if (this._time_limit <= 0 && this._cur_score < this._dst_score) {
+            this.onGameOver();
         }
     },
     
     onGameOver:function () {
         var scene = cc.Scene.create();
-        scene.addChild(GameOver.create());
+        scene.addChild(GameOverLayer.create());
         cc.Director.sharedDirector().replaceScene(cc.TransitionFade.create(1.2, scene));
         this.getParent().removeChild(this);
     },

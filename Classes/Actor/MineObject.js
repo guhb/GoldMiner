@@ -9,6 +9,7 @@ MineObject = cc.Sprite.extend({
     
     ctor: function (object, size) {
         var type = getTagName(object.type);
+        var MineType = global.MineType;
         switch (type) {
             case "Rock":
             case "Gold":

@@ -4,6 +4,7 @@ var StartLayer = cc.Layer.extend({
         var bRet = false;
         if (this._super) {
             winSize = cc.Director.sharedDirector().getWinSize();
+            global.MineType = MineType;
             /*
             var logo = cc.Sprite.create(s_logo);
             logo.setAnchorPoint(cc.ccp(0, 0));
@@ -53,7 +54,7 @@ var StartLayer = cc.Layer.extend({
         });
 
         var gameSettings = cc.MenuItemSprite.create(gameSettingsNormal, gameSettingsSelected, gameSettingsDisabled, this, this.onSettings);
-        var record = cc.MenuItemSprite.create(recordNormal, recordSelected, recordDisabled, this, this.onAbout);
+        var record = cc.MenuItemSprite.create(recordNormal, recordSelected, recordDisabled, this, this.onRecord);
         var about = cc.MenuItemSprite.create(aboutNormal, aboutSelected, aboutDisabled, this, this.onAbout);
 
         var menu = cc.Menu.create(record, newGame,  about, gameSettings);
@@ -81,7 +82,7 @@ var StartLayer = cc.Layer.extend({
     onRecord:function (pSender) {
         this.onButtonEffect();
         var scene = cc.Scene.create();
-        scene.addChild(AboutLayer.create());
+        scene.addChild(RecordLayer.create());
         cc.Director.sharedDirector().replaceScene(cc.TransitionFade.create(1.2, scene));
     },
     
