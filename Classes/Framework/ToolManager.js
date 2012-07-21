@@ -10,7 +10,7 @@ var ToolManager = cc.Class.extend({
     },
 
     createTools:function(){
-        var round = 6; //this._currentRound % NUMBER_OF_ROUNDS;
+        var round = this._currentRound % NUMBER_OF_ROUNDS;
         global.cleanToolObjects();
         var object = {};
         switch (round) {
@@ -28,6 +28,7 @@ var ToolManager = cc.Class.extend({
             case 3:
             case 2:
             case 1:
+            case 0:
                 object.type = global.Tag.Clock;
                 object.x = 620; object.y = 270;
                 object = new ToolObject(object);

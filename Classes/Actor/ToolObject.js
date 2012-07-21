@@ -19,7 +19,6 @@ var ToolObject = cc.Layer.extend({
     },
     
     onUse: function () {
-        console.log("use tool " + this.type);
         switch (this.type) {
             case global.Tag.Milk:
                 global.Speed.launch += ToolType.Milk.LaunchSpeed;

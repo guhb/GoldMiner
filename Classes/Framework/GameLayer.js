@@ -181,7 +181,8 @@ var GameLayer = cc.Layer.extend({
         if (this.collectAction && this.collectAction.isDone()) {
             if (this.collectedObject != null) {
                 this.collectedObject.setIsVisible(false);
-                this.updateScore(this.collectedObject.getValue());
+                this.updateScore(this.collectedObject.getValue()
+                + global.Factor.add);
                 //console.log(getTagName(this.collectedObject.type));
                 this.removeChild(this.collectedObject);
                 this.collectedObject = null;
