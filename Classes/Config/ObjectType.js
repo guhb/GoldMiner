@@ -59,7 +59,7 @@ var MineType = {
 
 var ToolType = {
     Milk: {
-        ThrowSpeed: -0.1,
+        LaunchSpeed: -0.1,
         RetrieveSpeed: -0.1,
         image: s_milk
     },

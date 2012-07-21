@@ -21,11 +21,11 @@ Hook = cc.Sprite.extend({
         */
         this._super();
         this.initWithFile(s_hook);
-        /*
+        
         this.rotateSpeed = global.Speed.rotate;
         this.launchSpeed = global.Speed.launch;
         this.retrieveSpeed = global.Speed.retrieve;
-        */
+        
         // Swing Action
         var rotoLeft = cc.RotateTo.create(this.rotateSpeed, this.rotateLimit);
         var rotoRight = cc.RotateTo.create(this.rotateSpeed, -this.rotateLimit);
