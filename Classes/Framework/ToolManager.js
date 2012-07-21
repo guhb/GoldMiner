@@ -16,13 +16,12 @@ var ToolManager = cc.Class.extend({
         switch (round) {
             case 6:
                 object.type = global.Tag.Rich;
-                object.x = 600; object.y = 180;
+                object.x = 620; object.y = 200;
                 object = new ToolObject(object);
-                menu = cc.MenuItemSprite.create(object, null, null, object.use);
-                this._storeLayer.addChild(menu, global.zOrder.Tool);
+                this._storeLayer.addChild(object, global.zOrder.Tool);
             case 5:
                 object.type = global.Tag.MoneyTree;
-                object.x = 500; object.y = 180;
+                object.x = 530; object.y = 200;
                 object = new ToolObject(object);
                 this._storeLayer.addChild(object, global.zOrder.Tool);
             case 4:
@@ -30,12 +29,12 @@ var ToolManager = cc.Class.extend({
             case 2:
             case 1:
                 object.type = global.Tag.Clock;
-                object.x = 600; object.y = 250;
+                object.x = 620; object.y = 270;
                 object = new ToolObject(object);
                 this._storeLayer.addChild(object, global.zOrder.Tool);
                 
                 object.type = global.Tag.Milk;
-                object.x = 500; object.y = 250;
+                object.x = 530; object.y = 270;
                 object = new ToolObject(object);
                 this._storeLayer.addChild(object, global.zOrder.Tool);
                 break;
