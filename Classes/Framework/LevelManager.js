@@ -65,6 +65,7 @@ var LevelManager = cc.Class.extend({
 
     createMap:function(){
         global.cleanMineContainer();
+        // The logic is wrong here as round 1 never start from Round[0]
         var round = this._currentRound % NUMBER_OF_ROUNDS;
         this.updateGameStatus();
         if (this._currentRound != 1) this.updateMineType();
@@ -87,7 +88,6 @@ var LevelManager = cc.Class.extend({
                 }
             } else {
                 var size = Math.round(Math.random()+global.Factor.probility);
-                console.log("size: " + size);
                 mine = new MineObject(Round[round][i], size);
             }
             if (mine != null) {

@@ -11,7 +11,8 @@ var AboutLayer = cc.Layer.extend({
             title.setPosition(cc.ccp(winSize.width / 2, winSize.height - 120));
             this.addChild(title);
 
-            var about = cc.LabelTTF.create("\n \n Color Shell \n \n A game that play like the Gold Miner.",cc.SizeMake(winSize.width * 0.85 ,100),cc.TEXT_ALIGNMENT_LEFT,"Arial",14)
+            var about = cc.LabelTTF.create("\n \n Color Shell \n \n A game that play like the Gold Miner.",
+                                           cc.SizeMake(winSize.width * 0.85 ,100),cc.TEXT_ALIGNMENT_LEFT,"Arial",14)
             about.setPosition(cc.ccp(winSize.width/2,winSize.height/2 + 20));
             this.addChild(about);
 

@@ -15,7 +15,7 @@ var ToolObject = cc.Layer.extend({
             menu.setPosition(cc.ccp(0, 0));
             this.setPosition(cc.ccp(object.x, object.y));
             this.addChild(menu, global.Tag.Tool, 2); 
-            this.useAction = cc.MoveTo.create(1,cc.ccp(160,350));
+            this.useAction = cc.MoveTo.create(0.3,cc.ccp(160,350));
     },
     
     onUse: function () {

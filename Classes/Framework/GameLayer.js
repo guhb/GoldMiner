@@ -16,7 +16,6 @@ var GameLayer = cc.Layer.extend({
     init:function () {
         var bRet = false;
         if (this._super()) {
-            //Explosion.sharedExplosion();
             this.winSize = cc.Director.sharedDirector().getWinSize();
             this.setAnchorPoint(cc.ccp(0, 0));
             
@@ -28,15 +27,9 @@ var GameLayer = cc.Layer.extend({
             // create map
             this.createMap();
 
-            // accept touch now!
             this.setIsTouchEnabled(true);
-
-            //accept keypad
             this.setIsKeypadEnabled(true);
-
-            // schedule
             this.schedule(this.update);
-            //this.schedule(this.scoreCounter, 1);
 
             if (global.sound) {
                 cc.AudioManager.sharedEngine().playBackgroundMusic(s_bgMusic, true);
@@ -48,7 +41,6 @@ var GameLayer = cc.Layer.extend({
     },
     
     initBackground: function () {
-        // background
         var bg = cc.Sprite.create(s_background3);
         bg.setAnchorPoint(cc.ccp(0, 0));
         bg.setPosition(this.winSize.width/2, this.winSize.height - 50);
@@ -96,7 +88,6 @@ var GameLayer = cc.Layer.extend({
     },
     
     initHook: function () {
-        // hook
         this._hook = new Hook();
         this.addChild(this._hook, global.zOrder.Hook);
         this._hook.setAnchorPoint(new cc.ccp(0.5, 1));
@@ -117,18 +108,6 @@ var GameLayer = cc.Layer.extend({
         }
     },
 
-    ccTouchesEnded:function () {
-        //this.isMouseDown = false;
-    },
-    
-    keyDown:function (e) {
-        keys[e] = true;
-    },
-    
-    keyUp:function (e) {
-        keys[e] = false;
-    },
-    
     draw: function () {
         this._super();
         cc.renderContext.lineWidth = 2;
@@ -175,15 +154,13 @@ var GameLayer = cc.Layer.extend({
     },
     
     update:function (dt) {
-        //this.moveActiveObject();
         this.onTimeLimit();
         this.checkCollision();
         if (this.collectAction && this.collectAction.isDone()) {
             if (this.collectedObject != null) {
                 this.collectedObject.setIsVisible(false);
                 this.updateScore(this.collectedObject.getValue()
-                + global.Factor.add);
-                //console.log(getTagName(this.collectedObject.type));
+                                 + global.Factor.add);
                 this.removeChild(this.collectedObject);
                 this.collectedObject = null;
                 this.collectAction = null;
@@ -240,7 +217,7 @@ var GameLayer = cc.Layer.extend({
                         this.collectedObject = global.mineContainer[i];
                         global.mineContainer[i] = null;
                         this._hook.retrieve();
-                        console.log(getObjectName(this.collectedObject.type));
+                        //console.log(getObjectName(this.collectedObject.type));
                     }
                 }
             }

@@ -4,10 +4,7 @@ var StoreLayer = cc.Layer.extend({
         var bRet = false;
             if (this._super()) {
             // background
-            winSize = cc.Director.sharedDirector().getWinSize();
             var bg = cc.Sprite.create(s_background);
-            //bg.setAnchorPoint(cc.ccp(0, 0));
-            bg.setPosition(winSize.width/2, winSize.height - 50);
             this.addChild(bg, -10);
             
             var acceptNormal = cc.Sprite.create(s_start_menu, cc.RectMake(0, 0, 250, 210));
@@ -22,13 +19,7 @@ var StoreLayer = cc.Layer.extend({
             menu.setPosition(cc.ccp(winSize.width / 2, winSize.height / 2 - 80));
             
             this.createTools();
-            
-            this.setIsTouchEnabled(true);
-            this.setIsKeypadEnabled(true);
 
-            if (global.sound) {
-                cc.AudioManager.sharedEngine().playBackgroundMusic(s_bgMusic, true);
-            }
             bRet = true;
         }
         return bRet;

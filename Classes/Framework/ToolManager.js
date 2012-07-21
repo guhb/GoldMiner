@@ -14,21 +14,20 @@ var ToolManager = cc.Class.extend({
         global.cleanToolObjects();
         var object = {};
         switch (round) {
-            case 6:
+            case 0:
+            case 5:
                 object.type = global.Tag.Rich;
                 object.x = 620; object.y = 200;
                 object = new ToolObject(object);
                 this._storeLayer.addChild(object, global.zOrder.Tool);
-            case 5:
+            case 4:
                 object.type = global.Tag.MoneyTree;
                 object.x = 530; object.y = 200;
                 object = new ToolObject(object);
                 this._storeLayer.addChild(object, global.zOrder.Tool);
-            case 4:
             case 3:
             case 2:
             case 1:
-            case 0:
                 object.type = global.Tag.Clock;
                 object.x = 620; object.y = 270;
                 object = new ToolObject(object);
