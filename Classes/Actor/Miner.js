@@ -1,6 +1,6 @@
 Miner = cc.Sprite.extend({
     ctor: function () {
-	    // To DO
-		// Amination, etc.
-	}
+        // To DO
+        // Amination, etc.
+    }
 });

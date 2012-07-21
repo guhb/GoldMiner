@@ -10,24 +10,21 @@ var StoreLayer = cc.Layer.extend({
             bg.setPosition(winSize.width/2, winSize.height - 50);
             this.addChild(bg, -10);
             
-            var acceptNormal = cc.Sprite.create(s_menu, cc.RectMake(0, 0, 126, 33));
-            var acceptSelected = cc.Sprite.create(s_menu, cc.RectMake(0, 33, 126, 33));
-            var acceptDisabled = cc.Sprite.create(s_menu, cc.RectMake(0, 33 * 2, 126, 33));
+            var acceptNormal = cc.Sprite.create(s_start_menu, cc.RectMake(0, 0, 250, 210));
+            var acceptSelected = cc.Sprite.create(s_start_menu, cc.RectMake(0, 210, 250, 210));
+            var acceptDisabled = cc.Sprite.create(s_start_menu, cc.RectMake(0, 420, 250, 210));
+            
             var accept = cc.MenuItemSprite.create(acceptNormal, acceptSelected, acceptDisabled, this, this.onAccept);
             var menu = cc.Menu.create(accept);
-            menu.alignItemsVerticallyWithPadding(10);
+            menu.setScale(0.4);
             this.addChild(menu, 1, 2);
+            menu.setAnchorPoint(cc.ccp(0,0));
             menu.setPosition(cc.ccp(winSize.width / 2, winSize.height / 2 - 80));
             
-            // accept touch now!
+            this.createTools();
+            
             this.setIsTouchEnabled(true);
-
-            //accept keypad
             this.setIsKeypadEnabled(true);
-
-            // schedule
-            this.schedule(this.update);
-            //this.schedule(this.scoreCounter, 1);
 
             if (global.sound) {
                 cc.AudioManager.sharedEngine().playBackgroundMusic(s_bgMusic, true);
@@ -35,6 +32,11 @@ var StoreLayer = cc.Layer.extend({
             bRet = true;
         }
         return bRet;
+    },
+    
+    createTools: function () {
+        var toolManager = new ToolManager(this);
+        toolManager.createTools();
     },
 
     ccTouchesBegan:function (touches, event) {

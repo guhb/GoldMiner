@@ -57,14 +57,33 @@ var MineType = {
     }
 };
 
-var getTagName = function (tag) {
-    switch (tag) {
-        case 900: name = "Rock"; break;
-        case 901: name = "Gold"; break;
-        case 902: name = "Pig"; break;
-        case 903: name = "Diamond"; break;
-        case 904: name = "Bone"; break;
-        case 905: name = "Bomb"; break;
+var ToolType = {
+    Milk: {
+        ThrowSpeed: -0.5,
+        RetrieveSpeed: -0.5,
+        image: s_milk
+    },
+    
+    Clock: {
+        RotateSpeed: -0.5,
+        image: s_clock
+    },
+    
+    MoneyTree: {
+        addValue: 50,
+        Multiply: 2,
+        image: s_money_tree
+    },
+    
+    Rich: {
+        Probility: 0.5,
+        image: s_rich
     }
-    return name;
+};
+
+
+var getObjectName = function (tag) {
+    var name = ["Rock","Gold","Pig","Diamond","Bone","Bomb",
+                "Milk","Clock","MoneyTree","Rich"];
+    return name[tag-global.Tag.Rock];
 };

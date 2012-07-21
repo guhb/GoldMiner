@@ -2,20 +2,25 @@ var GameControlMenu = cc.Layer.extend({
     init:function () {
         var bRet = false;
         if (this._super()) {
-            cc.MenuItemFont.setFontSize(18);
-            cc.MenuItemFont.setFontName("Arial");
-            var systemMenu = cc.MenuItemFont.create("End", this, this.startLayer);
-            var menu = cc.Menu.create(systemMenu, null);
-            menu.setPosition(cc.ccp(0, 0));
-            systemMenu.setAnchorPoint(cc.ccp(0, 0));
-            systemMenu.setPosition(cc.ccp(winSize.width-95, 5));
-            this.addChild(menu, 1, 2);
+            var winSize = cc.Director.sharedDirector().getWinSize();
+            var sysMenuNormal = cc.Sprite.create(s_start_menu,cc.RectMake(750, 0, 250, 210));
+            var sysMenuSelected = cc.Sprite.create(s_start_menu, cc.RectMake(750, 210, 250, 210));
+            var sysMenuDisabled = cc.Sprite.create(s_start_menu, cc.RectMake(750, 420, 250, 210));
+            var sysMenu = cc.MenuItemSprite.create(sysMenuNormal, sysMenuSelected,
+                                                   sysMenuDisabled, this, this.onReturn);
+            var menu = cc.Menu.create(sysMenu, null);
+            menu.setScale(0.2);
+            menu.setAnchorPoint(cc.ccp(0.0));
+            menu.setPosition(cc.ccp(winSize.width - 38, 28));
+            this.addChild(menu, global.Tag.Menu, 2);
+            
             bRet = true;
         }
 
         return bRet;
     },
-    startLayer:function (pSender) {
+    
+    onReturn:function (pSender) {
         var scene = cc.Scene.create();
         scene.addChild(StartLayer.create());
         cc.Director.sharedDirector().replaceScene(cc.TransitionFade.create(1.2,scene));

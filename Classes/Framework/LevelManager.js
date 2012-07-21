@@ -50,10 +50,9 @@ var LevelManager = cc.Class.extend({
         }
     },
     
-    // compute the dst score and time limit
     updateGameStatus: function () {
         if (global.dst_round != 1) {
-            global.dst_score += global.round * Math.round(Math.random() * 200);
+            global.dst_score += global.round * Math.round(Math.random() * 300);
         }
         this._gameLayer.setDstScore(global.dst_score);
         this._gameLayer.setCurScore(global.cur_score);
@@ -82,15 +81,12 @@ var LevelManager = cc.Class.extend({
                     var tmpMove2 = cc.MoveTo.create(point2, point1);
                     var seq = cc.Sequence.create(tmpMove1, cc.DelayTime.create(0.1),
                                                  tmpMove2, cc.DelayTime.create(0.1));
-                    //var tmpAction = cc.RepeatForever.create(seq);
                     mine.action = cc.RepeatForever.create(seq, null);
-                    //mine.move = true;
                     //mine.runAction(mine.action);
                     //console.log("createMap->mine.action" + i + ": " + mine.action);
                 }
             } else {
-                //var size = Math.round(Math.random());
-                if (Math.random() > 0.4) size = 1; else size = 0;
+                var size = Math.round(Math.random());
                 console.log("size: " + size);
                 mine = new MineObject(Round[round][i], size);
             }
@@ -101,9 +97,8 @@ var LevelManager = cc.Class.extend({
                 } catch (err) {
                     console.error("Failed to add MineOject. Type: " + getTagName(mine.type));
                 }
-
                 //if (mine.action != null) mine.runAction(mine.action);
-                console.log("createMap->add " + i + " : " + getTagName(mine.type));
+                //console.log("createMap->add " + i + " : " + getTagName(mine.type));
             } 
         }
     }

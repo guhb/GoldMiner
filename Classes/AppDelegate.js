@@ -63,8 +63,8 @@ cc.AppDelegate = cc.Application.extend({
         pDirector.setAnimationInterval(1.0 / 60);
 
         // create a scene. it's an autorelease object
-        var pScene = StartLayer.scene();
-        //var pScene = GameLayer.scene();
+        //var pScene = StartLayer.scene();
+        var pScene = StoreLayer.scene();
 
         // run
         pDirector.runWithScene(pScene);

@@ -81,11 +81,12 @@ cc.loadjs('Resource.js');
 // Config Module
 cc.loadjs('Classes/Config/global.js');
 cc.loadjs('Classes/Config/Level.js');
-cc.loadjs('Classes/Config/MineType.js');
+cc.loadjs('Classes/Config/ObjectType.js');
 
 
 // Framework Module
 cc.loadjs('Classes/Framework/LevelManager.js');
+cc.loadjs('Classes/Framework/ToolManager.js');
 cc.loadjs('Classes/Framework/AboutLayer.js');
 cc.loadjs('Classes/Framework/GameControlMenu.js');
 cc.loadjs('Classes/Framework/GameLayer.js');
@@ -101,7 +102,7 @@ cc.loadjs('Classes/Actor/Hook.js');
 cc.loadjs('Classes/Actor/MineObject.js');
 //cc.loadjs('Classes/Actor/Miner.js');
 //cc.loadjs('Classes/Actor/Seller.js');
-//cc.loadjs('Classes/Actor/ToolObject.js');
+cc.loadjs('Classes/Actor/ToolObject.js');
 
 // Effect Module
 cc.loadjs('Classes/Effect/Effect.js');

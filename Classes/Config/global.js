@@ -4,7 +4,7 @@ var global = {
     round: 1,
     cur_score: 0,
     dst_score: 500,
-    time_limit: 20,
+    time_limit: 60,
     sound: true,
     Tag:{
         Rock: 900,
@@ -12,7 +12,11 @@ var global = {
         Pig: 902,
         Diamond: 903,
         Bone: 904,
-        Bomb: 905
+        Bomb: 905,
+        Milk: 906,
+        Clock: 907,
+        MoneyTree: 908,
+        Rich: 909
     },
     zOrder: {
         Background: -10,
@@ -25,7 +29,18 @@ var global = {
         Diamond: 44,
         Bone: 45,
         Bomb: 46,
+        Tool: 47,
         Menu: 60
+    },
+    Speed: {
+        rotate: 1,
+        launch: 1,
+        retrieve: 1
+    },
+    Factor: {
+        add: 0,
+        multiply: 1,
+        probility: 1
     },
     mineContainer: [],
     MineType: null,

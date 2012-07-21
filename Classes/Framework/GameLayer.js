@@ -175,6 +175,7 @@ var GameLayer = cc.Layer.extend({
     },
     
     update:function (dt) {
+        //this.moveActiveObject();
         this.onTimeLimit();
         this.checkCollision();
         if (this.collectAction && this.collectAction.isDone()) {
@@ -238,12 +239,23 @@ var GameLayer = cc.Layer.extend({
                         this.collectedObject = global.mineContainer[i];
                         global.mineContainer[i] = null;
                         this._hook.retrieve();
-                        console.log(getTagName(this.collectedObject.type));
+                        console.log(getObjectName(this.collectedObject.type));
                     }
                 }
             }
         }
     },
+    /*
+    moveActiveObject: function () {
+        for (var i = 0; i < global.mineContainer.length; i++) {
+            if (global.mineContainer[i].action != null
+                && global.mineContainer[i].isMoving == false) {
+                
+                global.mineContainer[i].runAction(global.mineContainer[i].action);
+                global.mineContainer[i].isMoving = true;
+            }
+        }
+    },*/
    
     onTimeLimit: function () {
         if (this._time_limit <= 0 && this._cur_score < this._dst_score) {

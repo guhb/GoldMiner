@@ -5,13 +5,8 @@ var StartLayer = cc.Layer.extend({
         if (this._super) {
             winSize = cc.Director.sharedDirector().getWinSize();
             global.MineType = MineType;
-            /*
-            var logo = cc.Sprite.create(s_logo);
-            logo.setAnchorPoint(cc.ccp(0, 0));
-            logo.setPosition(cc.ccp(0, 250));
-            this.addChild(logo, 10, 1);
-            */
             
+            this.initLogo();
             this.initBackground();
             this.initMenu();
 
@@ -23,6 +18,15 @@ var StartLayer = cc.Layer.extend({
             bRet = true;
         }
         return bRet;
+    },
+    
+    initLogo: function () {
+        /*
+        var logo = cc.Sprite.create(s_logo);
+        logo.setAnchorPoint(cc.ccp(0, 0));
+        logo.setPosition(cc.ccp(0, 250));
+        this.addChild(logo, 10, 1);
+        */
     },
     
     initBackground: function () {
@@ -67,7 +71,7 @@ var StartLayer = cc.Layer.extend({
     
     onNewGame:function (pSender) {
         var scene = cc.Scene.create();
-        scene.addChild(GameLayer.create(1));
+        scene.addChild(GameLayer.create());
         scene.addChild(GameControlMenu.create());
         cc.Director.sharedDirector().replaceScene(cc.TransitionFade.create(1.2, scene));
     },
@@ -76,6 +80,7 @@ var StartLayer = cc.Layer.extend({
         this.onButtonEffect();
         var scene = cc.Scene.create();
         scene.addChild(SettingsLayer.create());
+        scene.addChild(GameControlMenu.create());
         cc.Director.sharedDirector().replaceScene(cc.TransitionFade.create(1.2, scene));
     },
     
@@ -83,6 +88,7 @@ var StartLayer = cc.Layer.extend({
         this.onButtonEffect();
         var scene = cc.Scene.create();
         scene.addChild(RecordLayer.create());
+        scene.addChild(GameControlMenu.create());
         cc.Director.sharedDirector().replaceScene(cc.TransitionFade.create(1.2, scene));
     },
     
@@ -90,6 +96,7 @@ var StartLayer = cc.Layer.extend({
         this.onButtonEffect();
         var scene = cc.Scene.create();
         scene.addChild(AboutLayer.create());
+        scene.addChild(GameControlMenu.create());
         cc.Director.sharedDirector().replaceScene(cc.TransitionFade.create(1.2, scene));
     },
     

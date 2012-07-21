@@ -5,16 +5,15 @@ MineObject = cc.Sprite.extend({
     value: 0,
     action: null,
     zOrder: 0,
-    //move: false,
     
     ctor: function (object, size) {
-        var type = getTagName(object.type);
+        var type = getObjectName(object.type);
         var MineType = global.MineType;
         switch (type) {
             case "Rock":
             case "Gold":
             case "Diamond":
-                if (size = 1) {
+                if (size == 1) {
                     this.initWithFile(MineType[type].big.image);
                     this.value = MineType[type].big.value;
                     this.weight = MineType[type].big.weight;
@@ -37,16 +36,7 @@ MineObject = cc.Sprite.extend({
                 break;
         }
         this.zOrder = global.zOrder[type];
-        console.log(this.zOrder);
-        //this.scheduleUpdate();
     },
-    /*
-    update: function () {
-        if (this.move && this.action != null) {
-            this.runAction(this.action);
-            this.move = false;
-        }
-    },*/
     
     getValue: function () {
         return this.value;
