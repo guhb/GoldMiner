@@ -86,7 +86,7 @@ var LevelManager = cc.Class.extend({
                     //console.log("createMap->mine.action" + i + ": " + mine.action);
                 }
             } else {
-                var size = Math.round(Math.random());
+                var size = Math.round(Math.random()+global.Factor.probility);
                 console.log("size: " + size);
                 mine = new MineObject(Round[round][i], size);
             }

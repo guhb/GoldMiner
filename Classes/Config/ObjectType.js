@@ -59,13 +59,13 @@ var MineType = {
 
 var ToolType = {
     Milk: {
-        ThrowSpeed: -0.5,
-        RetrieveSpeed: -0.5,
+        ThrowSpeed: -0.1,
+        RetrieveSpeed: -0.1,
         image: s_milk
     },
     
     Clock: {
-        RotateSpeed: -0.5,
+        RotateSpeed: -0.1,
         image: s_clock
     },
     
@@ -76,7 +76,7 @@ var ToolType = {
     },
     
     Rich: {
-        Probility: 0.5,
+        Probility: 0.2,
         image: s_rich
     }
 };

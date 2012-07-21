@@ -40,7 +40,7 @@ var global = {
     Factor: {
         add: 0,
         multiply: 1,
-        probility: 1
+        probility: 0
     },
     mineContainer: [],
     MineType: null,
@@ -54,5 +54,13 @@ var global = {
     },
     cleanMineContainer: function () {
         this.mineContainer = [];
+    },
+    cleanToolObjects: function () {
+        this.Speed.rotate = 1;
+        this.Speed.launch = 1;
+        this.Speed.retrieve = 1;
+        this.Factor.add = 0;
+        this.Factor.multiply = 1;
+        this.Factor.probility = 0;
     }
 };

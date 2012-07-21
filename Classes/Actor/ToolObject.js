@@ -1,34 +1,41 @@
-ToolObject = cc.Sprite.extend({
+var ToolObject = cc.Layer.extend({
     type: null,
-    zOrder: 0,
-    
-    ctor: function (object) {
-        var type = getObjectName(object.type);
-        this.type = type;
-        console.log(type);
-        this.initWithFile(ToolType[type].image);
-        this.zOrder = global.zOrder[type];
-        this.setAnchorPoint(cc.ccp(0,0));
-        this.setPosition(cc.ccp(object.x, object.y));
+    useAction: null,
+    ctor:function (object) {
+            var type = getObjectName(object.type);
+            this.type = object.type;
+        
+            var toolNormal = cc.Sprite.create(ToolType[type].image);
+            var toolSelected = cc.Sprite.create(ToolType[type].image);
+            var toolDisabled = cc.Sprite.create(ToolType[type].image);
+            var tool = cc.MenuItemSprite.create(toolNormal, toolSelected,
+                                                   toolDisabled, this, this.onUse);
+            var menu = cc.Menu.create(tool, null);
+            menu.setAnchorPoint(cc.ccp(0.0));
+            menu.setPosition(cc.ccp(0, 0));
+            this.setPosition(cc.ccp(object.x, object.y));
+            this.addChild(menu, global.Tag.Tool, 2); 
+            this.useAction = cc.MoveTo.create(1,cc.ccp(160,350));
     },
     
-    use: function () {
-        console.log("use tool");
+    onUse: function () {
+        console.log("use tool " + this.type);
         switch (this.type) {
-            case "Milk":
+            case global.Tag.Milk:
                 global.Speed.launch += ToolType.Milk.LaunchSpeed;
                 global.Speed.retrieve += ToolType.Milk.RetrieveSpeed;
                 break;
-            case "Clock":
+            case global.Tag.Clock:
                 global.Speed.rotate += ToolType.Clock.RotateSpeed;
                 break;
-            case "MoneyTree":
+            case global.Tag.MoneyTree:
                 global.Factor.add = ToolType.MoneyTree.addValue;
                 global.Factor.multiply = ToolType.MoneyTree.Multiply;
                 break;
-            case "Rich":
+            case global.Tag.Rich:
                 global.Factor.probility = ToolType.Rich.Probility;
                 break;
         }
+        this.runAction(this.useAction);
     }
 });

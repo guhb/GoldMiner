@@ -38,24 +38,6 @@ var StoreLayer = cc.Layer.extend({
         var toolManager = new ToolManager(this);
         toolManager.createTools();
     },
-
-    ccTouchesBegan:function (touches, event) {
-        if (this._hook.state == "swing") {
-            this._hook.launch(this.getDstPoint());
-        }
-    },
-    
-    ccTouchesEnded:function () {
-        //this.isMouseDown = false;
-    },
-    
-    keyDown:function (e) {
-        keys[e] = true;
-    },
-    
-    keyUp:function (e) {
-        keys[e] = false;
-    },
     
     onAccept: function () {
         var scene = cc.Scene.create();

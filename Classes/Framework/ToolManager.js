@@ -11,8 +11,8 @@ var ToolManager = cc.Class.extend({
 
     createTools:function(){
         var round = 6; //this._currentRound % NUMBER_OF_ROUNDS;
+        global.cleanToolObjects();
         var object = {};
-        var menu;
         switch (round) {
             case 6:
                 object.type = global.Tag.Rich;

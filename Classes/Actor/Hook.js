@@ -21,14 +21,17 @@ Hook = cc.Sprite.extend({
         */
         this._super();
         this.initWithFile(s_hook);
-        
+        /*
+        this.rotateSpeed = global.Speed.rotate;
+        this.launchSpeed = global.Speed.launch;
+        this.retrieveSpeed = global.Speed.retrieve;
+        */
         // Swing Action
         var rotoLeft = cc.RotateTo.create(this.rotateSpeed, this.rotateLimit);
         var rotoRight = cc.RotateTo.create(this.rotateSpeed, -this.rotateLimit);
         var seq = cc.Sequence.create(rotoLeft, cc.DelayTime.create(0.1), rotoRight, cc.DelayTime.create(0.1));
         this.swingAction = cc.RepeatForever.create(seq);
         this.swing();
-        //console.log("Hook created.");
     },
     
     swing: function () {
@@ -36,12 +39,11 @@ Hook = cc.Sprite.extend({
             && this.retrieveAction.isDone() || this.state == "init") {
             this.state = "swing";
             this.setRotation(0);
-            this.retrieveSpeed = 1; // resume
+            this.retrieveSpeed = global.Speed.retrieve; // resume
             this.runAction(this.swingAction);
         } else {
             console.error("Swing could only started from after either a retrieve or init state.");
         }
-        //console.log("swing");
     },
     
     stopSwing: function () {
@@ -50,7 +52,6 @@ Hook = cc.Sprite.extend({
         } else {
             console.error("Could not stop swing other than in a swing state.");
         }
-        //console.log("stop swing");
     },
     
     launch: function (dstPoint) {
@@ -61,7 +62,6 @@ Hook = cc.Sprite.extend({
         } else {
             console.error("Launch could only be started from a swing state.");
         }
-        //console.log("launch");
     },
     
     stopLaunch: function () {
@@ -70,7 +70,6 @@ Hook = cc.Sprite.extend({
         } else {
             console.error("Could not stop a launch state other than in a launch state.");
         }
-        //console.log("stop launch.");
     },
     
     retrieve: function () {
@@ -82,7 +81,6 @@ Hook = cc.Sprite.extend({
         } else {
             console.error("Retrieve could only be started from a launch state, or when the launch is finished");
         }
-        //console.log("retrieve");
     },
     
     getState: function () {
@@ -104,12 +102,10 @@ Hook = cc.Sprite.extend({
     update:function(){
         if (this.launchAction && this.launchAction.isDone()
             && this.state == "launch") {
-            //console.log("update->retrieve");
             this.retrieve();
         } else if (this.retrieveAction && this.retrieveAction.isDone()
                     && this.state == "retrieve") {
             this.swing();
-            //console.log("update->Swing");
         }
     }    
 });
