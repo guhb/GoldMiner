@@ -36,6 +36,7 @@ MineObject = cc.Sprite.extend({
                 break;
         }
         this.zOrder = global.zOrder[type];
+        this.scheduleUpdate();
     },
     
     getValue: function () {
@@ -44,5 +45,12 @@ MineObject = cc.Sprite.extend({
     
     getWeight: function () {
         return this.weight;
+    },
+    
+    update: function () {
+        if (cc.Point.CCPointEqualToPoint(this.getPosition()
+            ,cc.ccp(400, 430))
+            && this.getIsVisible())
+            this.setIsVisible(false);
     }
 });
