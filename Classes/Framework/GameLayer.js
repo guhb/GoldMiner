@@ -242,6 +242,7 @@ var GameLayer = cc.Layer.extend({
     },
     
     onGameOver:function () {
+        saveRecord(this._cur_score);
         var scene = cc.Scene.create();
         scene.addChild(GameOverLayer.create());
         cc.Director.sharedDirector().replaceScene(cc.TransitionFade.create(1.2, scene));

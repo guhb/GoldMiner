@@ -5,6 +5,7 @@ var GameOverLayer = cc.Layer.extend({
         if (this._super) {
             global.cleanMineContainer();
             var bg = cc.Sprite.create(s_background2);
+            bg.setAnchorPoint(cc.PointZero());
             this.addChild(bg, 0, 1);
 
             cc.MenuItemFont.setFontName("Arial");

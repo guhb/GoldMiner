@@ -2,9 +2,9 @@ var AboutLayer = cc.Layer.extend({
     init:function () {
         var bRet = false;
         if (this._super()) {
-            var sp = cc.Sprite.create(s_background2);
-            sp.setAnchorPoint(cc.PointZero());
-            this.addChild(sp, 0, 1);
+            var bg = cc.Sprite.create(s_background2);
+            bg.setAnchorPoint(cc.PointZero());
+            this.addChild(bg, 0, 1);
 
             var cacheImage = cc.TextureCache.sharedTextureCache().addImage(s_menuTitle)
             var title = cc.Sprite.createWithTexture(cacheImage, cc.RectMake(0, 34, 100, 34));
