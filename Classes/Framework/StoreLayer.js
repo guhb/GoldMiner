@@ -5,7 +5,8 @@ var StoreLayer = cc.Layer.extend({
             if (this._super()) {
             // background
             var bg = cc.Sprite.create(s_background);
-            this.addChild(bg, -10);
+            bg.setAnchorPoint(cc.PointZero());
+            this.addChild(bg, 0, 1);
             
             var acceptNormal = cc.Sprite.create(s_start_menu, cc.RectMake(0, 0, 250, 210));
             var acceptSelected = cc.Sprite.create(s_start_menu, cc.RectMake(0, 210, 250, 210));

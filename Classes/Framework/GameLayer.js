@@ -245,6 +245,7 @@ var GameLayer = cc.Layer.extend({
         saveRecord(this._cur_score);
         var scene = cc.Scene.create();
         scene.addChild(GameOverLayer.create());
+        scene.addChild(GameControlMenu.create());
         cc.Director.sharedDirector().replaceScene(cc.TransitionFade.create(1.2, scene));
         this.getParent().removeChild(this);
     },
@@ -252,6 +253,7 @@ var GameLayer = cc.Layer.extend({
     onNextGame: function () {
         var scene = cc.Scene.create();
         scene.addChild(StoreLayer.create());
+        scene.addChild(GameControlMenu.create());
         cc.Director.sharedDirector().replaceScene(cc.TransitionFade.create(1.2, scene));
         this.getParent().removeChild(this);
     },
