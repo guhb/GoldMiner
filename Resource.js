@@ -1,5 +1,4 @@
 //image
-var s_menu = "Resources/menu.png";
 var s_logo = "Resources/logo.png";
 var s_gameOver = "Resources/gameOver.png";
 var s_menuTitle = "Resources/menuTitle.png";
@@ -24,10 +23,11 @@ var s_big_diamond = "Resources/big_diamond.png";
 var s_small_diamond = "Resources/small_diamond.png";
 var s_bone = "Resources/bone.png";
 var s_bomb = "Resources/bomb.png";
-var s_milk = "Resources/big_rock.png";
-var s_clock = "Resources/big_rock.png";
-var s_money_tree = "Resources/big_rock.png";
-var s_rich = "Resources/big_rock.png";
+var s_milk = "Resources/milk.png";
+var s_clock = "Resources/clock.png";
+var s_money_tree = "Resources/money_tree.png";
+var s_rich = "Resources/rich.png";
+var s_accept = "Resources/accept.png";
 
 //music
 var s_bgMusic = "Resources/Music/bgMusic";
@@ -43,7 +43,6 @@ var s_explosion_plist = "Resources/explosion.plist";
 
 var g_ressources = [
     //image
-    {type:"image", src:s_menu},
     {type:"image", src:s_logo},
     {type:"image", src:s_gameOver},
     {type:"image", src:s_menuTitle},
@@ -72,6 +71,7 @@ var g_ressources = [
     {type:"image", src:s_clock},
     {type:"image", src:s_money_tree},
     {type:"image", src:s_rich},
+    {type:"image", src:s_accept},
     
     //plist
     {type:"plist", src:s_explosion_plist},
