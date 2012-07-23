@@ -47,21 +47,25 @@ var Game = {
         add: 0,
         multiply: 1,
         probility: 0
-    },
-    resume: function () {
-        this.cur_score = 0;
-        this.dst_score = 500;
-        this.time_limit = 60;
-        this.MineType = [];
-        this.mineContainer = [];
-        this.cleanToolObjects();
-    },
-    cleanToolObjects: function () {
-        this.Speed.rotate = 1;
-        this.Speed.launch = 1;
-        this.Speed.retrieve = 1;
-        this.Factor.add = 0;
-        this.Factor.multiply = 1;
-        this.Factor.probility = 0;
     }
 };
+
+    
+// Lines below intruduce a bug that
+// makes the frame rate fall below 40
+var resume = function () {
+    Game.cur_score = 0;
+    Game.dst_score = 500;
+    Game.time_limit = 60;
+    Game.MineType = getMineType();
+    Game.mineContainer = [];
+    cleanToolObjects();
+};
+var cleanToolObjects = function () {
+    Game.Speed.rotate = 1;
+    Game.Speed.launch = 1;
+    Game.Speed.retrieve = 1;
+    Game.Factor.add = 0;
+    Game.Factor.multiply = 1;
+    Game.Factor.probility = 0;
+}

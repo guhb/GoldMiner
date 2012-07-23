@@ -11,7 +11,7 @@ var ToolManager = cc.Class.extend({
 
     createTools:function(){
         var round = this._currentRound % NUMBER_OF_ROUNDS;
-        Game.cleanToolObjects();
+        cleanToolObjects();
         var object = {};
         switch (round) {
             case 0:

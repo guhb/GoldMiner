@@ -20,7 +20,7 @@ var GameOverLayer = cc.Layer.extend({
     },
 
     onPlayAgain:function (pSender) {
-        Game.resume();
+        resume();
         var scene = cc.Scene.create();
         scene.addChild(GameLayer.create());
         scene.addChild(GameControlMenu.create());
