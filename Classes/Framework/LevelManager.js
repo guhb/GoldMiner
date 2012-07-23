@@ -64,7 +64,7 @@ var LevelManager = cc.Class.extend({
     },
 
     createMap:function(){
-        global.cleanMineContainer();
+        this._gameLayer.mineContainer = [];
         // The logic is wrong here as round 1 never start from Round[0]
         var round = this._currentRound % NUMBER_OF_ROUNDS;
         this.updateGameStatus();
@@ -93,7 +93,7 @@ var LevelManager = cc.Class.extend({
             if (mine != null) {
                 try {
                     this._gameLayer.addChild(mine, mine.zOrder);
-                    global.mineContainer.push(mine);
+                    this._gameLayer.mineContainer.push(mine);
                 } catch (err) {
                     console.error("Failed to add MineOject. Type: " + getTagName(mine.type));
                 }

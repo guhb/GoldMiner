@@ -79,10 +79,9 @@ cc.loadjs('Classes/AppDelegate.js');
 cc.loadjs('Resource.js');
 
 // Config Module
+cc.loadjs('Classes/Config/ObjectType.js');
 cc.loadjs('Classes/Config/global.js');
 cc.loadjs('Classes/Config/Level.js');
-cc.loadjs('Classes/Config/ObjectType.js');
-
 
 // Framework Module
 cc.loadjs('Classes/Framework/LevelManager.js');

@@ -3,10 +3,7 @@ var GameLayer = cc.Layer.extend({
     _cur_score: 0,
     _dst_score: 200,
     _hook: null,
-    _mineObjects: [],
-    _toolObjects: [],
-    _levelManager: null,
-    explosionAnimation: [],
+    _mineContainer: [],
     _criticalAngle: null,
     _round: 1,
     winSize: null,
@@ -98,8 +95,8 @@ var GameLayer = cc.Layer.extend({
     },
     
     createMap: function () {
-        this._levelManager = new LevelManager(this);
-        this._levelManager.createMap();
+        var levelManager = new LevelManager(this);
+        levelManager.createMap();
     },
         
     ccTouchesBegan:function (touches, event) {
@@ -200,22 +197,22 @@ var GameLayer = cc.Layer.extend({
     checkCollision: function () {
         if (this._hook.getState() == "launch") {
             var distance = null;
-            for (var i=0; i<global.mineContainer.length; i++) {
-                if (global.mineContainer[i] != null) {
-                    var xlen = Math.pow(this._hook.getPositionX() - global.mineContainer[i].getPositionX(), 2);
-                    var ylen = Math.pow(this._hook.getPositionY() - global.mineContainer[i].getPositionY(), 2);
+            for (var i=0; i<this.mineContainer.length; i++) {
+                if (this.mineContainer[i] != null) {
+                    var xlen = Math.pow(this._hook.getPositionX() - this.mineContainer[i].getPositionX(), 2);
+                    var ylen = Math.pow(this._hook.getPositionY() - this.mineContainer[i].getPositionY(), 2);
                 
                     distance = Math.sqrt(xlen + ylen);
                     if (distance < 30) {
-                        if (global.mineContainer[i].type == global.Tag.Pig)
-                            global.mineContainer[i].stopAllActions();
+                        if (this.mineContainer[i].type == global.Tag.Pig)
+                            this.mineContainer[i].stopAllActions();
                             
-                        this._hook.setRetrieveSpeed(global.mineContainer[i].weight/50);
+                        this._hook.setRetrieveSpeed(this.mineContainer[i].weight/50);
                         this.collectAction = cc.MoveTo.create(this._hook.getRetrieveSpeed(),
                                                             this._hook.getOriginPosition());
-                        global.mineContainer[i].runAction(this.collectAction);
-                        this.collectedObject = global.mineContainer[i];
-                        global.mineContainer[i] = null;
+                        this.mineContainer[i].runAction(this.collectAction);
+                        this.collectedObject = this.mineContainer[i];
+                        this.mineContainer[i] = null;
                         this._hook.retrieve();
                         //console.log(getObjectName(this.collectedObject.type));
                     }
@@ -223,17 +220,6 @@ var GameLayer = cc.Layer.extend({
             }
         }
     },
-    /*
-    moveActiveObject: function () {
-        for (var i = 0; i < global.mineContainer.length; i++) {
-            if (global.mineContainer[i].action != null
-                && global.mineContainer[i].isMoving == false) {
-                
-                global.mineContainer[i].runAction(global.mineContainer[i].action);
-                global.mineContainer[i].isMoving = true;
-            }
-        }
-    },*/
    
     onTimeLimit: function () {
         if (this._time_limit <= 0 && this._cur_score < this._dst_score) {

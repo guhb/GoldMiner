@@ -4,7 +4,6 @@ var StartLayer = cc.Layer.extend({
         var bRet = false;
         if (this._super) {
             winSize = cc.Director.sharedDirector().getWinSize();
-            global.MineType = MineType;
             
             this.initLogo();
             this.initBackground();

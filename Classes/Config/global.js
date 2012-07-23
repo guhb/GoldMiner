@@ -42,17 +42,13 @@ var global = {
         multiply: 1,
         probility: 0
     },
-    mineContainer: [],
     MineType: null,
     debug: false,
     resume: function () {
         this.cur_score = 0;
         this.dst_score = 500;
         this.time_limit = 60;
-        this.MineType = MineType;
-        this.mineContainer = [];
-    },
-    cleanMineContainer: function () {
+        this.MineType = getMineType();
         this.mineContainer = [];
     },
     cleanToolObjects: function () {
@@ -66,6 +62,7 @@ var global = {
 };
 
 (function(){
+    global.MineType = getMineType();
     if(typeof(Storage)!=="undefined") {
         if (localStorage.firstScore == null) localStorage.firstScore = 0;
         if (localStorage.secondScore == null) localStorage.secondScore = 0;

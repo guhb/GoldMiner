@@ -10,15 +10,6 @@ Hook = cc.Sprite.extend({
     originPosition: null,
 
     ctor: function () {
-        // TODO animation, etc.
-        /*
-        hookTexture = cc.TextureCache.sharedTextureCache().addImage(s_hook);
-        this.initWithTexture(hookTexture, cc.RectMake(0,0,20,20));
-        this.setTag(this.zOrder);
-        this.setPosition(this.appearPosition);
-        
-        // add animation
-        */
         this._super();
         this.initWithFile(s_hook);
         
