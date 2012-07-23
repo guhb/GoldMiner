@@ -3,9 +3,9 @@ var GameControlMenu = cc.Layer.extend({
         var bRet = false;
         if (this._super()) {
             var winSize = cc.Director.sharedDirector().getWinSize();
-            var sysMenuNormal = cc.Sprite.create(s_start_menu,cc.RectMake(750, 0, 250, 210));
-            var sysMenuSelected = cc.Sprite.create(s_start_menu, cc.RectMake(750, 210, 250, 210));
-            var sysMenuDisabled = cc.Sprite.create(s_start_menu, cc.RectMake(750, 420, 250, 210));
+            var sysMenuNormal = cc.Sprite.create(Game.theme.menu,cc.RectMake(750, 0, 250, 210));
+            var sysMenuSelected = cc.Sprite.create(Game.theme.menu, cc.RectMake(750, 210, 250, 210));
+            var sysMenuDisabled = cc.Sprite.create(Game.theme.menu, cc.RectMake(750, 420, 250, 210));
             var sysMenu = cc.MenuItemSprite.create(sysMenuNormal, sysMenuSelected,
                                                    sysMenuDisabled, this, this.onReturn);
             var menu = cc.Menu.create(sysMenu, null);

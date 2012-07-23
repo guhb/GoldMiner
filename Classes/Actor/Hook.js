@@ -11,7 +11,7 @@ Hook = cc.Sprite.extend({
 
     ctor: function () {
         this._super();
-        this.initWithFile(s_hook);
+        this.initWithFile(Game.theme.hook);
         
         this.rotateSpeed = Game.Speed.rotate;
         this.launchSpeed = Game.Speed.launch;

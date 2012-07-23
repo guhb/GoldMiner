@@ -4,7 +4,7 @@ var StoreLayer = cc.Layer.extend({
         var bRet = false;
             if (this._super()) {
             // background
-            var bg = cc.Sprite.create(s_background);
+            var bg = cc.Sprite.create(Game.theme.storelayer_bg);
             bg.setAnchorPoint(cc.PointZero());
             this.addChild(bg, 0, 1);
             
@@ -31,8 +31,8 @@ var StoreLayer = cc.Layer.extend({
     
     onAccept: function () {
         var scene = cc.Scene.create();
-        scene.addChild(GameControlMenu.create());
         scene.addChild(GameLayer.create());
+        scene.addChild(GameControlMenu.create());
         cc.Director.sharedDirector().replaceScene(cc.TransitionFade.create(1.2, scene));
         this.getParent().removeChild(this);
     },
