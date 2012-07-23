@@ -21,18 +21,18 @@ var ToolObject = cc.Layer.extend({
     onUse: function () {
         switch (this.type) {
             case global.Tag.Milk:
-                global.Speed.launch += ToolType.Milk.LaunchSpeed;
-                global.Speed.retrieve += ToolType.Milk.RetrieveSpeed;
+                Game.Speed.launch += ToolType.Milk.LaunchSpeed;
+                Game.Speed.retrieve += ToolType.Milk.RetrieveSpeed;
                 break;
             case global.Tag.Clock:
-                global.Speed.rotate += ToolType.Clock.RotateSpeed;
+                Game.Speed.rotate += ToolType.Clock.RotateSpeed;
                 break;
             case global.Tag.MoneyTree:
-                global.Factor.add = ToolType.MoneyTree.addValue;
-                global.Factor.multiply = ToolType.MoneyTree.Multiply;
+                Game.Factor.add = ToolType.MoneyTree.addValue;
+                Game.Factor.multiply = ToolType.MoneyTree.Multiply;
                 break;
             case global.Tag.Rich:
-                global.Factor.probility = ToolType.Rich.Probility;
+                Game.Factor.probility = ToolType.Rich.Probility;
                 break;
         }
         this.runAction(this.useAction);

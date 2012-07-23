@@ -1,10 +1,6 @@
 var winSize = null;
 var keys = [];
 var global = {
-    round: 1,
-    cur_score: 0,
-    dst_score: 500,
-    time_limit: 60,
     sound: true,
     Tag:{
         Rock: 900,
@@ -32,6 +28,15 @@ var global = {
         Tool: 47,
         Menu: 60
     },
+    debug: false,
+};
+
+var Game = {
+    round: 1,
+    cur_score: 0,
+    dst_score: 500,
+    time_limit: 60,
+    MineType: null,
     Speed: {
         rotate: 1,
         launch: 1,
@@ -42,14 +47,13 @@ var global = {
         multiply: 1,
         probility: 0
     },
-    MineType: null,
-    debug: false,
     resume: function () {
         this.cur_score = 0;
         this.dst_score = 500;
         this.time_limit = 60;
         this.MineType = getMineType();
         this.mineContainer = [];
+        this.cleanToolObjects();
     },
     cleanToolObjects: function () {
         this.Speed.rotate = 1;
@@ -62,7 +66,7 @@ var global = {
 };
 
 (function(){
-    global.MineType = getMineType();
+    Game.MineType = getMineType();
     if(typeof(Storage)!=="undefined") {
         if (localStorage.firstScore == null) localStorage.firstScore = 0;
         if (localStorage.secondScore == null) localStorage.secondScore = 0;

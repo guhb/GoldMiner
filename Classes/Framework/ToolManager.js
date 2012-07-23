@@ -5,13 +5,13 @@ var ToolManager = cc.Class.extend({
         if(!storeLayer){
             throw "storeLayer must be non-nil";
         }
-        this._currentRound = global.round;
+        this._currentRound = Game.round;
         this._storeLayer = storeLayer;
     },
 
     createTools:function(){
         var round = this._currentRound % NUMBER_OF_ROUNDS;
-        global.cleanToolObjects();
+        Game.cleanToolObjects();
         var object = {};
         switch (round) {
             case 0:

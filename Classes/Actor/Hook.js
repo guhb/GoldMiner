@@ -13,9 +13,9 @@ Hook = cc.Sprite.extend({
         this._super();
         this.initWithFile(s_hook);
         
-        this.rotateSpeed = global.Speed.rotate;
-        this.launchSpeed = global.Speed.launch;
-        this.retrieveSpeed = global.Speed.retrieve;
+        this.rotateSpeed = Game.Speed.rotate;
+        this.launchSpeed = Game.Speed.launch;
+        this.retrieveSpeed = Game.Speed.retrieve;
         
         // Swing Action
         var rotoLeft = cc.RotateTo.create(this.rotateSpeed, this.rotateLimit);
@@ -30,7 +30,7 @@ Hook = cc.Sprite.extend({
             && this.retrieveAction.isDone() || this.state == "init") {
             this.state = "swing";
             this.setRotation(0);
-            this.retrieveSpeed = global.Speed.retrieve; // resume
+            this.retrieveSpeed = Game.Speed.retrieve; // resume
             this.runAction(this.swingAction);
         } else {
             console.error("Swing could only started from after either a retrieve or init state.");

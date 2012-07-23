@@ -5,7 +5,7 @@ var LevelManager = cc.Class.extend({
         if(!gameLayer){
             throw "gameLayer must be non-nil";
         }
-        this._currentRound = global.round;
+        this._currentRound = Game.round;
         this._gameLayer = gameLayer;
     },
 
@@ -25,7 +25,7 @@ var LevelManager = cc.Class.extend({
     
     updateMineType: function () {
         var types = ["Rock", "Gold", "Pig", "Diamond", "Bone", "Bomb"];
-        var MineType = global.MineType;
+        var MineType = Game.MineType;
         for (var i = 0; i < types.length; i++) {
             switch (types[i]) {
                 case "Rock":
@@ -51,54 +51,47 @@ var LevelManager = cc.Class.extend({
     },
     
     updateGameStatus: function () {
-        if (global.dst_round != 1) {
-            global.dst_score += global.round * Math.round(Math.random() * 300);
+        if (Game.dst_round != 1) {
+            Game.dst_score += ((Game.round-1) % NUMBER_OF_ROUNDS) * Math.round(Math.random() * 700);
         }
-        this._gameLayer.setDstScore(global.dst_score);
-        this._gameLayer.setCurScore(global.cur_score);
-        if (global.time_limit >= 10) {
-            this._gameLayer._time_limit = global.time_limit 
-                                          - Math.round(global.round * Math.random());
+        this._gameLayer.setDstScore(Game.dst_score);
+        this._gameLayer.setCurScore(Game.cur_score);
+        if (Game.time_limit >= 10) {
+            this._gameLayer._time_limit = Game.time_limit 
+                                          - Math.round(Game.round * Math.random());
         }
-        this._gameLayer.setRound(global.round);
+        this._gameLayer.setRound(Game.round);
     },
 
     createMap:function(){
         this._gameLayer.mineContainer = [];
-        // The logic is wrong here as round 1 never start from Round[0]
-        var round = this._currentRound % NUMBER_OF_ROUNDS;
+        var round = (this._currentRound - 1) % NUMBER_OF_ROUNDS;
         this.updateGameStatus();
-        if (this._currentRound != 1) this.updateMineType();
+        if (this._currentRound != 1 && round == 0) this.updateMineType();
         for (var i=0; i<Round[round].length; i++) {
              
             var mine;
             if (Round[round][i].type == global.Tag.Pig) {
                 mine = new MineObject(Round[round][i], 1);
                 var point1 = cc.ccp(Round[round][i].x, Round[round][i].y);
-                var point2 = cc.ccp(this._gameLayer.winSize.width - Round[round][i].x2,
+                var point2 = cc.ccp(this._gameLayer.winSize.width - Round[round][i].x,
                                     Round[round][i].y2);
                 if (!cc.Point.CCPointEqualToPoint(point1, point2)) {
-                    var tmpMove1 = cc.MoveTo.create(point1, point2);
-                    var tmpMove2 = cc.MoveTo.create(point2, point1);
-                    var seq = cc.Sequence.create(tmpMove1, cc.DelayTime.create(0.1),
-                                                 tmpMove2, cc.DelayTime.create(0.1));
+                    var duration = Math.abs((point2.x -point1.x))/winSize.width * 10;
+                    var tmpMove1 = cc.MoveTo.create(duration, point2);
+                    var tmpMove2 = cc.MoveTo.create(duration, point1);
+                    var seq = cc.Sequence.create(tmpMove1, cc.DelayTime.create(0.2),
+                    cc.FlipX.create(true), tmpMove2, cc.DelayTime.create(0.2), cc.FlipX.create(false));
                     mine.action = cc.RepeatForever.create(seq, null);
-                    //mine.runAction(mine.action);
-                    //console.log("createMap->mine.action" + i + ": " + mine.action);
+                    mine.runAction(mine.action);
                 }
             } else {
-                var size = Math.round(Math.random()+global.Factor.probility);
+                var size = Math.round(Math.random()+Game.Factor.probility);
                 mine = new MineObject(Round[round][i], size);
             }
             if (mine != null) {
-                try {
-                    this._gameLayer.addChild(mine, mine.zOrder);
-                    this._gameLayer.mineContainer.push(mine);
-                } catch (err) {
-                    console.error("Failed to add MineOject. Type: " + getTagName(mine.type));
-                }
-                //if (mine.action != null) mine.runAction(mine.action);
-                //console.log("createMap->add " + i + " : " + getTagName(mine.type));
+                this._gameLayer.addChild(mine, mine.zOrder);
+                this._gameLayer.mineContainer.push(mine);
             } 
         }
     }

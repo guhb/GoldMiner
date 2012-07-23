@@ -3,7 +3,6 @@ var GameOverLayer = cc.Layer.extend({
     init:function () {
         var bRet = false;
         if (this._super) {
-            global.cleanMineContainer();
             var bg = cc.Sprite.create(s_background2);
             bg.setAnchorPoint(cc.PointZero());
             this.addChild(bg, 0, 1);
@@ -21,7 +20,7 @@ var GameOverLayer = cc.Layer.extend({
     },
 
     onPlayAgain:function (pSender) {
-        global.resume();
+        Game.resume();
         var scene = cc.Scene.create();
         scene.addChild(GameLayer.create());
         scene.addChild(GameControlMenu.create());

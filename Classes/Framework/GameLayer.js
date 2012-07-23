@@ -144,8 +144,8 @@ var GameLayer = cc.Layer.extend({
         this._cur_score += inc;
         this._lbCurScore.setString("Score: " + this._cur_score);
         if (this._cur_score >= this._dst_score) {
-            global.round++;
-            global.cur_score = this._cur_score;
+            Game.round++;
+            Game.cur_score = this._cur_score;
             this.onNextGame();
         }
     },
@@ -157,7 +157,7 @@ var GameLayer = cc.Layer.extend({
             if (this.collectedObject != null) {
                 this.collectedObject.setIsVisible(false);
                 this.updateScore(this.collectedObject.getValue()
-                                 + global.Factor.add);
+                                 + Game.Factor.add);
                 this.removeChild(this.collectedObject);
                 this.collectedObject = null;
                 this.collectAction = null;

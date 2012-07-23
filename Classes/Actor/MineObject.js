@@ -8,7 +8,7 @@ MineObject = cc.Sprite.extend({
     
     ctor: function (object, size) {
         var type = getObjectName(object.type);
-        var MineType = global.MineType;
+        var MineType = Game.MineType;
         switch (type) {
             case "Rock":
             case "Gold":

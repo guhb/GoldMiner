@@ -31,6 +31,7 @@ var StoreLayer = cc.Layer.extend({
     
     onAccept: function () {
         var scene = cc.Scene.create();
+        scene.addChild(GameControlMenu.create());
         scene.addChild(GameLayer.create());
         cc.Director.sharedDirector().replaceScene(cc.TransitionFade.create(1.2, scene));
         this.getParent().removeChild(this);
