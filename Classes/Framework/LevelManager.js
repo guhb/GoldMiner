@@ -49,5 +49,9 @@ var LevelManager = cc.Class.extend({
                 this._gameLayer.mineContainer.push(mine);
             } 
         }
+        var object = {}; object.type = 1; object.x = 300; object.y = 400;
+        var prop = new PropType["Milk"].create(object);
+        this._gameLayer.addChild(prop, 60);
+        this._gameLayer.mineContainer.push(prop);
     }
 });

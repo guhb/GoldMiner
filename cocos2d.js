@@ -81,6 +81,7 @@ cc.loadjs('Resource.js');
 // Config Module
 cc.loadjs('Classes/Config/Theme.js');
 cc.loadjs('Classes/Config/global.js');
+cc.loadjs('Classes/Actor/PropObjects.js');
 cc.loadjs('Classes/Config/ObjectType.js');
 cc.loadjs('Classes/Config/Level.js');
 cc.loadjs('Classes/Config/Game.js');
@@ -97,10 +98,12 @@ cc.loadjs('Classes/Framework/SettingsLayer.js');
 cc.loadjs('Classes/Framework/StoreLayer.js');
 //cc.loadjs('Classes/Framework/SplashLayer.js');
 cc.loadjs('Classes/Framework/StartLayer.js');
+cc.loadjs('Classes/Framework/MissionLayer.js');
 
 // Actor Module
 cc.loadjs('Classes/Actor/Hook.js');
 cc.loadjs('Classes/Actor/MineObject.js');
+
 //cc.loadjs('Classes/Actor/Miner.js');
 //cc.loadjs('Classes/Actor/Seller.js');
 cc.loadjs('Classes/Actor/ToolObject.js');

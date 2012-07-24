@@ -81,6 +81,61 @@ var ToolType = {
     }
 };
 
+var PropType = {
+    Milk: {
+        create: Milk,
+        image: s_milk
+    }, // Make the hook quicker
+    Quick: {
+        create: Quick,
+        image: s_milk
+    }, // Make the hook quicker
+    Clock: {
+        create: Clock,
+        image: s_clock
+    }, // Make the time longer
+    Bone: {
+        create: Bone,
+        image: s_bone
+    }, // Make the dog sleep
+    
+    Silent: {
+        create: Silent,
+        image: s_milk
+    }, // Make the dog silent
+    Thunder: {
+        create: Thunder,
+        image: s_milk
+    }, // Wake out farmer*/
+    Alarm: {
+        create: Alarm,
+        image: s_milk
+    },
+    Sleep: {
+        create: Sleep,
+        image: s_bone
+    }, // Make the animals sleep
+    Lighter: {
+        create: Lighter,
+        image: s_milk
+    }, // Make the animals ligher
+    Bump: {
+        create: Bump,
+        image: s_milk
+    }, // make the hook bumping
+    Smaller: {
+        create: Smaller,
+        image: s_milk
+    }, // Make the hook smaller
+    Bigger: {
+        create: Bigger,
+        image: s_milk
+    }, // Make the hook bigger
+    Sort: {
+        create: Sort,
+        image: s_milk
+    } // Sort out the animals
+};
 
 var getObjectName = function (tag) {
     var name = ["Rock","Gold","Pig","Diamond","Bone","Bomb",

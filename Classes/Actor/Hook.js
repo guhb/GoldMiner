@@ -17,11 +17,6 @@ Hook = cc.Sprite.extend({
         this.launchSpeed = Game.Speed.launch;
         this.retrieveSpeed = Game.Speed.retrieve;
         
-        // Swing Action
-        var rotoLeft = cc.RotateTo.create(this.rotateSpeed, this.rotateLimit);
-        var rotoRight = cc.RotateTo.create(this.rotateSpeed, -this.rotateLimit);
-        var seq = cc.Sequence.create(rotoLeft, cc.DelayTime.create(0.1), rotoRight, cc.DelayTime.create(0.1));
-        this.swingAction = cc.RepeatForever.create(seq);
         this.swing();
     },
     
@@ -30,7 +25,12 @@ Hook = cc.Sprite.extend({
             && this.retrieveAction.isDone() || this.state == "init") {
             this.state = "swing";
             this.setRotation(0);
-            this.retrieveSpeed = Game.Speed.retrieve; // resume
+            //this.retrieveSpeed = Game.Speed.retrieve; // resume
+            this.rotateSpeed = Game.Speed.rotate;
+            var rotoLeft = cc.RotateTo.create(this.rotateSpeed, this.rotateLimit);
+            var rotoRight = cc.RotateTo.create(this.rotateSpeed, -this.rotateLimit);
+            var seq = cc.Sequence.create(rotoLeft, cc.DelayTime.create(0.1), rotoRight, cc.DelayTime.create(0.1));
+            this.swingAction = cc.RepeatForever.create(seq);
             this.runAction(this.swingAction);
         } else {
             console.error("Swing could only started from after either a retrieve or init state.");
@@ -48,6 +48,7 @@ Hook = cc.Sprite.extend({
     launch: function (dstPoint) {
         if (this.state == "swing") {
             this.state = "launch";
+            this.launchSpeed = Game.Speed.launch;
             this.launchAction = cc.MoveTo.create(this.launchSpeed, dstPoint);
             this.runAction(this.launchAction);
         } else {
@@ -67,6 +68,7 @@ Hook = cc.Sprite.extend({
         if (this.lauchAction && this.launchAction.isDone() || this.state == "launch") {
             this.state = "retrieve";
             this.stopAction(this.launchAction);
+            this.retrieveSpeed = Game.Speed.retrieve;
             this.retrieveAction = cc.MoveTo.create(this.retrieveSpeed, this.originPosition);
             this.runAction(this.retrieveAction);
         } else {

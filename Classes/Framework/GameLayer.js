@@ -4,6 +4,7 @@ var GameLayer = cc.Layer.extend({
     _dst_score: 200,
     _hook: null,
     _mineContainer: [],
+    _propContainer: [],
     _criticalAngle: null,
     _round: 1,
     winSize: null,
@@ -207,7 +208,10 @@ var GameLayer = cc.Layer.extend({
                         if (this.mineContainer[i].type == global.Tag.Pig)
                             this.mineContainer[i].stopAllActions();
                             
-                        this._hook.setRetrieveSpeed(this.mineContainer[i].weight/50);
+                        if (this._propContainer.indexOf("Milk") == -1) {
+                            this._hook.setRetrieveSpeed(this.mineContainer[i].weight/50);
+                        }
+                        
                         this.collectAction = cc.MoveTo.create(this._hook.getRetrieveSpeed(),
                                                             this._hook.getOriginPosition());
                         this.mineContainer[i].runAction(this.collectAction);

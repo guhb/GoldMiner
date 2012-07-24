@@ -32,7 +32,7 @@ var cleanToolObjects = function () {
 };
 
 (function(){
-    Game.MineType = getMineType();
+    //Game.MineType = getMineType();
     if(typeof(Storage)!=="undefined") {
         if (localStorage.firstScore == null) localStorage.firstScore = 0;
         if (localStorage.secondScore == null) localStorage.secondScore = 0;
