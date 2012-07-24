@@ -3,12 +3,12 @@ var MineType = {
         big: {
             value: 10,
             weight: 100,
-            image: Game.theme.big_rock
+            image: global.theme.big_rock
         },
         small: {
             value: 5,
             weight: 50,
-            image: Game.theme.small_rock
+            image: global.theme.small_rock
         }
     },
     
@@ -16,44 +16,44 @@ var MineType = {
         big: {
             value: 100,
             weight: 100,
-            image: Game.theme.big_gold
+            image: global.theme.big_gold
         },
         small: {
             value: 50,
             weight: 50,
-            image: Game.theme.small_gold
+            image: global.theme.small_gold
         }
     },
     
     Pig: {
         value: 100,
         weight: 50,
-        image: Game.theme.pig
+        image: global.theme.pig
     },
     
     Diamond: {
         big: {
             value: 1000,
             weight: 100,
-            image: Game.theme.big_diamond
+            image: global.theme.big_diamond
         },
         small: {
             value: 500,
             weight: 50,
-            image: Game.theme.small_diamond
+            image: global.theme.small_diamond
         }
     },
     
     Bone: {
         value: 10,
         weight: 40,
-        image: Game.theme.bone
+        image: global.theme.bone
     },
     
     Bomb: {
         value: 0,
         weight: 0,
-        image: Game.theme.bomb
+        image: global.theme.bomb
     }
 };
 
@@ -61,23 +61,23 @@ var ToolType = {
     Milk: {
         LaunchSpeed: -0.1,
         RetrieveSpeed: -0.1,
-        image: Game.theme.milk
+        image: global.theme.milk
     },
     
     Clock: {
         RotateSpeed: -0.1,
-        image: Game.theme.clock
+        image: global.theme.clock
     },
     
     MoneyTree: {
         addValue: 50,
         Multiply: 2,
-        image: Game.theme.money_tree
+        image: global.theme.money_tree
     },
     
     Rich: {
         Probility: 0.2,
-        image: Game.theme.rich
+        image: global.theme.rich
     }
 };
 

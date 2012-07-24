@@ -3,7 +3,7 @@ var GameOverLayer = cc.Layer.extend({
     init:function () {
         var bRet = false;
         if (this._super) {
-            var bg = cc.Sprite.create(Game.theme.info_bg);
+            var bg = cc.Sprite.create(global.theme.info_bg);
             bg.setAnchorPoint(cc.PointZero());
             this.addChild(bg, 0, 1);
 

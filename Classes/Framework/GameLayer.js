@@ -38,7 +38,7 @@ var GameLayer = cc.Layer.extend({
     },
     
     initBackground: function () {
-        var bg = cc.Sprite.create(Game.theme.gamelayer_bg);
+        var bg = cc.Sprite.create(global.theme.gamelayer_bg);
         bg.setAnchorPoint(cc.ccp(0, 0));
         bg.setPosition(this.winSize.width/2, this.winSize.height - 50);
         this.addChild(bg, global.zOrder.Background);

@@ -4,7 +4,7 @@ var StoreLayer = cc.Layer.extend({
         var bRet = false;
             if (this._super()) {
             // background
-            var bg = cc.Sprite.create(Game.theme.storelayer_bg);
+            var bg = cc.Sprite.create(global.theme.storelayer_bg);
             bg.setAnchorPoint(cc.PointZero());
             this.addChild(bg, 0, 1);
             

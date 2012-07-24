@@ -8,7 +8,6 @@ MineObject = cc.Sprite.extend({
     
     ctor: function (object, size) {
         var type = getObjectName(object.type);
-        var MineType = Game.MineType;
         switch (type) {
             case "Rock":
             case "Gold":
@@ -27,13 +26,29 @@ MineObject = cc.Sprite.extend({
                 break;
             case "Bone":
             case "Bomb":
-            case "Pig":
                 this.initWithFile(MineType[type].image);
                 this.value = MineType[type].value;
                 this.weight = MineType[type].weight;
                 this.setPosition(cc.ccp(object.x, object.y));
                 this.type = object.type;
                 break;
+            case "Pig":
+                this.initWithFile(MineType[type].image);
+                this.value = MineType[type].value;
+                this.weight = MineType[type].weight;
+                this.setPosition(cc.ccp(object.x, object.y));
+                this.type = object.type;
+                var point1 = cc.ccp(object.x, object.y);
+                var point2 = cc.ccp(winSize.width - object.x, object.y2);
+                if (!cc.Point.CCPointEqualToPoint(point1, point2)) {
+                    var duration = Math.abs((point2.x -point1.x))/winSize.width * 10;
+                    var tmpMove1 = cc.MoveTo.create(duration, point2);
+                    var tmpMove2 = cc.MoveTo.create(duration, point1);
+                    var seq = cc.Sequence.create(tmpMove1, cc.DelayTime.create(0.2),
+                    cc.FlipX.create(true), tmpMove2, cc.DelayTime.create(0.2), cc.FlipX.create(false));
+                    this.action = cc.RepeatForever.create(seq, null);
+                    this.runAction(this.action);
+                }
         }
         this.zOrder = global.zOrder[type];
         this.scheduleUpdate();

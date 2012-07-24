@@ -83,7 +83,7 @@ cc.loadjs('Classes/Config/Theme.js');
 cc.loadjs('Classes/Config/global.js');
 cc.loadjs('Classes/Config/ObjectType.js');
 cc.loadjs('Classes/Config/Level.js');
-cc.loadjs('Classes/Config/init.js');
+cc.loadjs('Classes/Config/Game.js');
 
 // Framework Module
 cc.loadjs('Classes/Framework/LevelManager.js');

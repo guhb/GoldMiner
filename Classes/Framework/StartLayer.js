@@ -29,7 +29,7 @@ var StartLayer = cc.Layer.extend({
     },
     
     initBackground: function () {
-        var sp = cc.Sprite.create(Game.theme.startlayer_bg);
+        var sp = cc.Sprite.create(global.theme.startlayer_bg);
         sp.setAnchorPoint(cc.PointZero());
         this.addChild(sp, 0, 1);
     },

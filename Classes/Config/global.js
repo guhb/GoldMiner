@@ -2,6 +2,7 @@ var winSize = null;
 var keys = [];
 var global = {
     sound: true,
+    theme: Theme[0],
     Tag:{
         Rock: 900,
         Gold: 901,
@@ -30,42 +31,3 @@ var global = {
     },
     debug: false,
 };
-
-var Game = {
-    round: 1,
-    cur_score: 0,
-    dst_score: 500,
-    time_limit: 60,
-    MineType: null,
-    theme: Theme[0],
-    Speed: {
-        rotate: 1,
-        launch: 1,
-        retrieve: 1
-    },
-    Factor: {
-        add: 0,
-        multiply: 1,
-        probility: 0
-    }
-};
-
-    
-// Lines below intruduce a bug that
-// makes the frame rate fall below 40
-var resume = function () {
-    Game.cur_score = 0;
-    Game.dst_score = 500;
-    Game.time_limit = 60;
-    Game.MineType = getMineType();
-    Game.mineContainer = [];
-    cleanToolObjects();
-};
-var cleanToolObjects = function () {
-    Game.Speed.rotate = 1;
-    Game.Speed.launch = 1;
-    Game.Speed.retrieve = 1;
-    Game.Factor.add = 0;
-    Game.Factor.multiply = 1;
-    Game.Factor.probility = 0;
-}
