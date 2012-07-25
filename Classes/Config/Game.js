@@ -1,6 +1,6 @@
 var Game = {
     round: 5,
-    mission: 1,
+    mission: 4,
     cur_score: 0,
     dst_score: 500,
     time_limit: 60,
@@ -33,9 +33,8 @@ var cleanToolObjects = function () {
 };
 
 (function(){
-    //Game.MineType = getMineType();
     if(typeof(Storage)!=="undefined") {
-        if (localStorage.firstScore == null) localStorage.unlockMission = 1;
+        if (localStorage.unlockMission == null) localStorage.unlockMission = 4;
         if (localStorage.firstScore == null) localStorage.firstScore = 0;
         if (localStorage.secondScore == null) localStorage.secondScore = 0;
         if (localStorage.thirdScore == null) localStorage.thirdScore = 0;
@@ -43,5 +42,4 @@ var cleanToolObjects = function () {
     } else {
         console.error("Sorry! No web storage support..");
     }
-    console.log("Execute.");
 })();

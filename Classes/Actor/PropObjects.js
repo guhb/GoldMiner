@@ -15,7 +15,7 @@ var Milk = cc.Sprite.extend({
         var hook = this.getParent()._hook;
         this.getParent()._propContainer.push("Milk");
         Game.Speed.retrieve = 0.1;
-        hook.setRetrieveSpeed(0.1);
+        //hook.setRetrieveSpeed(0.1);
         //hook.setLaunchSpeed(0.5);
     },
     
@@ -284,8 +284,12 @@ var Sleep = cc.Sprite.extend({
         this.getParent()._propContainer.push("Sleep");
         var children = this.getParent().getChildren();
         for (var i = 0; i < children.length; i++) {
-            if (children[i] != this.getParent()._hook)
-               children[i].stopAllActions();
+            //if (children[i] != this.getParent()._hook)
+             //  children[i].stopAllActions();
+            if (children[i].type >= global.Tag.Rock
+            && children[i].type <= global.Tag.Bomb) {
+                children[i].stopAllActions();
+            }
         }
     },
     
@@ -367,7 +371,7 @@ var Bump = cc.Sprite.extend({
                         var ylen = Math.pow(that._hook.getPositionY() - that.mineContainer[i].getPositionY(), 2);
                     
                         distance = Math.sqrt(xlen + ylen);
-                        if (distance < 32) {
+                        if (distance < 40) {
                             that._hook.retrieve();
                         }
                     }
@@ -376,7 +380,7 @@ var Bump = cc.Sprite.extend({
         };
         that.schedule(bump);
         setTimeout(function () {
-            that.unshedule(bump);
+            that.unschedule(bump);
         },
         10 * 1000);
     },
@@ -417,6 +421,10 @@ var Smaller = cc.Sprite.extend({
             //if (children[i].type != /*Small Type*/) {
             //    children[i].setScale(0.5);
             //}
+            if (children[i].type >= global.Tag.Rock
+            && children[i].type <= global.Tag.Bomb) {
+                children[i].setScale(0.5);
+            }
         }
     },
     
@@ -456,6 +464,10 @@ var Bigger = cc.Sprite.extend({
             //if (children[i].type != /*Big Type*/) {
             //    children[i].setScale(2);
             //}
+            if (children[i].type >= global.Tag.Rock
+            && children[i].type <= global.Tag.Bomb) {
+                children[i].setScale(2);
+            }
         }
     },
     
@@ -494,14 +506,52 @@ var Sort = cc.Sprite.extend({
         var x = 100;
         var children = this.getParent().getChildren();
         for (var i = 0; i < children.length; i++) {
-            children[i].stopAllActions();
-            children[i].setPosition(cc.ccp(x, y));
-            x += 100;
-            if (x >= winSize.width) {
-                x = 100;
-                y += 100;
+            if (children[i].type >= global.Tag.Rock
+            && children[i].type <= global.Tag.Bomb) {
+                children[i].stopAllActions();
+                children[i].setPosition(cc.ccp(x, y));
+                x += 100;
+                if (x >= winSize.width) {
+                    x = 100;
+                    y += 100;
+                }
             }
         }
+    },
+    
+    getValue: function () {
+        return 0;
+    },
+    
+    getWeight: function () {
+        return 10;
+    },
+    update: function () {
+        if (cc.Point.CCPointEqualToPoint(this.getPosition()
+            ,cc.ccp(400, 430))
+            && this.getIsVisible())
+            this.setIsVisible(false);
+            
+        if (!this.getIsVisible()) this.use();
+    }
+});
+
+var Longer = cc.Sprite.extend({
+    type: null,
+    weight: 0,
+    action: null,
+    zOrder: 0,
+    
+    ctor: function (object) {
+        this.initWithFile(PropType.Sleep.image);
+        this.setPosition(cc.ccp(object.x, object.y));
+        this.type = object.type;
+        this.scheduleUpdate();
+    },
+    
+    use: function () {
+        this.getParent()._hook.initWithFile(s_hook_long);
+        this.getParent()._hook.setAnchorPoint(cc.ccp(0.5, 1));
     },
     
     getValue: function () {

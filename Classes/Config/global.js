@@ -16,7 +16,7 @@ var global = {
         Rich: 909,
         Quik: 910,
         Clock: 911,
-        Bone: 912,
+        //Bone: 912,
         Silent: 913,
         Thunder: 914,
         Alarm: 915,

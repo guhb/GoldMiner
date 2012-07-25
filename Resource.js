@@ -14,6 +14,7 @@ var s_background2 = "Resources/background2.png";
 var s_background3 = "Resources/background3.png";
 var s_start_menu = "Resources/start_menu.png";
 var s_hook = "Resources/hook.png";
+var s_hook_long = "Resources/hook_long.png";
 var s_big_rock = "Resources/big_rock.png";
 var s_small_rock = "Resources/small_rock.png";
 var s_big_gold = "Resources/big_gold.png";
@@ -62,6 +63,7 @@ var g_ressources = [
     {type:"image", src:s_background3},
     {type:"image", src:s_start_menu},
     {type:"image", src:s_hook},
+    {type:"image", src:s_hook_long},
     {type:"image", src:s_big_rock},
     {type:"image", src:s_small_rock},
     {type:"image", src:s_big_gold},

@@ -27,9 +27,10 @@ var MissionLayer = cc.Layer.extend({
     initMissionView: function () {
         this._missionView = cc.Menu.create(null);
         var unlock = Number(localStorage.unlockMission);
+        console.log("mi-unlock" + unlock);
         for (var i = 0; i < Mission.length; i++) {
             var mis = cc.Sprite.create(Mission[i].image);
-            if (i > unlock-1) mis.setOpacity(0.2);
+            //if (i > unlock-1) mis.setOpacity(0.8);
             var misItem = cc.MenuItemSprite.create(mis, null,null, this, this.onMissionSelected);
             this._missionView.addChild(misItem);
         }
@@ -74,11 +75,16 @@ var MissionLayer = cc.Layer.extend({
             this._missionView.setPosition(nextPos);
             this._beginPos = touchLocation;
             this._curPos = nextPos;
+            this._direction = touches[0].locationInView(0).x - touches[0].previousLocationInView(0).x;
         }
     },
     
     ccTouchesEnded: function (touches, event) {
-        this._num = Math.ceil(Math.abs(this._curPos.x - this._begin) / (this._missionWidth + 10));
+        if (this._direction < 0) {
+            this._num = Math.ceil(Math.abs(this._curPos.x - this._begin) / (this._missionWidth + 10))+1;
+        } else {
+            this._num = Math.ceil(Math.abs(this._curPos.x - this._begin) / (this._missionWidth + 10));
+        }
         
         this.moveToMission(this._num);
         this.isMouseDown = false;
@@ -86,12 +92,13 @@ var MissionLayer = cc.Layer.extend({
     
     moveToMission: function (num) {
          var end = this._begin - (num - 1)* (this._missionWidth + 10);
-         var action = cc.MoveTo.create(0.05, cc.ccp(end, winSize.height/2));
+         var action = cc.MoveTo.create(0.1, cc.ccp(end, winSize.height/2));
          this._missionView.runAction(action);
     },
     
     onMissionSelected: function () {
         var unlock = Number(localStorage.unlockMission);
+        console.log("unlock:" + unlock + "_num: " + this._num);
         if (this._num <= unlock) {
             Game.mission = this._num;
             resume();

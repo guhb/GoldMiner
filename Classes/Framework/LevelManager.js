@@ -50,7 +50,7 @@ var LevelManager = cc.Class.extend({
             } 
         }
         var object = {}; object.type = 1; object.x = 300; object.y = 400;
-        var prop = new PropType["Clock"].create(object);
+        var prop = new PropType["Longer"].create(object);
         this._gameLayer.addChild(prop, 60);
         this._gameLayer.mineContainer.push(prop);
     }

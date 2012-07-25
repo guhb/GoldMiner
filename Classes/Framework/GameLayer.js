@@ -210,6 +210,7 @@ var GameLayer = cc.Layer.extend({
                             this.mineContainer[i].stopAllActions();
                             
                         if (this._propContainer.indexOf("Milk") == -1) {
+                            Game.Speed.retrieve = this.mineContainer[i].weight/50;
                             this._hook.setRetrieveSpeed(this.mineContainer[i].weight/50);
                         }
                         

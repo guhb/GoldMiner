@@ -133,12 +133,19 @@ var PropType = {
     Sort: {
         create: Sort,
         image: s_milk
-    } // Sort out the animals
+    }, // Sort out the animals
+    Longer: {
+        create: Longer,
+        image: s_hook_long
+    }
 };
 
 var getObjectName = function (tag) {
     var name = ["Rock","Gold","Pig","Diamond","Bone","Bomb",
-                "Milk","Clock","MoneyTree","Rich"];
+                "Milk","Clock","MoneyTree","Rich",
+                "Quik","Clock","Silent","Thunder","Alarm",
+                "Sleep","Lighter","Bump","Smaller","Bigger",
+                "Sort"];
     return name[tag-global.Tag.Rock];
 };
 
