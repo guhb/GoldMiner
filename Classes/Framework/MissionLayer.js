@@ -2,8 +2,11 @@ var MissionLayer = cc.Layer.extend({
     _missionView: null,
     _curPos: 500,
     _beginPos: null,
-    _missionWidth: 150,
+    _missionWidth: 200,
     _isMouseDown: false,
+    _missions: 4,
+    _begin: null,
+    _num: 1,
     
     init:function () {
         var bRet = false;
@@ -22,74 +25,90 @@ var MissionLayer = cc.Layer.extend({
     },
     
     initMissionView: function () {
-        var newGameNormal = cc.Sprite.create(s_start_menu, cc.RectMake(0, 0, 250, 210));
-        var newGameSelected = cc.Sprite.create(s_start_menu, cc.RectMake(0, 210, 250, 210));
-        var newGameDisabled = cc.Sprite.create(s_start_menu, cc.RectMake(0, 420, 250, 210));
+        this._missionView = cc.Menu.create(null);
+        var unlock = Number(localStorage.unlockMission);
+        for (var i = 0; i < Mission.length; i++) {
+            var mis = cc.Sprite.create(Mission[i].image);
+            if (i > unlock-1) mis.setOpacity(0.2);
+            var misItem = cc.MenuItemSprite.create(mis, null,null, this, this.onMissionSelected);
+            this._missionView.addChild(misItem);
+        }
         
-        var gameSettingsNormal = cc.Sprite.create(s_start_menu, cc.RectMake(250, 0, 250, 210));
-        var gameSettingsSelected = cc.Sprite.create(s_start_menu, cc.RectMake(250, 210, 250, 210));
-        var gameSettingsDisabled = cc.Sprite.create(s_start_menu, cc.RectMake(250, 420 * 2, 250, 210));
-        
-        var recordNormal = cc.Sprite.create(s_start_menu, cc.RectMake(500, 0, 250, 210));
-        var recordSelected = cc.Sprite.create(s_start_menu,cc.RectMake(500, 210, 250, 210));
-        var recordDisabled = cc.Sprite.create(s_start_menu, cc.RectMake(500, 420, 250, 210));
-
-        var aboutNormal = cc.Sprite.create(s_start_menu,cc.RectMake(750, 0, 250, 210));
-        var aboutSelected = cc.Sprite.create(s_start_menu, cc.RectMake(750, 210, 250, 210));
-        var aboutDisabled = cc.Sprite.create(s_start_menu, cc.RectMake(750, 420, 250, 210));
-
-        var newGame = cc.MenuItemSprite.create(newGameNormal, newGameSelected,newGameDisabled, this, this.onMissionSelected);
-
-        var gameSettings = cc.MenuItemSprite.create(gameSettingsNormal, gameSettingsSelected, gameSettingsDisabled, this, this.onMissionSelected);
-        var record = cc.MenuItemSprite.create(recordNormal, recordSelected, recordDisabled, this, this.onMissionSelected);
-        var about = cc.MenuItemSprite.create(aboutNormal, aboutSelected, aboutDisabled, this, this.onMissionSelected);
-
-        this._missionView = cc.Menu.create(record, newGame,  about, gameSettings);
         this._missionView.alignItemsHorizontallyWithPadding(10);
-        this.addChild(this._missionView, 1, 2);
-        this._missionView.setAnchorPoint(cc.ccp(0,0));
-        this._missionView.setPosition(cc.ccp(this._curPos, winSize.height / 2));
-        this._missionView.setScale(0.5);
+        //this._missionView.setContentSize(cc.SizeMake(210*4, 120));
+        this.addChild(this._missionView, 2, 2);
+        this._missionView.setAnchorPoint(cc.ccp(0,0.5));
+        this._begin = winSize.width / 2 - 100 + (this._missionWidth * this._missions + (this._missions-1) * 10) / 2;
+        this._missionView.setPosition(cc.ccp(this._begin, winSize.height / 2));
+        
+        var s = cc.Sprite.create(s_mission1);
+        s.setScaleY(1.2);
+        s.setPosition(winSize.width/2, winSize.height/2);
+        this.addChild(s, 1);
     },
     
     ccTouchesBegan: function (touches, event) {
         if (!this.isMouseDown) {
             this._beginPos = touches[0].locationInView(0).x;
         }
-        //var X = touches[0].locationInView(0).x;
-        console.log(X);
+        this.isMouseDown = true;
     },
     
     ccTouchesMoved: function (touches, event) {
-        var x1 = touches[0].locationInView(0).x;
-        var x2 = touches[0].previousLocationInView(0).x;
-        //this._missionView.setPosition(cc.ccp());
-    },
-    
-    ccTouchesEnded: function (touches, event) {
-        var X = touches[0].locationInView(0).x;
-        if (X - this._beginPos > 0) {
-            this._curPos += this._missionWidth;
-            var move = cc.MoveTo.create(0.1, cc.ccp(this._curPos, winSize.height/2));
-            this._missionView.runAction(move);
-        } else {
-            this._curPos -= this._missionWidth;
-            var move = cc.MoveTo.create(0.1, cc.ccp(this._curPos, winSize.height/2));
-            this._missionView.runAction(move);
+        if (this.isMouseDown) {
+            var touchLocation = touches[0].locationInView(0).x;
+            var nMoveX = touchLocation - this._beginPos;
+            this._curPos = this._missionView.getPosition();
+
+            var nextPos = cc.ccp(this._curPos.x + nMoveX, this._curPos.y);
+            /*
+            if (nextPos.x < 0.0) {
+                this._missionView.setPosition(cc.ccp(0, winSize.height/2));
+                return;
+            }
+
+            if (nextPos.y > ((testNames.length + 1) * LINE_SPACE - winSize.height)) {
+                this._itemMenu.setPosition(cc.ccp(0, ((testNames.length + 1) * LINE_SPACE - winSize.height)));
+                return;
+            }*/
+            this._missionView.setPosition(nextPos);
+            this._beginPos = touchLocation;
+            this._curPos = nextPos;
         }
     },
     
-    onMissionSelected: function (pSender) {
-        var mission = (this._curPos - 500) / this._missionWidth;
-        console.log(mission);
+    ccTouchesEnded: function (touches, event) {
+        this._num = Math.ceil(Math.abs(this._curPos.x - this._begin) / (this._missionWidth + 10));
+        
+        this.moveToMission(this._num);
+        this.isMouseDown = false;
     },
-
-    onPlayAgain:function (pSender) {
-        resume();
-        var scene = cc.Scene.create();
-        scene.addChild(GameLayer.create());
-        scene.addChild(GameControlMenu.create());
-        cc.Director.sharedDirector().replaceScene(cc.TransitionFade.create(1.2,scene));
+    
+    moveToMission: function (num) {
+         var end = this._begin - (num - 1)* (this._missionWidth + 10);
+         var action = cc.MoveTo.create(0.05, cc.ccp(end, winSize.height/2));
+         this._missionView.runAction(action);
+    },
+    
+    onMissionSelected: function () {
+        var unlock = Number(localStorage.unlockMission);
+        if (this._num <= unlock) {
+            Game.mission = this._num;
+            resume();
+            var scene = cc.Scene.create();
+            scene.addChild(GameLayer.create());
+            scene.addChild(GameControlMenu.create());
+            cc.Director.sharedDirector().replaceScene(cc.TransitionFade.create(1.2,scene));
+        } else {
+            this.showIndication();
+        }
+    },
+    
+    showIndication: function () {
+        // Indicate the use that the mission is
+        // not unlocked. and counts needed to
+        // unlock it.
+        console.log("Indication");
     }
 });
 

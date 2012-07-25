@@ -28,6 +28,10 @@ var s_clock = "Resources/clock.png";
 var s_money_tree = "Resources/money_tree.png";
 var s_rich = "Resources/rich.png";
 var s_accept = "Resources/accept.png";
+var s_mission1 = "Resources/mission1.png";
+var s_mission2 = "Resources/mission2.png";
+var s_mission3 = "Resources/mission3.png";
+var s_mission4 = "Resources/mission4.png";
 
 //music
 var s_bgMusic = "Resources/Music/bgMusic";
@@ -72,6 +76,10 @@ var g_ressources = [
     {type:"image", src:s_money_tree},
     {type:"image", src:s_rich},
     {type:"image", src:s_accept},
+    {type:"image", src:s_mission1},
+    {type:"image", src:s_mission2},
+    {type:"image", src:s_mission3},
+    {type:"image", src:s_mission4},
     
     //plist
     {type:"plist", src:s_explosion_plist},

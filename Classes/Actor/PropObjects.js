@@ -88,6 +88,25 @@ var Clock = cc.Sprite.extend({
     use: function () {
         // pause the time counter interval and 
         // resume it after a amount of time
+        var that = this.getParent();
+        clearInterval(that._roundInterval);
+        
+        setTimeout(
+            function () {
+                //that = that.getParent();
+                if(that._time_limit >= 0)
+                {
+                    that._roundInterval = setInterval(
+                        function(){
+                            that._time_limit--;
+                            that._lbTime.setString("Time: 00:"+that._time_limit);
+                        },
+                        1000
+                    );
+                }
+            },
+            10 * 1000
+        );
     },
     
     getValue: function () {
@@ -114,12 +133,15 @@ var Bone = cc.Sprite.extend({
     zOrder: 0,
     
     ctor: function (object) {
-
+        this.initWithFile(PropType.Bone.image);
+        this.setPosition(cc.ccp(object.x, object.y));
+        this.type = object.type;
+        this.scheduleUpdate();
     },
     
     use: function () {
-        // pause the time counter interval and 
-        // resume it after a amount of time
+        //var dog = this.getParent().getChildByTag(global.Tag.Dog);
+        //dog.eatBone();
     },
     
     getValue: function () {
@@ -153,6 +175,8 @@ var Silent = cc.Sprite.extend({
     },
     
     use: function () {
+        //var dog = this.getParent().getChildByTag(global.Tag.Dog);
+        //dog.silent();
     },
     
     getValue: function () {
@@ -186,6 +210,8 @@ var Alarm = cc.Sprite.extend({
     },
     
     use: function () {
+        // display the alarm animation and end the game
+        // as the farmer is waked up.
     },
     
     getValue: function () {
@@ -219,6 +245,8 @@ var Thunder = cc.Sprite.extend({
     },
     
     use: function () {
+        // display a thunder and wake up all the
+        // animals, make them wounder around
     },
     
     getValue: function () {
@@ -292,6 +320,10 @@ var Lighter = cc.Sprite.extend({
     },
     
     use: function () {
+        var children = this.getParent().getChildren();
+        for (var i = 0; i < children.length; i++) {
+            children[i].weight /= 2;
+        }
     },
     
     getValue: function () {
@@ -325,6 +357,28 @@ var Bump = cc.Sprite.extend({
     },
     
     use: function () {
+        var that = this.getParent();
+        var bump = function () {
+            if (that._hook.getState() == "launch") {
+                var distance = null;
+                for (var i=0; i<that.mineContainer.length; i++) {
+                    if (that.mineContainer[i] != null) {
+                        var xlen = Math.pow(that._hook.getPositionX() - that.mineContainer[i].getPositionX(), 2);
+                        var ylen = Math.pow(that._hook.getPositionY() - that.mineContainer[i].getPositionY(), 2);
+                    
+                        distance = Math.sqrt(xlen + ylen);
+                        if (distance < 32) {
+                            that._hook.retrieve();
+                        }
+                    }
+                }
+            }
+        };
+        that.schedule(bump);
+        setTimeout(function () {
+            that.unshedule(bump);
+        },
+        10 * 1000);
     },
     
     getValue: function () {
@@ -358,6 +412,12 @@ var Smaller = cc.Sprite.extend({
     },
     
     use: function () {
+        var children = this.getParent().getChildren();
+        for (var i = 0; i < children.length; i++) {
+            //if (children[i].type != /*Small Type*/) {
+            //    children[i].setScale(0.5);
+            //}
+        }
     },
     
     getValue: function () {
@@ -391,6 +451,12 @@ var Bigger = cc.Sprite.extend({
     },
     
     use: function () {
+        var children = this.getParent().getChildren();
+        for (var i = 0; i < children.length; i++) {
+            //if (children[i].type != /*Big Type*/) {
+            //    children[i].setScale(2);
+            //}
+        }
     },
     
     getValue: function () {
@@ -424,6 +490,18 @@ var Sort = cc.Sprite.extend({
     },
     
     use: function () {
+        var y = 100;
+        var x = 100;
+        var children = this.getParent().getChildren();
+        for (var i = 0; i < children.length; i++) {
+            children[i].stopAllActions();
+            children[i].setPosition(cc.ccp(x, y));
+            x += 100;
+            if (x >= winSize.width) {
+                x = 100;
+                y += 100;
+            }
+        }
     },
     
     getValue: function () {

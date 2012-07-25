@@ -106,4 +106,23 @@ var Round = [
         {type: global.Tag.Bomb,    x: 440, y: 210},
         {type: global.Tag.Bomb,    x: 590, y: 260}
     ],
-]
+];
+
+Mission = [
+    {
+        round: Round,
+        image: s_mission1
+    },
+    {
+        round: Round,
+        image: s_mission2
+    },
+    {
+        round: Round,
+        image: s_mission3
+    },
+    {
+        round: Round,
+        image: s_mission4
+    }
+];

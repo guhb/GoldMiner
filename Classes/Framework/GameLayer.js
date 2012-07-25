@@ -2,6 +2,7 @@ var GameLayer = cc.Layer.extend({
     _time_limit: 30,
     _cur_score: 0,
     _dst_score: 200,
+    _roundInterval: null,
     _hook: null,
     _mineContainer: [],
     _propContainer: [],
@@ -75,7 +76,7 @@ var GameLayer = cc.Layer.extend({
         var that = this;
         if(this._time_limit >= 0)
         {
-            this.roundInterval = setInterval(
+            this._roundInterval = setInterval(
                 function(){
                     that._time_limit--;
                     that._lbTime.setString("Time: 00:"+that._time_limit);
@@ -241,11 +242,21 @@ var GameLayer = cc.Layer.extend({
     },
     
     onNextGame: function () {
-        var scene = cc.Scene.create();
-        scene.addChild(StoreLayer.create());
-        scene.addChild(GameControlMenu.create());
-        cc.Director.sharedDirector().replaceScene(cc.TransitionFade.create(1.2, scene));
-        this.getParent().removeChild(this);
+        if (Game.round != NUMBER_OF_ROUNDS) {
+            var scene = cc.Scene.create();
+            scene.addChild(StoreLayer.create());
+            scene.addChild(GameControlMenu.create());
+            cc.Director.sharedDirector().replaceScene(cc.TransitionFade.create(1.2, scene));
+            this.getParent().removeChild(this);
+        } else {
+            var scene = cc.Scene.create();
+            scene.addChild(MissionLayer.create());
+            scene.addChild(GameControlMenu.create());
+            MissionLayer.moveToMission(Game.mission);
+            cc.Director.sharedDirector().replaceScene(cc.TransitionFade.create(1.2, scene));
+            this.getParent().removeChild(this);
+        }
+        
     },
     
     onReturn: function () {

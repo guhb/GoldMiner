@@ -13,7 +13,19 @@ var global = {
         Milk: 906,
         Clock: 907,
         MoneyTree: 908,
-        Rich: 909
+        Rich: 909,
+        Quik: 910,
+        Clock: 911,
+        Bone: 912,
+        Silent: 913,
+        Thunder: 914,
+        Alarm: 915,
+        Sleep: 916,
+        Lighter: 917,
+        Bump: 918,
+        Smaller: 919,
+        Bigger: 920,
+        Sort: 921
     },
     zOrder: {
         Background: -10,
@@ -27,6 +39,7 @@ var global = {
         Bone: 45,
         Bomb: 46,
         Tool: 47,
+        Prop: 48,
         Menu: 60
     },
     debug: false,

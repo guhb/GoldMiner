@@ -98,7 +98,6 @@ var PropType = {
         create: Bone,
         image: s_bone
     }, // Make the dog sleep
-    
     Silent: {
         create: Silent,
         image: s_milk
