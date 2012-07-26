@@ -1,6 +1,7 @@
 var Game = {
-    round: 5,
-    mission: 4,
+    round: 1,
+    mission: 1,
+    unlock: 3,
     cur_score: 0,
     dst_score: 500,
     time_limit: 60,
@@ -17,6 +18,8 @@ var Game = {
 };
 
 var resume = function () {
+    Game.round = 1;
+    Game.mission = 1;
     Game.cur_score = 0;
     Game.dst_score = 500;
     Game.time_limit = 60;
@@ -34,7 +37,7 @@ var cleanToolObjects = function () {
 
 (function(){
     if(typeof(Storage)!=="undefined") {
-        if (localStorage.unlockMission == null) localStorage.unlockMission = 4;
+        if (localStorage.unlockMission == null) localStorage.unlockMission = 1;
         if (localStorage.firstScore == null) localStorage.firstScore = 0;
         if (localStorage.secondScore == null) localStorage.secondScore = 0;
         if (localStorage.thirdScore == null) localStorage.thirdScore = 0;

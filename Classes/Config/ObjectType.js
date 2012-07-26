@@ -85,11 +85,11 @@ var PropType = {
     Milk: {
         create: Milk,
         image: s_milk
-    }, // Make the hook quicker
+    }, // Make the hook retrieve quicker
     Quick: {
         create: Quick,
         image: s_milk
-    }, // Make the hook quicker
+    }, // Make the hook rotate quicker
     Clock: {
         create: Clock,
         image: s_clock
@@ -112,7 +112,7 @@ var PropType = {
     }, // Wake out the farmer
     Sleep: {
         create: Sleep,
-        image: s_bone
+        image: s_milk
     }, // Make the animals sleep
     Lighter: {
         create: Lighter,
@@ -163,7 +163,7 @@ var getObjectName = function (tag) {
             // ToolObjects
             "Milk","Clock","MoneyTree","Rich",
             // PropObjects
-            "Quik","Clock","Silent","Thunder","Alarm",
+            "Milk","Quik","Clock","Silent","Thunder","Alarm",
             "Sleep","Lighter","Bump","Smaller","Bigger",
             "Sort","Longer","Frozen","Reverse","Scan",
             "Shift"];

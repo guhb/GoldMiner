@@ -4,7 +4,7 @@ var MissionLayer = cc.Layer.extend({
     _beginPos: null,
     _missionWidth: 200,
     _isMouseDown: false,
-    _missions: 4,
+    _missions: 1,
     _begin: null,
     _num: 1,
     
@@ -16,6 +16,7 @@ var MissionLayer = cc.Layer.extend({
             bg.setAnchorPoint(cc.PointZero());
             this.addChild(bg, 0, 1);
             
+            this._missions = Game.unlock;
             this.initMissionView();
 
             bRet = true;
@@ -26,11 +27,12 @@ var MissionLayer = cc.Layer.extend({
     
     initMissionView: function () {
         this._missionView = cc.Menu.create(null);
-        var unlock = Number(localStorage.unlockMission);
+        //var unlock = Number(localStorage.unlockMission);
+        var unlock = this._missions;
         console.log("mi-unlock" + unlock);
         for (var i = 0; i < Mission.length; i++) {
             var mis = cc.Sprite.create(Mission[i].image);
-            //if (i > unlock-1) mis.setOpacity(0.8);
+            if (i > unlock-1) mis.setOpacity(0.8);
             var misItem = cc.MenuItemSprite.create(mis, null,null, this, this.onMissionSelected);
             this._missionView.addChild(misItem);
         }
@@ -97,11 +99,12 @@ var MissionLayer = cc.Layer.extend({
     },
     
     onMissionSelected: function () {
-        var unlock = Number(localStorage.unlockMission);
+        //var unlock = Number(localStorage.unlockMission);
+        var unlock = Game.unlock;
         console.log("unlock:" + unlock + "_num: " + this._num);
-        if (this._num <= unlock) {
-            Game.mission = this._num;
+        if (this._num <= Game.unlock) {
             resume();
+            Game.mission = this._num;
             var scene = cc.Scene.create();
             scene.addChild(GameLayer.create());
             scene.addChild(GameControlMenu.create());

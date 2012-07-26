@@ -1,22 +1,24 @@
 var LevelManager = cc.Class.extend({
-    _currentRound:null,
-    _gameLayer:null,
-    ctor:function(gameLayer){
-        if(!gameLayer){
+    _currentRound: null,
+    _currentMission: null,
+    _gameLayer: null,
+    ctor: function (gameLayer) {
+        if (!gameLayer) {
             throw "gameLayer must be non-nil";
         }
         this._currentRound = Game.round;
+        this._currentMission = Game.mission;
         this._gameLayer = gameLayer;
     },
 
-    _minuteToSecond:function(minuteStr){
-        if(!minuteStr)
+    _minuteToSecond: function (minuteStr) {
+        if (!minuteStr)
             return 0;
-        if(typeof(minuteStr) !=  "number"){
+        if (typeof(minuteStr) !=  "number") {
             var mins = minuteStr.split(':');
-            if(mins.length == 1){
+            if (mins.length == 1){
                 return parseInt(mins[0]);
-            }else {
+            } else {
                 return parseInt(mins[0] )* 60 + parseInt(mins[1]);
             }
         }
@@ -45,13 +47,24 @@ var LevelManager = cc.Class.extend({
             var size = Math.round(Math.random()+Game.Factor.probility);
             var mine = new MineObject(Round[round][i], size);
             if (mine != null) {
-                this._gameLayer.addChild(mine, mine.zOrder);
+                this._gameLayer.addChild(mine, mine.zOrder, mine.type);
                 this._gameLayer.mineContainer.push(mine);
             } 
         }
-        var object = {}; object.type = 1; object.x = 300; object.y = 400;
-        var prop = new PropType["Longer"].create(object);
-        this._gameLayer.addChild(prop, 60);
+        
+        var mission = this._currentMission;
+        this._gameLayer.propContainer = [];
+        var object = {};
+        object.x = Math.random() * winSize.width;
+        if (object.x <= 0) ojbect.x = 20;
+        else if (object.x >= winSize.width) object.x = winSize.width - 20;
+        object.y = Math.random() * winSize.height - 70;
+        if (object.y <= 0) object.y = 40;
+        else if (object.y >= winSize.height - 70) ojbect.y = 40;
+        var type = Mission[mission-1].props[round];
+        object.type = global.Tag[type]; 
+        var prop = new PropType[type].create(object);
+        this._gameLayer.addChild(prop, global.zOrder.Prop);
         this._gameLayer.mineContainer.push(prop);
     }
 });

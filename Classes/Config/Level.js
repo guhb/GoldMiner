@@ -111,18 +111,17 @@ var Round = [
 Mission = [
     {
         round: Round,
-        image: s_mission1
+        image: s_mission4,
+        props: ["Milk", "Clock", "Sleep", "Lighter", "Smaller", "Longer"]
     },
     {
         round: Round,
-        image: s_mission2
+        image: s_mission2,
+        props: ["Bump", "Bigger", "Scan", "Sort", "Shift", "Quick"]
     },
     {
         round: Round,
-        image: s_mission3
-    },
-    {
-        round: Round,
-        image: s_mission4
+        image: s_mission3,
+        props: ["Frozen", "Reverse", "Silent", "Thunder", "Alarm", "Bone"]
     }
 ];

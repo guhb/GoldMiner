@@ -14,7 +14,7 @@ var Milk = cc.Sprite.extend({
     use: function () {
         var hook = this.getParent()._hook;
         this.getParent()._propContainer.push("Milk");
-        Game.Speed.retrieve = 0.1;
+        Game.Speed.retrieve = 0.3;
     },
     
     getValue: function () {
@@ -47,7 +47,7 @@ var Quick = cc.Sprite.extend({
     use: function () {
         var hook = this.getParent()._hook;
         this.getParent()._propContainer.push("Clock");
-        Game.Speed.rotate = 0.5;
+        Game.Speed.rotate = 0.4;
     },
     
     getValue: function () {

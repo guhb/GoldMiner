@@ -15,7 +15,7 @@ var global = {
         MoneyTree: 908,
         Rich: 909,
         Quik: 910,
-        Clock: 911,
+        //Clock: 911,
         //Bone: 912,
         Silent: 913,
         Thunder: 914,
