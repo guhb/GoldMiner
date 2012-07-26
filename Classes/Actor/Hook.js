@@ -95,6 +95,7 @@ Hook = cc.Sprite.extend({
     update:function(){
         if (this.launchAction && this.launchAction.isDone()
             && this.state == "launch") {
+            Game.Speed.retrieve = 1;
             this.retrieve();
         } else if (this.retrieveAction && this.retrieveAction.isDone()
                     && this.state == "retrieve") {

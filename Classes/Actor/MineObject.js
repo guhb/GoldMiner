@@ -57,15 +57,11 @@ MineObject = cc.Sprite.extend({
     getValue: function () {
         return this.value;
     },
-    
     getWeight: function () {
         return this.weight;
     },
-    
     update: function () {
-        if (cc.Point.CCPointEqualToPoint(this.getPosition()
-            ,cc.ccp(400, 430))
-            && this.getIsVisible())
-            this.setIsVisible(false);
+        if (cc.Point.CCPointEqualToPoint(this.getPosition(), this.getParent()._hook.getOriginPosition()))
+            this.getParent().removeChild(this);
     }
 });
