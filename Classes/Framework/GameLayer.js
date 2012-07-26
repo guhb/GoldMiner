@@ -111,8 +111,7 @@ var GameLayer = cc.Layer.extend({
         this._super();
         cc.renderContext.lineWidth = 2;
         cc.renderContext.strokeStyle = "#eedc4a";
-        cc.drawingUtil.drawLine(new cc.ccp(this.winSize.width/2,this.winSize.height-50),
-                               this._hook.getPosition());
+        cc.drawingUtil.drawLine(this._hook.getOriginPosition(), this._hook.getPosition());
     },
     
     setCurScore: function (score) {
@@ -157,10 +156,10 @@ var GameLayer = cc.Layer.extend({
         this.checkCollision();
         if (this.collectAction && this.collectAction.isDone()) {
             if (this.collectedObject != null) {
-                this.collectedObject.setIsVisible(false);
+                //this.collectedObject.setIsVisible(false);
                 this.updateScore(this.collectedObject.getValue()
                                  + Game.Factor.add);
-                this.removeChild(this.collectedObject);
+                //this.removeChild(this.collectedObject);
                 this.collectedObject = null;
                 this.collectAction = null;
             }
@@ -169,8 +168,10 @@ var GameLayer = cc.Layer.extend({
         
     getDstPoint: function () {
         var size = cc.Director.sharedDirector().getWinSize();
-        var mx = size.width / 2;
-        var my = size.height - 50;
+        //var mx = size.width / 2;
+        //var my = size.height - 50;
+        var mx = this._hook.getPositionX();
+        var my = this._hook.getPositionY();
         var desX = null;
         var desY = null;
         var border = 10;
@@ -210,12 +211,13 @@ var GameLayer = cc.Layer.extend({
                             this.mineContainer[i].stopAllActions();
                             
                         if (this._propContainer.indexOf("Milk") == -1) {
-                            Game.Speed.retrieve = this.mineContainer[i].weight/50;
-                            this._hook.setRetrieveSpeed(this.mineContainer[i].weight/50);
+                            var speed = this.mineContainer[i].weight/50;
+                            if (speed <= 0.2) speed = 0.2;
+                            Game.Speed.retrieve = speed;
+                            this._hook.setRetrieveSpeed(speed);
                         }
                         
-                        this.collectAction = cc.MoveTo.create(this._hook.getRetrieveSpeed(),
-                                                            this._hook.getOriginPosition());
+                        this.collectAction = cc.MoveTo.create(this._hook.getRetrieveSpeed(), this._hook.getOriginPosition());
                         this.mineContainer[i].runAction(this.collectAction);
                         this.collectedObject = this.mineContainer[i];
                         this.mineContainer[i] = null;

@@ -105,11 +105,11 @@ var PropType = {
     Thunder: {
         create: Thunder,
         image: s_milk
-    }, // Wake out farmer*/
+    }, // Wake out the animals
     Alarm: {
         create: Alarm,
         image: s_milk
-    },
+    }, // Wake out the farmer
     Sleep: {
         create: Sleep,
         image: s_bone
@@ -137,15 +137,36 @@ var PropType = {
     Longer: {
         create: Longer,
         image: s_hook_long
-    }
+    }, // Make the hook longer
+    Frozen: {
+        create: Frozen,
+        image: s_milk
+    }, // Frozen the hook for a given time
+    Reverse: {
+        create: Reverse,
+        image: s_milk
+    }, // Reverse the origin launch direction of the hook
+    Scan: {
+        create: Scan,
+        image: s_milk
+    },  // Show a scan line
+    Shift: {
+        create: Shift,
+        image: s_milk
+    } // Shift the position of the hook
 };
 
 var getObjectName = function (tag) {
-    var name = ["Rock","Gold","Pig","Diamond","Bone","Bomb",
-                "Milk","Clock","MoneyTree","Rich",
-                "Quik","Clock","Silent","Thunder","Alarm",
-                "Sleep","Lighter","Bump","Smaller","Bigger",
-                "Sort"];
+    var name = [
+            // MineObjects
+            "Rock","Gold","Pig","Diamond","Bone","Bomb",
+            // ToolObjects
+            "Milk","Clock","MoneyTree","Rich",
+            // PropObjects
+            "Quik","Clock","Silent","Thunder","Alarm",
+            "Sleep","Lighter","Bump","Smaller","Bigger",
+            "Sort","Longer","Frozen","Reverse","Scan",
+            "Shift"];
     return name[tag-global.Tag.Rock];
 };
 

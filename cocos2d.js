@@ -110,4 +110,4 @@ cc.loadjs('Classes/Actor/ToolObject.js');
 
 // Effect Module
 cc.loadjs('Classes/Effect/Effect.js');
-//cc.loadjs('Classes/Effect/Explosion.js');
+cc.loadjs('Classes/Effect/Explosion.js');

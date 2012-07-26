@@ -25,7 +25,12 @@ var global = {
         Bump: 918,
         Smaller: 919,
         Bigger: 920,
-        Sort: 921
+        Sort: 921,
+        Longer: 922,
+        Frozen: 923,
+        Reverse: 924,
+        Scan: 925,
+        Shift: 926
     },
     zOrder: {
         Background: -10,
