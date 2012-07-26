@@ -42,6 +42,8 @@ var cleanToolObjects = function () {
         if (localStorage.secondScore == null) localStorage.secondScore = 0;
         if (localStorage.thirdScore == null) localStorage.thirdScore = 0;
         if (localStorage.yourScore == null) localStorage.yourScore = 0;
+        
+        //Game.unlock = Number(localStorage.unlockMission);
     } else {
         console.error("Sorry! No web storage support..");
     }

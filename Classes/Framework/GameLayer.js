@@ -245,6 +245,17 @@ var GameLayer = cc.Layer.extend({
     },
     
     onNextGame: function () {
+        if (Game.round == 6) {
+            if (Game.unlock + 1 <= NUMBER_OF_MISSIONS) {
+                Game.unlock++;
+                if(typeof(Storage)!=="undefined") {
+                    if (Game.unlock > Number(localStorage.unlock)) localStorage.unlock = Game.unlock;
+                } else {
+                    console.error("Sorry! No web storage support..");
+                }
+            }
+        }
+    
         if (Game.round != NUMBER_OF_ROUNDS) {
             var scene = cc.Scene.create();
             scene.addChild(StoreLayer.create());

@@ -71,7 +71,7 @@ var StartLayer = cc.Layer.extend({
     onNewGame:function (pSender) {
         var scene = cc.Scene.create();
         scene.addChild(MissionLayer.create());
-        scene.addChild(GameControlMenu.create());
+        //scene.addChild(GameControlMenu.create());
         cc.Director.sharedDirector().replaceScene(cc.TransitionMoveInB.create(1.2, scene));
     },
     

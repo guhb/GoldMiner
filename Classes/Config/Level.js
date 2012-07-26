@@ -108,6 +108,8 @@ var Round = [
     ],
 ];
 
+var NUMBER_OF_MISSIONS = 3;
+
 Mission = [
     {
         round: Round,
