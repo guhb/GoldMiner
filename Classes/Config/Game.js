@@ -4,16 +4,13 @@ var Game = {
     unlock: 3,
     cur_score: 0,
     dst_score: 500,
+    money: 5000,
     time_limit: 60,
+    toolContainer: [],
     Speed: {
         rotate: 1,
         launch: 1,
         retrieve: 1
-    },
-    Factor: {
-        add: 0,
-        multiply: 1,
-        probility: 0
     }
 };
 
@@ -30,9 +27,6 @@ var cleanToolObjects = function () {
     Game.Speed.rotate = 1;
     Game.Speed.launch = 1;
     Game.Speed.retrieve = 1;
-    Game.Factor.add = 0;
-    Game.Factor.multiply = 1;
-    Game.Factor.probility = 0;
 };
 
 (function(){

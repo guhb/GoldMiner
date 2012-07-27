@@ -11,6 +11,7 @@ var GameLayer = cc.Layer.extend({
     winSize: null,
     collectAction: null,
     collectedObject: null,
+    shelfMap: null,
     
     init:function () {
         var bRet = false;
@@ -24,6 +25,7 @@ var GameLayer = cc.Layer.extend({
             this.initTimeCounter();
             this.initHook();
             // create map
+            this.initShelfMap();
             this.createMap();
 
             this.setIsTouchEnabled(true);
@@ -100,6 +102,30 @@ var GameLayer = cc.Layer.extend({
     createMap: function () {
         var levelManager = new LevelManager(this);
         levelManager.createMap();
+        var toolManager = new ToolManager(this);
+        toolManager.getTools();
+    },
+    
+    initShelfMap: function () {
+        this.shelfMap = [
+            {x: 60, y: 400},
+            {x: 60, y: 340},
+            {x: 60, y: 280},
+            {x: 60, y: 220},
+            {x: 60, y: 140},
+            {x: 60, y: 120}
+        ];
+    },
+    
+    reOrderToolContainer: function () {
+        var toolManager = new ToolManager(this);
+        toolManager.cleanToolContainer();
+        for (var i = 0; i < Game.toolContainer.length; i++) {
+            if (!cc.Point.CCPointEqualToPoint(Game.toolContainer[i].getPosition(), cc.ccp(this.shelfMap[i].x, this.shelfMap[i].y))) {
+                var action = cc.MoveTo.create(0.1, cc.ccp(this.shelfMap[i].x, this.shelfMap[i].y));
+                Game.toolContainer[i].runAction(action);
+            }
+        }
     },
         
     ccTouchesBegan:function (touches, event) {
@@ -158,8 +184,7 @@ var GameLayer = cc.Layer.extend({
         if (this.collectAction && this.collectAction.isDone()) {
             if (this.collectedObject != null) {
                 //this.collectedObject.setIsVisible(false);
-                this.updateScore(this.collectedObject.getValue()
-                                 + Game.Factor.add);
+                this.updateScore(this.collectedObject.getValue());
                 //this.removeChild(this.collectedObject);
                 this.collectedObject = null;
                 this.collectAction = null;

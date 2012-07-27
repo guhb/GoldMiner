@@ -1,69 +1,3 @@
-var Milk = cc.Sprite.extend({
-    type: null,
-    weight: 25,
-    value: 0,
-    zOrder: 0,
-    
-    ctor: function (object) {
-        this.initWithFile(PropType.Milk.image);
-        this.setPosition(cc.ccp(object.x, object.y));
-        this.type = object.type;
-        this.scheduleUpdate();
-    },
-    
-    use: function () {
-        var hook = this.getParent()._hook;
-        this.getParent()._propContainer.push("Milk");
-        Game.Speed.retrieve = 0.3;
-    },
-    
-    getValue: function () {
-        return this.value;
-    },
-    getWeight: function () {
-        return this.weight;
-    },
-    update: function () {
-        if (cc.Point.CCPointEqualToPoint(this.getPosition(), this.getParent()._hook.getOriginPosition())) {
-            this.use();
-            this.getParent().removeChild(this);
-        }
-    }
-});
-
-var Quick = cc.Sprite.extend({
-    type: null,
-    weight: 25,
-    value: 0,
-    zOrder: 0,
-    
-    ctor: function (object) {
-        this.initWithFile(PropType.Milk.image);
-        this.setPosition(cc.ccp(object.x, object.y));
-        this.type = object.type;
-        this.scheduleUpdate();
-    },
-    
-    use: function () {
-        var hook = this.getParent()._hook;
-        this.getParent()._propContainer.push("Clock");
-        Game.Speed.rotate = 0.4;
-    },
-    
-    getValue: function () {
-        return this.value;
-    },
-    getWeight: function () {
-        return this.weight;
-    },
-    update: function () {
-        if (cc.Point.CCPointEqualToPoint(this.getPosition(), this.getParent()._hook.getOriginPosition())) {
-            this.use();
-            this.getParent().removeChild(this);
-        }
-    }
-});
-
 var Clock = cc.Sprite.extend({
     type: null,
     weight: 25,
@@ -344,40 +278,6 @@ var Sleep = cc.Sprite.extend({
     }
 });
 
-var Lighter = cc.Sprite.extend({
-    type: null,
-    weight: 25,
-    value: 0,
-    zOrder: 0,
-    
-    ctor: function (object) {
-        this.initWithFile(PropType.Sleep.image);
-        this.setPosition(cc.ccp(object.x, object.y));
-        this.type = object.type;
-        this.scheduleUpdate();
-    },
-    
-    use: function () {
-        var children = this.getParent().getChildren();
-        for (var i = 0; i < children.length; i++) {
-            children[i].weight /= 2;
-        }
-    },
-    
-    getValue: function () {
-        return this.value;
-    },
-    getWeight: function () {
-        return this.weight;
-    },
-    update: function () {
-        if (cc.Point.CCPointEqualToPoint(this.getPosition(), this.getParent()._hook.getOriginPosition())) {
-            this.use();
-            this.getParent().removeChild(this);
-        }
-    }
-});
-
 var Bump = cc.Sprite.extend({
     type: null,
     weight: 25,
@@ -510,83 +410,6 @@ var Bigger = cc.Sprite.extend({
     }
 });
 
-var Sort = cc.Sprite.extend({
-    type: null,
-    weight: 25,
-    value: 0,
-    zOrder: 0,
-    
-    ctor: function (object) {
-        this.initWithFile(PropType.Sleep.image);
-        this.setPosition(cc.ccp(object.x, object.y));
-        this.type = object.type;
-        this.scheduleUpdate();
-    },
-    
-    use: function () {
-        var y = 100;
-        var x = 100;
-        var children = this.getParent().getChildren();
-        for (var i = 0; i < children.length; i++) {
-            if (children[i].type >= global.Tag.Rock
-            && children[i].type <= global.Tag.Bomb) {
-                children[i].stopAllActions();
-                children[i].setPosition(cc.ccp(x, y));
-                x += 100;
-                if (x >= winSize.width) {
-                    x = 100;
-                    y += 100;
-                }
-            }
-        }
-    },
-    
-    getValue: function () {
-        return this.value;
-    },
-    getWeight: function () {
-        return this.weight;
-    },
-    update: function () {
-        if (cc.Point.CCPointEqualToPoint(this.getPosition(), this.getParent()._hook.getOriginPosition())) {
-            this.use();
-            this.getParent().removeChild(this);
-        }
-    }
-});
-
-var Longer = cc.Sprite.extend({
-    type: null,
-    weight: 25,
-    value: 0,
-    zOrder: 0,
-    
-    ctor: function (object) {
-        this.initWithFile(PropType.Sleep.image);
-        this.setPosition(cc.ccp(object.x, object.y));
-        this.type = object.type;
-        this.scheduleUpdate();
-    },
-    
-    use: function () {
-        this.getParent()._hook.initWithFile(s_hook_long);
-        this.getParent()._hook.setAnchorPoint(cc.ccp(0.5, 1));
-    },
-    
-    getValue: function () {
-        return this.value;
-    },
-    getWeight: function () {
-        return this.weight;
-    },
-    update: function () {
-        if (cc.Point.CCPointEqualToPoint(this.getPosition(), this.getParent()._hook.getOriginPosition())) {
-            this.use();
-            this.getParent().removeChild(this);
-        }
-    }
-});
-
 var Frozen = cc.Sprite.extend({
     type: null,
     weight: 25,
@@ -691,66 +514,6 @@ var Reverse = cc.Sprite.extend({
     }
 });
 
-var Scan = cc.Sprite.extend({
-    type: null,
-    weight: 25,
-    value: 0,
-    zOrder: 0,
-    
-    ctor: function (object) {
-        this.initWithFile(PropType.Sleep.image);
-        this.setPosition(cc.ccp(object.x, object.y));
-        this.type = object.type;
-        this.scheduleUpdate();
-    },
-    
-    use: function () {
-        var draw = this.getParent().draw;
-        this.getParent().draw = function () {
-            cc.renderContext.lineWidth = 2;
-            cc.renderContext.strokeStyle = "#eedc4a";
-            var angle = this._hook.getRotation();
-            var border = 10;
-            var mx = winSize.width / 2;
-            var my = winSize.height - 50;
-            var desX, desY;
-            if (angle > this._criticalAngle) {
-                desX = 0 + border;
-                desY = my - Math.tan(((90-angle)*Math.PI)/180) * mx;
-            } else if (angle < this._criticalAngle && angle >0) {
-                desX = mx - Math.tan((angle*Math.PI)/180) * my;
-                desY = 0 + border;
-            } else if (angle > (-this._criticalAngle) && angle < 0) {
-                desX = mx + Math.tan((-angle*Math.PI)/180) * my
-                desY = 0 + border;
-            } else if (angle < -this._criticalAngle) {
-                desX = winSize.width - border;
-                desY = my - Math.tan(((90+angle)*Math.PI)/180) * mx;
-            }
-            
-            cc.drawingUtil.drawLine(this._hook.getOriginPosition(), cc.ccp(desX, desY));
-        };
-
-        var parent = this.getParent();
-        setTimeout(function () {
-            parent.draw = draw;
-        }, 10 * 1000);
-    },
-    
-    getValue: function () {
-        return this.value;
-    },
-    getWeight: function () {
-        return this.weight;
-    },
-    update: function () {
-        if (cc.Point.CCPointEqualToPoint(this.getPosition(), this.getParent()._hook.getOriginPosition())) {
-            this.use();
-            this.getParent().removeChild(this);
-        }
-    }
-});
-
 var Shift = cc.Sprite.extend({
     type: null,
     weight: 25,
@@ -779,6 +542,37 @@ var Shift = cc.Sprite.extend({
             parent._hook.setPosition(originPosition);
             parent._hook.originPosition = originPosition;
         }, 10 * 1000);
+    },
+    
+    getValue: function () {
+        return this.value;
+    },
+    getWeight: function () {
+        return this.weight;
+    },
+    update: function () {
+        if (cc.Point.CCPointEqualToPoint(this.getPosition(), this.getParent()._hook.getOriginPosition())) {
+            this.use();
+            this.getParent().removeChild(this);
+        }
+    }
+});
+
+var Rich = cc.Sprite.extend({
+    type: null,
+    weight: 25,
+    value: 0,
+    zOrder: 0,
+    
+    ctor: function (object) {
+        this.initWithFile(PropType.Sleep.image);
+        this.setPosition(cc.ccp(object.x, object.y));
+        this.type = object.type;
+        this.scheduleUpdate();
+    },
+    
+    use: function () {
+        Game.money *= 2;
     },
     
     getValue: function () {

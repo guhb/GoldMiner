@@ -59,37 +59,38 @@ var MineType = {
 
 var ToolType = {
     Milk: {
-        LaunchSpeed: -0.1,
-        RetrieveSpeed: -0.1,
-        image: global.theme.milk
-    },
-    
-    Clock: {
-        RotateSpeed: -0.1,
-        image: global.theme.clock
-    },
-    
-    MoneyTree: {
-        addValue: 50,
-        Multiply: 2,
-        image: global.theme.money_tree
-    },
-    
-    Rich: {
-        Probility: 0.2,
-        image: global.theme.rich
-    }
-};
-
-var PropType = {
-    Milk: {
         create: Milk,
+        value: 100,
         image: s_milk
     }, // Make the hook retrieve quicker
     Quick: {
         create: Quick,
+        value: 100,
         image: s_milk
     }, // Make the hook rotate quicker
+    Lighter: {
+        create: Lighter,
+        value: 100,
+        image: s_milk
+    }, // Make the animals ligher
+    Sort: {
+        create: Sort,
+        value: 100,
+        image: s_milk
+    }, // Sort out the animals
+    Longer: {
+        create: Longer,
+        value: 100,
+        image: s_hook_long
+    }, // Make the hook longer
+    Scan: {
+        create: Scan,
+        value: 100,
+        image: s_milk
+    }  // Show a scan line
+};
+
+var PropType = {
     Clock: {
         create: Clock,
         image: s_clock
@@ -114,10 +115,6 @@ var PropType = {
         create: Sleep,
         image: s_milk
     }, // Make the animals sleep
-    Lighter: {
-        create: Lighter,
-        image: s_milk
-    }, // Make the animals ligher
     Bump: {
         create: Bump,
         image: s_milk
@@ -130,14 +127,6 @@ var PropType = {
         create: Bigger,
         image: s_milk
     }, // Make the hook bigger
-    Sort: {
-        create: Sort,
-        image: s_milk
-    }, // Sort out the animals
-    Longer: {
-        create: Longer,
-        image: s_hook_long
-    }, // Make the hook longer
     Frozen: {
         create: Frozen,
         image: s_milk
@@ -146,14 +135,14 @@ var PropType = {
         create: Reverse,
         image: s_milk
     }, // Reverse the origin launch direction of the hook
-    Scan: {
-        create: Scan,
-        image: s_milk
-    },  // Show a scan line
     Shift: {
         create: Shift,
         image: s_milk
-    } // Shift the position of the hook
+    }, // Shift the position of the hook
+    Rich: {
+        create: Rich,
+        image: s_rich
+    } // Multiply the player's money
 };
 
 var getObjectName = function (tag) {
@@ -161,12 +150,11 @@ var getObjectName = function (tag) {
             // MineObjects
             "Rock","Gold","Pig","Diamond","Bone","Bomb",
             // ToolObjects
-            "Milk","Clock","MoneyTree","Rich",
+            "Milk","Quick","Lighter","Sort","Longer","Scan",
             // PropObjects
-            "Milk","Quik","Clock","Silent","Thunder","Alarm",
-            "Sleep","Lighter","Bump","Smaller","Bigger",
-            "Sort","Longer","Frozen","Reverse","Scan",
-            "Shift"];
+            "Clock","Silent","Thunder","Alarm",
+            "Sleep","Bump","Smaller","Bigger",
+            "Frozen","Reverse","Shift","Rich"];
     return name[tag-global.Tag.Rock];
 };
 

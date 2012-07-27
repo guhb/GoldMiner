@@ -44,7 +44,7 @@ var LevelManager = cc.Class.extend({
         this.updateGameStatus();
         if (this._currentRound != 1 && round == 0) this.updateMineType();
         for (var i=0; i<Round[round].length; i++) {
-            var size = Math.round(Math.random()+Game.Factor.probility);
+            var size = Math.round(Math.random());
             var mine = new MineObject(Round[round][i], size);
             if (mine != null) {
                 this._gameLayer.addChild(mine, mine.zOrder, mine.type);

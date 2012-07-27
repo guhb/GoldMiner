@@ -1,43 +1,64 @@
 var ToolManager = cc.Class.extend({
     _currentRound:null,
-    _storeLayer:null,
-    ctor:function(storeLayer){
-        if(!storeLayer){
+    _layer:null,
+    ctor: function(storeLayer) {
+        if (!storeLayer) {
             throw "storeLayer must be non-nil";
         }
         this._currentRound = Game.round;
-        this._storeLayer = storeLayer;
+        this._layer = storeLayer;
     },
 
-    createTools:function(){
-        var round = this._currentRound % NUMBER_OF_ROUNDS;
-        cleanToolObjects();
+    createTools: function() {
+        var round = (this._currentRound - 1) % NUMBER_OF_ROUNDS;
+        var map = this._layer.shelfMap;
+        var tools = ["Milk","Quick","Lighter","Sort","Longer","Scan"];
+        
         var object = {};
-        switch (round) {
-            case 0:
-            case 5:
-                object.type = global.Tag.Rich;
-                object.x = 620; object.y = 200;
-                object = new ToolObject(object);
-                this._storeLayer.addChild(object, global.zOrder.Tool);
-            case 4:
-                object.type = global.Tag.MoneyTree;
-                object.x = 530; object.y = 200;
-                object = new ToolObject(object);
-                this._storeLayer.addChild(object, global.zOrder.Tool);
-            case 3:
-            case 2:
-            case 1:
-                object.type = global.Tag.Clock;
-                object.x = 620; object.y = 270;
-                object = new ToolObject(object);
-                this._storeLayer.addChild(object, global.zOrder.Tool);
-                
-                object.type = global.Tag.Milk;
-                object.x = 530; object.y = 270;
-                object = new ToolObject(object);
-                this._storeLayer.addChild(object, global.zOrder.Tool);
-                break;
+        var tool;
+        var j = 0;
+        for (var i = 0; i < round; i++) {
+            if (Game.toolContainer[i] != null) continue;
+            tool = tools[i];
+            object.type = global.Tag[tool];
+            object.x = map[j++].x;
+            object.y = map[j++].y;
+            console.log("ToolType: " + tool);
+            object = new ToolObject(object);
+            this._layer.addChild(object, global.zOrder.Tool);
         }
+    },
+    
+    getTools: function () {
+        var map = this._layer.shelfMap;
+        console.log("getTools");
+        console.log("lenght: " + Game.toolContainer.length);
+        this.cleanToolContainer();
+        for (var i = 0; i < Game.toolContainer.length; i++) {
+            if (Game.toolContainer[i] != null) {
+                var object = {};
+                object.type = Game.toolContainer[i].type;
+                object.x = map[i].x;
+                object.y = map[i].y;
+                var type = getObjectName(object.type);
+                console.log("ToolCreate: "+ i + type); 
+                var tool = new ToolType[type].create(object);
+                Game.toolContainer[i] = null;
+                Game.toolContainer[i] = tool;
+                Game.toolContainer[i].setPosition(cc.ccp(map[i].x, map[i].y));
+                Game.toolContainer[i]._parent_layer = this._layer;
+                this._layer.addChild(tool, global.zOrder.Tool);
+            }
+        }
+    },
+    
+    cleanToolContainer: function () {
+        var container = [];
+        var j = 0;
+        for (var i = 0; i < Game.toolContainer.length; i++) {
+            if (Game.toolContainer[i] != null)
+                container[j++] = Game.toolContainer[i];
+        }
+        Game.toolContainer = container;
     }
 });

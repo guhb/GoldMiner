@@ -1,5 +1,6 @@
 var StoreLayer = cc.Layer.extend({
-
+    shelfMap: null,
+    
     init:function () {
         var bRet = false;
             if (this._super()) {
@@ -17,11 +18,23 @@ var StoreLayer = cc.Layer.extend({
             this.addChild(menu, 1, 2);
             menu.setPosition(cc.ccp(304, 142));
             
+            this.initShelfMap();
             this.createTools();
 
             bRet = true;
         }
         return bRet;
+    },
+    
+    initShelfMap: function () {
+        this.shelfMap = [
+            {x: 200, y: 200},
+            {x: 280, y: 200},
+            {x: 360, y: 200},
+            {x: 200, y: 280},
+            {x: 280, y: 280},
+            {x: 360, y: 360}
+        ];
     },
     
     createTools: function () {

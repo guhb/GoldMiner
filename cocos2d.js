@@ -81,6 +81,7 @@ cc.loadjs('Resource.js');
 // Config Module
 cc.loadjs('Classes/Config/Theme.js');
 cc.loadjs('Classes/Config/global.js');
+cc.loadjs('Classes/Actor/ToolObjects.js');
 cc.loadjs('Classes/Actor/PropObjects.js');
 cc.loadjs('Classes/Config/ObjectType.js');
 cc.loadjs('Classes/Config/Level.js');
@@ -106,7 +107,6 @@ cc.loadjs('Classes/Actor/MineObject.js');
 
 //cc.loadjs('Classes/Actor/Miner.js');
 //cc.loadjs('Classes/Actor/Seller.js');
-cc.loadjs('Classes/Actor/ToolObject.js');
 
 // Effect Module
 cc.loadjs('Classes/Effect/Effect.js');

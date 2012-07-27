@@ -87,7 +87,10 @@ var MissionLayer = cc.Layer.extend({
         } else {
             this._num = Math.ceil(Math.abs(this._curPos.x - this._begin) / (this._missionWidth + 10));
         }
-        
+        if (typeof (this._direction) == "undefined") {
+            this.isMouseDown = false;
+            return;
+        }
         this.moveToMission(this._num);
         this.isMouseDown = false;
     },
