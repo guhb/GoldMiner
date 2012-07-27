@@ -94,6 +94,7 @@ var GameLayer = cc.Layer.extend({
         this._hook.originPosition = new cc.ccp(this.winSize.width/2, this.winSize.height-50);
         this._hook.scheduleUpdate();
         this._criticalAngle = Math.atan((this.winSize.width/2)/(this.winSize.height-50))/Math.PI*180;
+        this._hook_path = Math.sqrt(Math.pow(this._hook.getPositionX(), 2) + Math.pow(this._hook.getPositionY(), 2));
     },
     
     createMap: function () {
@@ -209,13 +210,15 @@ var GameLayer = cc.Layer.extend({
                     if (distance < 30) {
                         if (this.mineContainer[i].type == global.Tag.Pig)
                             this.mineContainer[i].stopAllActions();
-                            
+                        /*
                         if (this._propContainer.indexOf("Milk") == -1) {
                             var speed = this.mineContainer[i].weight/50;
                             if (speed <= 0.2) speed = 0.2;
                             Game.Speed.retrieve = speed;
                             this._hook.setRetrieveSpeed(speed);
-                        }
+                        }*/
+                        var path = Math.sqrt(Math.pow(this._hook.getPositionX() - this._hook.getOriginPosition().x, 2) + Math.pow(this._hook.getPositionY() - this._hook.getOriginPosition().y, 2))
+                        var speed = this.mineContainer[i].weight/50 * path/this._hook_path * Game.Speed.retrieve;
                         
                         this.collectAction = cc.MoveTo.create(this._hook.getRetrieveSpeed(), this._hook.getOriginPosition());
                         this.mineContainer[i].runAction(this.collectAction);

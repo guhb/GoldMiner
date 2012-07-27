@@ -8,10 +8,13 @@ Hook = cc.Sprite.extend({
     launchAction: null,
     retrieveAction: null,
     originPosition: null,
+    delegate: null,
 
     ctor: function () {
         this._super();
         this.initWithFile(global.theme.hook);
+        
+        this.initDelegate();
         
         this.rotateSpeed = Game.Speed.rotate;
         this.launchSpeed = Game.Speed.launch;
@@ -20,18 +23,29 @@ Hook = cc.Sprite.extend({
         this.swing();
     },
     
+    initDelegate: function () {
+        this.delegate = new cc.Sprite.create(global.theme.hook);
+        this.delegate.setIsVisible(false);
+        this.delegate.setAnchorPoint(cc.ccp(0.5, 1));
+    },
+    
     swing: function () {
-        if (this.state == "retrieve" && this.retrieveAction
-            && this.retrieveAction.isDone() || this.state == "init") {
+        if (this.state == "init") {
             this.state = "swing";
             this.setRotation(0);
-            //this.retrieveSpeed = Game.Speed.retrieve; // resume
             this.rotateSpeed = Game.Speed.rotate;
             var rotoLeft = cc.RotateTo.create(this.rotateSpeed, this.rotateLimit);
             var rotoRight = cc.RotateTo.create(this.rotateSpeed, -this.rotateLimit);
             var seq = cc.Sequence.create(rotoLeft, cc.DelayTime.create(0.1), rotoRight, cc.DelayTime.create(0.1));
             this.swingAction = cc.RepeatForever.create(seq);
-            this.runAction(this.swingAction);
+            this.setIsVisible(false);
+            this.delegate.setIsVisible(true);
+            this.delegate.runAction(this.swingAction);
+        } else if (this.state == "retrieve" && this.retrieveAction && this.retrieveAction.isDone()) {
+            this.state = "swing";
+            this.setIsVisible(false);
+            this.delegate.setIsVisible(true);
+            this.delegate.resumeSchedulerAndActions();
         } else {
             console.error("Swing could only started from after either a retrieve or init state.");
         }
@@ -39,7 +53,10 @@ Hook = cc.Sprite.extend({
     
     stopSwing: function () {
         if (this.state == "swing") {
-            this.stopAction(this.swingAction);
+            this.delegate.pauseSchedulerAndActions();
+            this.setRotation(this.delegate.getRotation());
+            this.delegate.setIsVisible(false);
+            this.setIsVisible(true);
         } else {
             console.error("Could not stop swing other than in a swing state.");
         }
@@ -101,5 +118,10 @@ Hook = cc.Sprite.extend({
                     && this.state == "retrieve") {
             this.swing();
         }
+        if (this.delegate.getParent() == null) {
+            this.getParent().addChild(this.delegate, this.getZOrder() + 1);
+        }
+        if (!cc.Point.CCPointEqualToPoint(this.getPosition(), this.delegate.getPosition))
+            this.delegate.setPosition(this.getPosition());
     }    
 });
