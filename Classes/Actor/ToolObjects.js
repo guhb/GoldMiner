@@ -63,11 +63,12 @@ var Milk = cc.Layer.extend({
     onUse: function () {
         Game.Speed.retrieve = 0.3;
         
+        this._parent_layer = this.getParent();
         this.destroy();
         console.log("Milk used.");
     },
     destroy: function () {
-        this.runAction(this.useAction);
+        //this.runAction(this.useAction);
         this.getParent().removeChild(this);
         Game.toolContainer["Milk"] = null;
         for (var i = 0; i < Game.toolContainer.length; i++) {
@@ -103,10 +104,11 @@ var Quick = cc.Layer.extend({
     onUse: function () {
         Game.Speed.rotate = 0.4;
         
+        this._parent_layer = this.getParent();
         this.destroy();
     },
     destroy: function () {
-        this.runAction(this.useAction);
+        //this.runAction(this.useAction);
         this.getParent().removeChild(this);
         for (var i = 0; i < Game.toolContainer.length; i++) {
             if (Game.toolContainer[i].type == this.type)
@@ -144,10 +146,11 @@ var Lighter = cc.Layer.extend({
             children[i].weight /= 2;
         }
         
+        this._parent_layer = this.getParent();
         this.destroy();
     },
     destroy: function () {
-        this.runAction(this.useAction);
+        //this.runAction(this.useAction);
         this.getParent().removeChild(this);
         for (var i = 0; i < Game.toolContainer.length; i++) {
             if (Game.toolContainer[i].type == this.type)
@@ -196,10 +199,11 @@ var Sort = cc.Layer.extend({
             }
         }
         
+        this._parent_layer = this.getParent();
         this.destroy();
     },
     destroy: function () {
-        this.runAction(this.useAction);
+        //this.runAction(this.useAction);
         this.getParent().removeChild(this);
         for (var i = 0; i < Game.toolContainer.length; i++) {
             if (Game.toolContainer[i].type == this.type)
@@ -233,12 +237,15 @@ var Longer = cc.Layer.extend({
     
     onUse: function () {
         this.getParent()._hook.initWithFile(s_hook_long);
+        this.getParent()._hook.delegate.initWithFile(s_hook_long);
         this.getParent()._hook.setAnchorPoint(cc.ccp(0.5, 1));
+        this.getParent()._hook.delegate.setAnchorPoint(cc.ccp(0.5, 1));
         
+        this._parent_layer = this.getParent();
         this.destroy();
     },
     destroy: function () {
-        this.runAction(this.useAction);
+        //this.runAction(this.useAction);
         this.getParent().removeChild(this);
         for (var i = 0; i < Game.toolContainer.length; i++) {
             if (Game.toolContainer[i].type == this.type)
@@ -275,7 +282,7 @@ var Scan = cc.Layer.extend({
         this.getParent().draw = function () {
             cc.renderContext.lineWidth = 2;
             cc.renderContext.strokeStyle = "#eedc4a";
-            var angle = this._hook.getRotation();
+            var angle = this._hook.delegate.getRotation();
             var border = 10;
             var mx = winSize.width / 2;
             var my = winSize.height - 50;
@@ -302,10 +309,11 @@ var Scan = cc.Layer.extend({
             parent.draw = draw;
         }, 10 * 1000);
         
+        this._parent_layer = this.getParent();
         this.destroy();
     },   
     destroy: function () {
-        this.runAction(this.useAction);
+        //this.runAction(this.useAction);
         this.getParent().removeChild(this);
         for (var i = 0; i < Game.toolContainer.length; i++) {
             if (Game.toolContainer[i].type == this.type)
