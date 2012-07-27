@@ -22,7 +22,7 @@ var GameOverLayer = cc.Layer.extend({
     onPlayAgain:function (pSender) {
         resume();
         var scene = cc.Scene.create();
-        scene.addChild(GameLayer.create());
+        scene.addChild(MissionLayer.create());
         scene.addChild(GameControlMenu.create());
         cc.Director.sharedDirector().replaceScene(cc.TransitionFade.create(1.2,scene));
     }

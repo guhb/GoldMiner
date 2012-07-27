@@ -93,9 +93,10 @@ var MissionLayer = cc.Layer.extend({
     },
     
     moveToMission: function (num) {
-         var end = this._begin - (num - 1)* (this._missionWidth + 10);
-         var action = cc.MoveTo.create(0.1, cc.ccp(end, winSize.height/2));
-         this._missionView.runAction(action);
+        if (num > NUMBER_OF_MISSIONS) num = NUMBER_OF_MISSIONS;
+        var end = this._begin - (num - 1)* (this._missionWidth + 10);
+        var action = cc.MoveTo.create(0.1, cc.ccp(end, winSize.height/2));
+        this._missionView.runAction(action);
     },
     
     onMissionSelected: function () {
