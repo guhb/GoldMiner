@@ -68,15 +68,14 @@ var Milk = cc.Layer.extend({
         console.log("Milk used.");
     },
     destroy: function () {
-        //this.runAction(this.useAction);
-        this.getParent().removeChild(this);
         Game.toolContainer["Milk"] = null;
+        //this.runAction(this.useAction);
         for (var i = 0; i < Game.toolContainer.length; i++) {
             if (Game.toolContainer[i].type == this.type)
                 Game.toolContainer[i] = null;
         }
-        //this.getParent().reOrderToolContainer();
-        this._parent_layer.reOrderToolContainer();
+        this.getParent().reOrderToolContainer();
+        this.getParent().removeChild(this);
     }
 });
 
@@ -104,18 +103,16 @@ var Quick = cc.Layer.extend({
     onUse: function () {
         Game.Speed.rotate = 0.4;
         
-        this._parent_layer = this.getParent();
         this.destroy();
     },
     destroy: function () {
         //this.runAction(this.useAction);
-        this.getParent().removeChild(this);
         for (var i = 0; i < Game.toolContainer.length; i++) {
             if (Game.toolContainer[i].type == this.type)
                 Game.toolContainer[i] = null;
         }
-        //this.getParent().reOrderToolContainer();
-        this._parent_layer.reOrderToolContainer();
+        this.getParent().reOrderToolContainer();
+        this.getParent().removeChild(this);
     }
 });
 
@@ -146,18 +143,16 @@ var Lighter = cc.Layer.extend({
             children[i].weight /= 2;
         }
         
-        this._parent_layer = this.getParent();
         this.destroy();
     },
     destroy: function () {
         //this.runAction(this.useAction);
-        this.getParent().removeChild(this);
         for (var i = 0; i < Game.toolContainer.length; i++) {
             if (Game.toolContainer[i].type == this.type)
                 Game.toolContainer[i] = null;
         }
-        //this.getParent().reOrderToolContainer();
-        this._parent_layer.reOrderToolContainer();
+        this.getParent().reOrderToolContainer();
+        this.getParent().removeChild(this);
     }
 });
 
@@ -199,18 +194,16 @@ var Sort = cc.Layer.extend({
             }
         }
         
-        this._parent_layer = this.getParent();
         this.destroy();
     },
     destroy: function () {
         //this.runAction(this.useAction);
-        this.getParent().removeChild(this);
         for (var i = 0; i < Game.toolContainer.length; i++) {
             if (Game.toolContainer[i].type == this.type)
                 Game.toolContainer[i] = null;
         }
-        //this.getParent().reOrderToolContainer();
-        this._parent_layer.reOrderToolContainer();
+        this.getParent().reOrderToolContainer();
+        this.getParent().removeChild(this);
     }
 });
 
@@ -241,18 +234,16 @@ var Longer = cc.Layer.extend({
         this.getParent()._hook.setAnchorPoint(cc.ccp(0.5, 1));
         this.getParent()._hook.delegate.setAnchorPoint(cc.ccp(0.5, 1));
         
-        this._parent_layer = this.getParent();
         this.destroy();
     },
     destroy: function () {
         //this.runAction(this.useAction);
-        this.getParent().removeChild(this);
         for (var i = 0; i < Game.toolContainer.length; i++) {
             if (Game.toolContainer[i].type == this.type)
                 Game.toolContainer[i] = null;
         }
-        //this.getParent().reOrderToolContainer();
-        this._parent_layer.reOrderToolContainer();
+        this.getParent().reOrderToolContainer();
+        this.getParent().removeChild(this);
     }
 });
 
@@ -309,17 +300,15 @@ var Scan = cc.Layer.extend({
             parent.draw = draw;
         }, 10 * 1000);
         
-        this._parent_layer = this.getParent();
         this.destroy();
     },   
     destroy: function () {
         //this.runAction(this.useAction);
-        this.getParent().removeChild(this);
         for (var i = 0; i < Game.toolContainer.length; i++) {
             if (Game.toolContainer[i].type == this.type)
                 Game.toolContainer[i] = null;
         }
-        //this.getParent().reOrderToolContainer();
-        this._parent_layer.reOrderToolContainer();
+        this.getParent().reOrderToolContainer();
+        this.getParent().removeChild(this);
     }
 });

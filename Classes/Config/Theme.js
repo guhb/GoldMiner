@@ -9,6 +9,7 @@ var Theme = [
         big_rock: s_big_rock,
         small_rock: s_small_rock,
         big_gold: s_big_gold,
+        middle_gold: s_middle_gold,
         small_gold: s_small_gold,
         pig: s_pig,
         big_diamond: s_big_diamond,

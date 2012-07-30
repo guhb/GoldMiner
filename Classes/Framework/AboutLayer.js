@@ -2,36 +2,39 @@ var AboutLayer = cc.Layer.extend({
     init:function () {
         var bRet = false;
         if (this._super()) {
-            var bg = cc.Sprite.create(s_background2);
+            var bg = cc.Sprite.create(s_about);
             bg.setAnchorPoint(cc.PointZero());
             this.addChild(bg, 0, 1);
 
-            var cacheImage = cc.TextureCache.sharedTextureCache().addImage(s_menuTitle)
-            var title = cc.Sprite.createWithTexture(cacheImage, cc.RectMake(0, 34, 100, 34));
-            title.setPosition(cc.ccp(winSize.width / 2, winSize.height - 120));
-            this.addChild(title);
-
-            var about = cc.LabelTTF.create("\n \n Color Shell \n \n A game that play like the Gold Miner.",
-                                           cc.SizeMake(winSize.width * 0.85 ,100),cc.TEXT_ALIGNMENT_LEFT,"Arial",14)
-            about.setPosition(cc.ccp(winSize.width/2,winSize.height/2 + 20));
+            var about = cc.LabelTTF.create("\n A game that play like the Gold Miner.","Arial",24);
+            about.setPosition(cc.ccp(winSize.width/2,winSize.height/2 + 80));
             this.addChild(about);
+			about.setColor(new cc.Color3B(100,94,94));
 
-            var author = cc.LabelTTF.create("Programmer",cc.SizeMake(winSize.width * 0.85 ,100),cc.TEXT_ALIGNMENT_CENTER,"Arial",14)
-            author.setPosition(cc.ccp(winSize.width/2,140));
+            var author = cc.LabelTTF.create("Programmer","Arial",30);
+            author.setPosition(cc.ccp(winSize.width/2,270));
             this.addChild(author);
-            
-            author = cc.LabelTTF.create("Koh Ou Ping",cc.SizeMake(winSize.width * 0.85 ,100),cc.TEXT_ALIGNMENT_CENTER,"Arial",14)
-            author.setPosition(cc.ccp(winSize.width/2,100));
+            author.setColor(new cc.Color3B(100,94,94));
+			
+            author = cc.LabelTTF.create("Koh Ou Ping","Arial",30);
+            author.setPosition(cc.ccp(winSize.width/2,210));
             this.addChild(author);
-
-            author = cc.LabelTTF.create("Xi Ling Ran",cc.SizeMake(winSize.width * 0.85 ,100),cc.TEXT_ALIGNMENT_CENTER,"Arial",14)
-            author.setPosition(cc.ccp(winSize.width/2,120));
+			author.setColor(new cc.Color3B(100,94,94));
+			
+            author = cc.LabelTTF.create("Xi Ling Ran",cc.SizeMake(winSize.width * 0.85 ,100),cc.TEXT_ALIGNMENT_CENTER,"Arial",30);
+            author.setPosition(cc.ccp(winSize.width/2,145));
             this.addChild(author);
-
-            var label = cc.LabelTTF.create("Go back", "Arial", 14);
-            var back = cc.MenuItemLabel.create(label, this, this.backCallback);
+			author.setColor(new cc.Color3B(100,94,94));
+			
+            var backButton = cc.Sprite.create(s_back);
+			backButton.setScale(0.5);
+			var backButtonSelected = cc.Sprite.create(s_backbig);
+			backButtonSelected.setScale(0.5);
+			var backButtonDisabled = cc.Sprite.create(s_back);
+			backButtonDisabled.setScale(0.5);
+			var back = cc.MenuItemSprite.create(backButton,backButtonSelected,backButtonDisabled,this,this.backCallback);
             var menu = cc.Menu.create(back);
-            menu.setPosition(cc.ccp(winSize.width/2,50));
+            menu.setPosition(cc.ccp(winSize.width-100,150));
             this.addChild(menu);
             bRet = true;
         }

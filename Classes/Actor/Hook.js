@@ -15,16 +15,16 @@ Hook = cc.Sprite.extend({
         this.initWithFile(global.theme.hook);
         
         this.initDelegate();
-        
+        this.setScale(0.6);
         this.rotateSpeed = Game.Speed.rotate;
         this.launchSpeed = Game.Speed.launch;
         this.retrieveSpeed = Game.Speed.retrieve;
-        
         this.swing();
     },
     
     initDelegate: function () {
         this.delegate = new cc.Sprite.create(global.theme.hook);
+        this.delegate.setScale(0.6);
         this.delegate.setIsVisible(false);
         this.delegate.setAnchorPoint(cc.ccp(0.5, 1));
     },
@@ -107,6 +107,20 @@ Hook = cc.Sprite.extend({
     
     getOriginPosition: function () {
         return this.originPosition;
+    },
+    
+    getPositionX: function () {
+        return this.getPosition().x - Math.sin(this.delegate.getRotation()*Math.PI/180) * this.getContentSize().height * this.getScale();
+    },
+    
+    getPositionY: function () {
+        return this.getPosition().y - Math.cos(this.delegate.getRotation()*Math.PI/180) * this.getContentSize().height * this.getScale();
+    },
+    
+    getCollectPosition: function () {
+        var x = this.getOriginPosition().x - Math.sin(this.delegate.getRotation()*Math.PI/180) * this.getContentSize().height * this.getScale();
+        var y = this.getOriginPosition().y - Math.cos(this.delegate.getRotation()*Math.PI/180) * this.getContentSize().height * this.getScale();
+        return cc.ccp(x, y);
     },
     
     update:function(){

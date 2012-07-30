@@ -29,10 +29,34 @@ var s_clock = "Resources/clock.png";
 var s_money_tree = "Resources/money_tree.png";
 var s_rich = "Resources/rich.png";
 var s_accept = "Resources/accept.png";
+var s_bg = "Resources/welcome.png";
+var s_gamebg = "Resources/gamebg.png";
+var s_array1 = "Resources/array1.png";
+var s_array2 = "Resources/array2.png";
+var s_array3 = "Resources/array3.png";
+var s_array1_big = "Resources/array1_big.png";
+var s_array2_big = "Resources/array2_big.png";
+var s_array3_big = "Resources/array3_big.png";
+var s_animals = "Resources/animals.png";
+var s_dog = "Resources/dog.png";
+var s_cow = "Resources/cow.png";
+var s_sheep = "Resources/sheep.png";
+var s_boy = "Resources/boy.png";
+var s_backbig = "Resources/backbig.png";
+var s_back = "Resources/back.png";
+var s_about = "Resources/about.png";
+var s_failedbg = "Resources/failedbg.png";
+var s_replay = "Resources/replay.png";
+var s_replaybig = "Resources/replaybig.png";
+var s_exit = "Resources/exit.png";
+var s_exitbig = "Resources/exitbig.png";
+var s_board = "Resources/board.png";
 var s_mission1 = "Resources/mission1.png";
 var s_mission2 = "Resources/mission2.png";
 var s_mission3 = "Resources/mission3.png";
 var s_mission4 = "Resources/mission4.png";
+var s_mission_bg = "Resources/missionbg.png";
+var s_middle_gold = "Resources/middle_gold.png";
 
 //music
 var s_bgMusic = "Resources/Music/bgMusic";
@@ -48,6 +72,19 @@ var s_explosion_plist = "Resources/explosion.plist";
 
 var g_ressources = [
     //image
+    {type:"image",src:s_bg},
+	{type:"image",src:s_boy},
+	{type:"image",src:s_sheep},
+	{type:"image",src:s_animals},
+	{type:"image",src:s_cow},
+	{type:"image",src:s_about},
+	{type:"image",src:s_dog},
+	{type:"image",src:s_back},
+	{type:"image",src:s_backbig},
+	{type:"image",src:s_failedbg},
+	{type:"image",src:s_replaybig},
+	{type:"image",src:s_replay},
+	{type:"image",src:s_board},
     {type:"image", src:s_logo},
     {type:"image", src:s_gameOver},
     {type:"image", src:s_menuTitle},
@@ -67,6 +104,7 @@ var g_ressources = [
     {type:"image", src:s_big_rock},
     {type:"image", src:s_small_rock},
     {type:"image", src:s_big_gold},
+    {type:"image", src:s_middle_gold},
     {type:"image", src:s_small_gold},
     {type:"image", src:s_pig},
     {type:"image", src:s_big_diamond},
@@ -82,6 +120,7 @@ var g_ressources = [
     {type:"image", src:s_mission2},
     {type:"image", src:s_mission3},
     {type:"image", src:s_mission4},
+    {type:"image", src:s_mission_bg},
     
     //plist
     {type:"plist", src:s_explosion_plist},

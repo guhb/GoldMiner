@@ -12,9 +12,21 @@ var MissionLayer = cc.Layer.extend({
         var bRet = false;
         if (this._super) {
             winSize = cc.Director.sharedDirector().getWinSize();
-            var bg = cc.Sprite.create(global.theme.info_bg);
+            var bg = cc.Sprite.create(s_mission_bg);
             bg.setAnchorPoint(cc.PointZero());
             this.addChild(bg, 0, 1);
+            
+            var winSize = cc.Director.sharedDirector().getWinSize();
+            var sysMenuNormal = cc.Sprite.create(s_exit);
+            var sysMenuSelected = cc.Sprite.create(s_exitbig);
+            var sysMenuDisabled = cc.Sprite.create(s_exit);
+            var sysMenu = cc.MenuItemSprite.create(sysMenuNormal, sysMenuSelected,sysMenuDisabled, this, this.onReturn);
+			sysMenu.setScale(2.2);
+            var menu = cc.Menu.create(sysMenu, null);
+            menu.setScale(0.2);
+            menu.setAnchorPoint(cc.ccp(0.0));
+            menu.setPosition(cc.ccp(winSize.width - 38, 28));
+            this.addChild(menu, global.Tag.Menu, 2);
             
             this._missions = Game.unlock;
             this.initMissionView();

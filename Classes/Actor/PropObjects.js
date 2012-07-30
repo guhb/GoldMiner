@@ -41,7 +41,7 @@ var Clock = cc.Sprite.extend({
         return this.weight;
     },
     update: function () {
-        if (cc.Point.CCPointEqualToPoint(this.getPosition(), this.getParent()._hook.getOriginPosition())) {
+        if (this.collectAction && this.collectAction.isDone()) {
             this.use();
             this.getParent().removeChild(this);
         }
@@ -86,7 +86,7 @@ var Bone = cc.Sprite.extend({
         return this.weight;
     },
     update: function () {
-        if (cc.Point.CCPointEqualToPoint(this.getPosition(), this.getParent()._hook.getOriginPosition())) {
+        if (this.collectAction && this.collectAction.isDone()) {
             this.use();
             this.getParent().removeChild(this);
         }
@@ -135,7 +135,7 @@ var Silent = cc.Sprite.extend({
         return this.weight;
     },
     update: function () {
-        if (cc.Point.CCPointEqualToPoint(this.getPosition(), this.getParent()._hook.getOriginPosition())) {
+        if (this.collectAction && this.collectAction.isDone()) {
             this.use();
             this.getParent().removeChild(this);
         }
@@ -177,7 +177,7 @@ var Alarm = cc.Sprite.extend({
         return this.weight;
     },
     update: function () {
-        if (cc.Point.CCPointEqualToPoint(this.getPosition(), this.getParent()._hook.getOriginPosition())) {
+        if (this.collectAction && this.collectAction.isDone()) {
             this.use();
             this.getParent().removeChild(this);
         }
@@ -230,7 +230,7 @@ var Thunder = cc.Sprite.extend({
         return this.weight;
     },
     update: function () {
-        if (cc.Point.CCPointEqualToPoint(this.getPosition(), this.getParent()._hook.getOriginPosition())) {
+        if (this.collectAction && this.collectAction.isDone()) {
             this.use();
             this.getParent().removeChild(this);
         }
@@ -271,7 +271,7 @@ var Sleep = cc.Sprite.extend({
         return this.weight;
     },
     update: function () {
-        if (cc.Point.CCPointEqualToPoint(this.getPosition(), this.getParent()._hook.getOriginPosition())) {
+        if (this.collectAction && this.collectAction.isDone()) {
             this.use();
             this.getParent().removeChild(this);
         }
@@ -323,7 +323,7 @@ var Bump = cc.Sprite.extend({
         return this.weight;
     },
     update: function () {
-        if (cc.Point.CCPointEqualToPoint(this.getPosition(), this.getParent()._hook.getOriginPosition())) {
+        if (this.collectAction && this.collectAction.isDone()) {
             this.use();
             this.getParent().removeChild(this);
         }
@@ -363,7 +363,7 @@ var Smaller = cc.Sprite.extend({
         return this.weight;
     },
     update: function () {
-        if (cc.Point.CCPointEqualToPoint(this.getPosition(), this.getParent()._hook.getOriginPosition())) {
+        if (this.collectAction && this.collectAction.isDone()) {
             this.use();
             this.getParent().removeChild(this);
         }
@@ -403,7 +403,7 @@ var Bigger = cc.Sprite.extend({
         return this.weight;
     },
     update: function () {
-        if (cc.Point.CCPointEqualToPoint(this.getPosition(), this.getParent()._hook.getOriginPosition())) {
+        if (this.collectAction && this.collectAction.isDone()) {
             this.use();
             this.getParent().removeChild(this);
         }
@@ -442,7 +442,7 @@ var Frozen = cc.Sprite.extend({
         return this.weight;
     },
     update: function () {
-        if (cc.Point.CCPointEqualToPoint(this.getPosition(), this.getParent()._hook.getOriginPosition())) {
+        if (this.collectAction && this.collectAction.isDone()) {
             this.use();
             this.getParent().removeChild(this);
         }
@@ -507,7 +507,7 @@ var Reverse = cc.Sprite.extend({
         return this.weight;
     },
     update: function () {
-        if (cc.Point.CCPointEqualToPoint(this.getPosition(), this.getParent()._hook.getOriginPosition())) {
+        if (this.collectAction && this.collectAction.isDone()) {
             this.use();
             this.getParent().removeChild(this);
         }
@@ -551,7 +551,7 @@ var Shift = cc.Sprite.extend({
         return this.weight;
     },
     update: function () {
-        if (cc.Point.CCPointEqualToPoint(this.getPosition(), this.getParent()._hook.getOriginPosition())) {
+        if (this.collectAction && this.collectAction.isDone()) {
             this.use();
             this.getParent().removeChild(this);
         }
@@ -582,7 +582,7 @@ var Rich = cc.Sprite.extend({
         return this.weight;
     },
     update: function () {
-        if (cc.Point.CCPointEqualToPoint(this.getPosition(), this.getParent()._hook.getOriginPosition())) {
+        if (this.collectAction && this.collectAction.isDone()) {
             this.use();
             this.getParent().removeChild(this);
         }

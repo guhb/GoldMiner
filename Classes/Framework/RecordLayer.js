@@ -9,13 +9,15 @@ var RecordLayer = cc.Layer.extend({
             
             this.initRecord();
 
-            cc.MenuItemFont.setFontName("Arial");
-            cc.MenuItemFont.setFontSize(26);
-            var label = cc.LabelTTF.create("Go back", "Arial", 20);
-            var back = cc.MenuItemLabel.create(label, this, this.onReturn);
-
+            var backButton = cc.Sprite.create(s_back);
+			backButton.setScale(0.5);
+			var backButtonSelected = cc.Sprite.create(s_backbig);
+			backButtonSelected.setScale(0.5);
+			var backButtonDisabled = cc.Sprite.create(s_back);
+			backButtonDisabled.setScale(0.5);
+			var back = cc.MenuItemSprite.create(backButton,backButtonSelected,backButtonDisabled,this,this.onReturn);
             var menu = cc.Menu.create(back);
-            menu.setPosition(cc.ccp(winSize.width/2,50));
+            menu.setPosition(cc.ccp(winSize.width-100,150));
             this.addChild(menu);
 
             bRet = true;

@@ -18,6 +18,11 @@ var MineType = {
             weight: 100,
             image: global.theme.big_gold
         },
+        middle:{
+			value: 100,
+			weight:100,
+			image:global.theme.middle_gold
+		},
         small: {
             value: 50,
             weight: 50,

@@ -4,7 +4,7 @@ var GameLayer = cc.Layer.extend({
     _dst_score: 200,
     _roundInterval: null,
     _hook: null,
-    _mineContainer: [],
+    mineContainer: [],
     _propContainer: [],
     _criticalAngle: null,
     _round: 1,
@@ -42,10 +42,28 @@ var GameLayer = cc.Layer.extend({
     },
     
     initBackground: function () {
-        var bg = cc.Sprite.create(global.theme.gamelayer_bg);
+        var bg = cc.Sprite.create(s_gamebg);
         bg.setAnchorPoint(cc.ccp(0, 0));
-        bg.setPosition(this.winSize.width/2, this.winSize.height - 50);
         this.addChild(bg, global.zOrder.Background);
+		//初始化小男孩
+		var textureForBoy = cc.TextureCache.sharedTextureCache().addImage(s_boy);
+		var boyFrame1 = cc.SpriteFrame.create(textureForBoy,cc.RectMake(0,0,109,140));
+		var boyFrame2 = cc.SpriteFrame.create(textureForBoy,cc.RectMake(109,0,109,140));
+		var boySprite = cc.Sprite.createWithSpriteFrame(boyFrame1);
+		boySprite.setPosition(new cc.ccp(this.winSize.width / 2 +115, this.winSize.height - 58));
+		boySprite.setScale(0.3);
+		this.addChild(boySprite,10);
+		var boyFrames = [];
+		boyFrames.push(boyFrame2);
+		boyFrames.push(boyFrame1);
+		var boyAnimation = cc.Animation.create(boyFrames,0.3);
+		var boyAnim = cc.Animate.create(boyAnimation,false);
+		boySprite.runAction(cc.RepeatForever.create(cc.Sequence.create(boyAnim,cc.DelayTime.create(3))));
+		//初始化放道具的木板
+		var board = cc.Sprite.create(s_board);	
+		board.setPosition(new cc.ccp(60, this.winSize.height - 70));
+		this.addChild(board,30);
+		board.setScale(0.7);
     },
     
     initLabels: function () {
@@ -92,8 +110,10 @@ var GameLayer = cc.Layer.extend({
         this._hook = new Hook();
         this.addChild(this._hook, global.zOrder.Hook);
         this._hook.setAnchorPoint(new cc.ccp(0.5, 1));
-        this._hook.setPosition(new cc.ccp(this.winSize.width/2, this.winSize.height-50));
-        this._hook.originPosition = new cc.ccp(this.winSize.width/2, this.winSize.height-50);
+        //this._hook.setPosition(new cc.ccp(this.winSize.width/2, this.winSize.height-50));
+        //this._hook.originPosition = new cc.ccp(this.winSize.width/2, this.winSize.height-50);
+        this._hook.setPosition(cc.ccp(403, 462));
+        this._hook.originPosition = cc.ccp(403, 462);
         this._hook.scheduleUpdate();
         this._criticalAngle = Math.atan((this.winSize.width/2)/(this.winSize.height-50))/Math.PI*180;
         this._hook_path = Math.sqrt(Math.pow(this._hook.getPositionX(), 2) + Math.pow(this._hook.getPositionY(), 2));
@@ -136,8 +156,8 @@ var GameLayer = cc.Layer.extend({
 
     draw: function () {
         this._super();
-        cc.renderContext.lineWidth = 2;
-        cc.renderContext.strokeStyle = "#eedc4a";
+        //cc.renderContext.lineWidth = 2;
+        //cc.renderContext.strokeStyle = "#eedc4a";
         cc.drawingUtil.drawLine(this._hook.getOriginPosition(), this._hook.getPosition());
     },
     
@@ -171,11 +191,14 @@ var GameLayer = cc.Layer.extend({
     updateScore: function (inc) {
         this._cur_score += inc;
         this._lbCurScore.setString("Score: " + this._cur_score);
+        /*
         if (this._cur_score >= this._dst_score) {
             Game.round++;
             Game.cur_score = this._cur_score;
             this.onNextGame();
         }
+        */
+        if (this.mineContainer.length == 0) this.onNextGame();
     },
     
     update:function (dt) {
@@ -232,7 +255,7 @@ var GameLayer = cc.Layer.extend({
                     var ylen = Math.pow(this._hook.getPositionY() - this.mineContainer[i].getPositionY(), 2);
                 
                     distance = Math.sqrt(xlen + ylen);
-                    if (distance < 30) {
+                    if (distance < this.mineContainer[i].getContentSize().height/2 * this.mineContainer[i].getScale()) {
                         if (this.mineContainer[i].type == global.Tag.Pig)
                             this.mineContainer[i].stopAllActions();
                         /*
@@ -244,17 +267,31 @@ var GameLayer = cc.Layer.extend({
                         }*/
                         var path = Math.sqrt(Math.pow(this._hook.getPositionX() - this._hook.getOriginPosition().x, 2) + Math.pow(this._hook.getPositionY() - this._hook.getOriginPosition().y, 2))
                         var speed = this.mineContainer[i].weight/50 * path/this._hook_path * Game.Speed.retrieve;
+                        //this.mineContainer[i].setPosition(cc.ccp(this._hook.getPositionX(), this._hook.getPositionY()));
                         
-                        this.collectAction = cc.MoveTo.create(this._hook.getRetrieveSpeed(), this._hook.getOriginPosition());
-                        this.mineContainer[i].runAction(this.collectAction);
+                        //this.collectAction = cc.MoveTo.create(this._hook.getRetrieveSpeed(), this._hook.getOriginPosition());
+                        this.mineContainer[i].collectAction = cc.MoveTo.create(this._hook.getRetrieveSpeed(), this._hook.getCollectPosition());
+                        this.collectAction = this.mineContainer[i].collectAction;
+                        this.mineContainer[i].runAction(this.mineContainer[i].collectAction);
                         this.collectedObject = this.mineContainer[i];
-                        this.mineContainer[i] = null;
+                        //this.mineContainer[i] = null;
+                        this.popMineObject(i);
                         this._hook.retrieve();
                         //console.log(getObjectName(this.collectedObject.type));
                     }
                 }
             }
         }
+    },
+    
+    popMineObject: function (index) {
+        var container = [];
+        var j = 0;
+        for (var i = 0; i < this.mineContainer.length; i++) {
+            if (i == index) continue;
+            container[j++] = this.mineContainer[i]
+        }
+        this.mineContainer = container;
     },
    
     onTimeLimit: function () {

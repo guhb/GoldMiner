@@ -7,11 +7,13 @@ var GameOverLayer = cc.Layer.extend({
             bg.setAnchorPoint(cc.PointZero());
             this.addChild(bg, 0, 1);
 
-            cc.MenuItemFont.setFontName("Arial");
-            cc.MenuItemFont.setFontSize(26);
-            var label = cc.LabelTTF.create("Replay", "Arial", 20);
-            var back = cc.MenuItemLabel.create(label, this, this.onPlayAgain);
-            var menu = cc.Menu.create(back);
+            var winSize = cc.Director.sharedDirector().getWinSize();
+			
+			var replay = cc.Sprite.create(s_replay);
+			var replaySelected = cc.Sprite.create(s_replaybig);
+			var replayDisabled = cc.Sprite.create(s_replay);
+			var replayItem = cc.MenuItemSprite.create(replay,replaySelected,replayDisabled,this,this.onPlayAgain);
+            var menu = cc.Menu.create(replayItem);
             this.addChild(menu);
 
             bRet = true;
