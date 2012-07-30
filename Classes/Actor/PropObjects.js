@@ -48,142 +48,6 @@ var Clock = cc.Sprite.extend({
     }
 });
 
-var Bone = cc.Sprite.extend({
-    type: null,
-    weight: 25,
-    value: 0,
-    zOrder: 0,
-    
-    ctor: function (object) {
-        this.initWithFile(PropType.Bone.image);
-        this.setPosition(cc.ccp(object.x, object.y));
-        this.type = object.type;
-        this.scheduleUpdate();
-    },
-    
-    use: function () {
-        //var dog = this.getParent().getChildByTag(global.Tag.Pig);
-        var children = this.getParent().getChildren();
-        for (var i = 0; i < children.length; i++) {
-            if (children[i].type == global.Tag.Pig) {
-                dog = children[i];
-                break;
-            }
-        }
-        console.log("Dog");
-        dog.stopAllActions();
-        // add eat aniamtion
-        Explosion.sharedExplosion();
-        var a = new Explosion();
-        a.setPosition(dog.getPosition());
-        this.getParent().addChild(a);
-    },
-    
-    getValue: function () {
-        return this.value;
-    },
-    getWeight: function () {
-        return this.weight;
-    },
-    update: function () {
-        if (this.collectAction && this.collectAction.isDone()) {
-            this.use();
-            this.getParent().removeChild(this);
-        }
-    }
-});
-
-var Silent = cc.Sprite.extend({
-    type: null,
-    weight: 25,
-    value: 0,
-    zOrder: 0,
-    
-    ctor: function (object) {
-        this.initWithFile(PropType.Silent.image);
-        this.setPosition(cc.ccp(object.x, object.y));
-        this.type = object.type;
-        this.scheduleUpdate();
-    },
-    
-    use: function () {
-        //var dog = this.getParent().getChildByTag(global.Tag.Dog);
-        //dog pause and add sleep animation;
-        var children = this.getParent().getChildren();
-        for (var i = 0; i < children.length; i++) {
-            if (children[i].type == global.Tag.Pig) {
-                dog = children[i];
-                break;
-            }
-        }
-        console.log("Dog");
-        dog.pauseSchedulerAndActions();
-        // add slient aniamtion
-        Explosion.sharedExplosion();
-        var a = new Explosion();
-        a.setPosition(dog.getPosition());
-        this.getParent().addChild(a);
-        setTimeout(function () {
-            dog.resumeSchedulerAndActions();
-        }, 1 * 1000);
-    },
-    
-    getValue: function () {
-        return this.value;
-    },
-    getWeight: function () {
-        return this.weight;
-    },
-    update: function () {
-        if (this.collectAction && this.collectAction.isDone()) {
-            this.use();
-            this.getParent().removeChild(this);
-        }
-    }
-});
-
-var Alarm = cc.Sprite.extend({
-    type: null,
-    weight: 25,
-    value: 0,
-    zOrder: 0,
-    
-    ctor: function (object) {
-        this.initWithFile(PropType.Thunder.image);
-        this.setPosition(cc.ccp(object.x, object.y));
-        this.type = object.type;
-        this.scheduleUpdate();
-    },
-    
-    use: function () {
-        // display the alarm animation and end the game
-        // as the farmer is waked up.
-        // add slient aniamtion
-        Explosion.sharedExplosion();
-        var a = new Explosion();
-        a.setPosition(cc.ccp(winSize.width / 2, winSize.height / 2));
-        this.getParent().addChild(a);
-        
-        var parent = this.getParent();
-        setTimeout(function () {
-            parent.onGameOver();
-        }, 1 * 1000);
-    },
-    
-    getValue: function () {
-        return this.value;
-    },
-    getWeight: function () {
-        return this.weight;
-    },
-    update: function () {
-        if (this.collectAction && this.collectAction.isDone()) {
-            this.use();
-            this.getParent().removeChild(this);
-        }
-    }
-});
-
 var Thunder = cc.Sprite.extend({
     type: null,
     weight: 25,
@@ -330,6 +194,205 @@ var Bump = cc.Sprite.extend({
     }
 });
 
+var Scan = cc.Sprite.extend({
+    type: null,
+    weight: 25,
+    value: 0,
+    zOrder: 0,
+    
+    ctor: function (object) {
+        this.initWithFile(PropType.Sleep.image);
+        this.setPosition(cc.ccp(object.x, object.y));
+        this.type = object.type;
+        this.scheduleUpdate();
+    },
+    
+    use: function () {
+        var draw = this.getParent().draw;
+        this.getParent().draw = function () {
+            cc.renderContext.lineWidth = 2;
+            cc.renderContext.strokeStyle = "#eedc4a";
+            var angle = this._hook.delegate.getRotation();
+            var border = 10;
+            var mx = winSize.width / 2;
+            var my = winSize.height - 50;
+            var desX, desY;
+            if (angle > this._criticalAngle) {
+                desX = 0 + border;
+                desY = my - Math.tan(((90-angle)*Math.PI)/180) * mx;
+            } else if (angle < this._criticalAngle && angle >0) {
+                desX = mx - Math.tan((angle*Math.PI)/180) * my;
+                desY = 0 + border;
+            } else if (angle > (-this._criticalAngle) && angle < 0) {
+                desX = mx + Math.tan((-angle*Math.PI)/180) * my
+                desY = 0 + border;
+            } else if (angle < -this._criticalAngle) {
+                desX = winSize.width - border;
+                desY = my - Math.tan(((90+angle)*Math.PI)/180) * mx;
+            }
+            
+            cc.drawingUtil.drawLine(this._hook.getOriginPosition(), cc.ccp(desX, desY));
+        };
+
+        var parent = this.getParent();
+        setTimeout(function () {
+            parent.draw = draw;
+        }, 10 * 1000);
+        
+        this.destroy();
+    },   
+    
+    getValue: function () {
+        return this.value;
+    },
+    getWeight: function () {
+        return this.weight;
+    },
+    update: function () {
+        if (this.collectAction && this.collectAction.isDone()) {
+            this.use();
+            this.getParent().removeChild(this);
+        }
+    }
+});
+
+/*
+var Bone = cc.Sprite.extend({
+    type: null,
+    weight: 25,
+    value: 0,
+    zOrder: 0,
+    
+    ctor: function (object) {
+        this.initWithFile(PropType.Bone.image);
+        this.setPosition(cc.ccp(object.x, object.y));
+        this.type = object.type;
+        this.scheduleUpdate();
+    },
+    
+    use: function () {
+        //var dog = this.getParent().getChildByTag(global.Tag.Pig);
+        var children = this.getParent().getChildren();
+        for (var i = 0; i < children.length; i++) {
+            if (children[i].type == global.Tag.Pig) {
+                dog = children[i];
+                break;
+            }
+        }
+        console.log("Dog");
+        dog.stopAllActions();
+        // add eat aniamtion
+        Explosion.sharedExplosion();
+        var a = new Explosion();
+        a.setPosition(dog.getPosition());
+        this.getParent().addChild(a);
+    },
+    
+    getValue: function () {
+        return this.value;
+    },
+    getWeight: function () {
+        return this.weight;
+    },
+    update: function () {
+        if (this.collectAction && this.collectAction.isDone()) {
+            this.use();
+            this.getParent().removeChild(this);
+        }
+    }
+});
+
+var Silent = cc.Sprite.extend({
+    type: null,
+    weight: 25,
+    value: 0,
+    zOrder: 0,
+    
+    ctor: function (object) {
+        this.initWithFile(PropType.Silent.image);
+        this.setPosition(cc.ccp(object.x, object.y));
+        this.type = object.type;
+        this.scheduleUpdate();
+    },
+    
+    use: function () {
+        //var dog = this.getParent().getChildByTag(global.Tag.Dog);
+        //dog pause and add sleep animation;
+        var children = this.getParent().getChildren();
+        for (var i = 0; i < children.length; i++) {
+            if (children[i].type == global.Tag.Pig) {
+                dog = children[i];
+                break;
+            }
+        }
+        console.log("Dog");
+        dog.pauseSchedulerAndActions();
+        // add slient aniamtion
+        Explosion.sharedExplosion();
+        var a = new Explosion();
+        a.setPosition(dog.getPosition());
+        this.getParent().addChild(a);
+        setTimeout(function () {
+            dog.resumeSchedulerAndActions();
+        }, 1 * 1000);
+    },
+    
+    getValue: function () {
+        return this.value;
+    },
+    getWeight: function () {
+        return this.weight;
+    },
+    update: function () {
+        if (this.collectAction && this.collectAction.isDone()) {
+            this.use();
+            this.getParent().removeChild(this);
+        }
+    }
+});
+
+var Alarm = cc.Sprite.extend({
+    type: null,
+    weight: 25,
+    value: 0,
+    zOrder: 0,
+    
+    ctor: function (object) {
+        this.initWithFile(PropType.Thunder.image);
+        this.setPosition(cc.ccp(object.x, object.y));
+        this.type = object.type;
+        this.scheduleUpdate();
+    },
+    
+    use: function () {
+        // display the alarm animation and end the game
+        // as the farmer is waked up.
+        // add slient aniamtion
+        Explosion.sharedExplosion();
+        var a = new Explosion();
+        a.setPosition(cc.ccp(winSize.width / 2, winSize.height / 2));
+        this.getParent().addChild(a);
+        
+        var parent = this.getParent();
+        setTimeout(function () {
+            parent.onGameOver();
+        }, 1 * 1000);
+    },
+    
+    getValue: function () {
+        return this.value;
+    },
+    getWeight: function () {
+        return this.weight;
+    },
+    update: function () {
+        if (this.collectAction && this.collectAction.isDone()) {
+            this.use();
+            this.getParent().removeChild(this);
+        }
+    }
+});
+
 var Smaller = cc.Sprite.extend({
     type: null,
     weight: 25,
@@ -346,7 +409,7 @@ var Smaller = cc.Sprite.extend({
     use: function () {
         var children = this.getParent().getChildren();
         for (var i = 0; i < children.length; i++) {
-            //if (children[i].type != /*Small Type*/) {
+            //if (children[i].type != /*Small Type) {
             //    children[i].setScale(0.5);
             //}
             if (children[i].type >= global.Tag.Rock
@@ -386,7 +449,7 @@ var Bigger = cc.Sprite.extend({
     use: function () {
         var children = this.getParent().getChildren();
         for (var i = 0; i < children.length; i++) {
-            //if (children[i].type != /*Big Type*/) {
+            //if (children[i].type != /*Big Type) {
             //    children[i].setScale(2);
             //}
             if (children[i].type >= global.Tag.Rock
@@ -587,4 +650,4 @@ var Rich = cc.Sprite.extend({
             this.getParent().removeChild(this);
         }
     }
-});
+});*/

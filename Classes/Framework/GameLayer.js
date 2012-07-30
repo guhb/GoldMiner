@@ -191,14 +191,12 @@ var GameLayer = cc.Layer.extend({
     updateScore: function (inc) {
         this._cur_score += inc;
         this._lbCurScore.setString("Score: " + this._cur_score);
-        /*
-        if (this._cur_score >= this._dst_score) {
+
+        if (this.mineContainer.length == 0) {
             Game.round++;
             Game.cur_score = this._cur_score;
-            this.onNextGame();
+            this.onNextGame()
         }
-        */
-        if (this.mineContainer.length == 0) this.onNextGame();
     },
     
     update:function (dt) {
@@ -219,8 +217,8 @@ var GameLayer = cc.Layer.extend({
         var size = cc.Director.sharedDirector().getWinSize();
         //var mx = size.width / 2;
         //var my = size.height - 50;
-        var mx = this._hook.getPositionX();
-        var my = this._hook.getPositionY();
+        var mx = this._hook.getPosition().x;
+        var my = this._hook.getPosition().y;
         var desX = null;
         var desY = null;
         var border = 10;
@@ -265,7 +263,7 @@ var GameLayer = cc.Layer.extend({
                             Game.Speed.retrieve = speed;
                             this._hook.setRetrieveSpeed(speed);
                         }*/
-                        var path = Math.sqrt(Math.pow(this._hook.getPositionX() - this._hook.getOriginPosition().x, 2) + Math.pow(this._hook.getPositionY() - this._hook.getOriginPosition().y, 2))
+                        var path = Math.sqrt(Math.pow(this._hook.getPosition().x - this._hook.getOriginPosition().x, 2) + Math.pow(this._hook.getPosition().y - this._hook.getOriginPosition().y, 2))
                         var speed = this.mineContainer[i].weight/50 * path/this._hook_path * Game.Speed.retrieve;
                         //this.mineContainer[i].setPosition(cc.ccp(this._hook.getPositionX(), this._hook.getPositionY()));
                         
@@ -297,6 +295,10 @@ var GameLayer = cc.Layer.extend({
     onTimeLimit: function () {
         if (this._time_limit <= 0 && this._cur_score < this._dst_score) {
             this.onGameOver();
+        } else if (this._time_limit <= 0 && this._cur_score >= this._dst_score) {
+            Game.round++;
+            Game.cur_score = this._cur_score;
+            this.onNextGame();
         }
     },
     

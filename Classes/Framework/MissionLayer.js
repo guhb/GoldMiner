@@ -135,6 +135,12 @@ var MissionLayer = cc.Layer.extend({
         // not unlocked. and counts needed to
         // unlock it.
         console.log("Indication");
+    },
+    onReturn:function () {
+        var scene = cc.Scene.create();
+        scene.addChild(StartLayer.create());
+        cc.Director.sharedDirector().replaceScene(cc.TransitionFade.create(0.7,scene));
+		//this.getParent().removeChild(this);
     }
 });
 

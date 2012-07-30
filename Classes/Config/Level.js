@@ -114,16 +114,16 @@ Mission = [
     {
         round: Round,
         image: s_mission4,
-        props: ["Clock", "Sleep", "Smaller","Bump", "Bigger", "Shift"]
+        props: ["Clock", "Bump", "Tunder", "Sleep"]
     },
     {
         round: Round,
         image: s_mission2,
-        props: ["Bump", "Bigger", "Shift","Clock", "Sleep", "Smaller"]
+        props: ["Clock", "Bump", "Tunder", "Sleep"]
     },
     {
         round: Round,
         image: s_mission3,
-        props: ["Frozen", "Reverse", "Silent", "Thunder", "Alarm", "Bone"]
+        props: ["Clock", "Bump", "Tunder", "Sleep"]
     }
 ];

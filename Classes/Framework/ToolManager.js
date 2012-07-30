@@ -12,7 +12,7 @@ var ToolManager = cc.Class.extend({
     createTools: function() {
         var round = (this._currentRound - 1) % NUMBER_OF_ROUNDS;
         var map = this._layer.shelfMap;
-        var tools = ["Longer","Quick","Lighter","Sort","Longer","Scan"];
+        var tools = ["Milk1","Milk2","Longer","Bombshell","BoneToGold","RockToRich"];
         
         var object = {};
         var tool;
@@ -45,7 +45,7 @@ var ToolManager = cc.Class.extend({
                 var tool = new ToolType[type].create(object);
                 Game.toolContainer[i] = null;
                 Game.toolContainer[i] = tool;
-                Game.toolContainer[i].setPosition(cc.ccp(map[i].x, map[i].y));
+                //Game.toolContainer[i].setPosition(cc.ccp(map[i].x, map[i].y));
                 //Game.toolContainer[i]._parent_layer = this._layer;
                 this._layer.addChild(tool, global.zOrder.Tool);
             }

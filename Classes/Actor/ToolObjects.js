@@ -15,21 +15,28 @@ var ToolObject = cc.Layer.extend({
         var menu = cc.Menu.create(tool, null);
         menu.setAnchorPoint(cc.ccp(0.0));
         menu.setPosition(cc.ccp(0, 0));
+        this.originPosition = cc.ccp(object.x, object.y);
         this.setPosition(cc.ccp(object.x, object.y));
         this.addChild(menu, global.Tag.Tool, 2); 
         this.buyAction = cc.MoveTo.create(0.3,cc.ccp(160,350));
     },
     
     onBuy: function () {
-        if (this.value <= Game.money) {
-            Game.money -= this.value;
-            var object = {};
-            object.type = this.type;
-            //var type = getObjectName(this.type);
-            Game.toolContainer.push(object);
-            this.runAction(this.buyAction);
+        if(cc.Point.CCPointEqualToPoint(this.originPosition, this.getPosition())) {
+            if (this.value <= Game.money) {
+                Game.money -= this.value;
+                var object = {};
+                object.type = this.type;
+                //var type = getObjectName(this.type);
+                Game.toolContainer.push(object);
+                this.runAction(this.buyAction);
+            } else {
+                this.showIndication();
+            }
         } else {
-            this.showIndication();
+            Game.money += this.value;
+            var returnAction = cc.MoveTo.create(0.3, this.originPosition);
+            this.runAction(returnAction);
         }
     },
     
@@ -39,7 +46,7 @@ var ToolObject = cc.Layer.extend({
     },
 });
 
-var Milk = cc.Layer.extend({
+var Milk1 = cc.Layer.extend({
     type: null,
     value: 0,
     
@@ -61,7 +68,8 @@ var Milk = cc.Layer.extend({
     },
     
     onUse: function () {
-        Game.Speed.retrieve = 0.3;
+        Game.Speed.retrieve = Game.Speed.retrieve / 2;
+        Game.Speed.launch = Game.Speed.launch / 2;
         
         this._parent_layer = this.getParent();
         this.destroy();
@@ -79,6 +87,225 @@ var Milk = cc.Layer.extend({
     }
 });
 
+var Milk2 = cc.Layer.extend({
+    type: null,
+    value: 0,
+    
+    ctor: function (object) {
+        var type = getObjectName(object.type);
+        this.type = object.type;
+
+        var toolNormal = cc.Sprite.create(ToolType[type].image);
+        var toolSelected = cc.Sprite.create(ToolType[type].image);
+        var toolDisabled = cc.Sprite.create(ToolType[type].image);
+        var tool = cc.MenuItemSprite.create(toolNormal, toolSelected,
+                                               toolDisabled, this, this.onUse);
+        var menu = cc.Menu.create(tool, null);
+        menu.setAnchorPoint(cc.ccp(0.0));
+        menu.setPosition(cc.ccp(0, 0));
+        this.setPosition(cc.ccp(object.x, object.y));
+        this.addChild(menu, global.Tag.Tool, 2); 
+        this.useAction = cc.MoveTo.create(0.3,cc.ccp(160,350));
+    },
+    
+    onUse: function () {
+        Game.Speed.retrieve = Game.Speed.retrieve / 4;
+        Game.Speed.launch = Game.Speed.launch / 4;
+        
+        this._parent_layer = this.getParent();
+        this.destroy();
+        console.log("Milk used.");
+    },
+    destroy: function () {
+        Game.toolContainer["Milk"] = null;
+        //this.runAction(this.useAction);
+        for (var i = 0; i < Game.toolContainer.length; i++) {
+            if (Game.toolContainer[i].type == this.type)
+                Game.toolContainer[i] = null;
+        }
+        this.getParent().reOrderToolContainer();
+        this.getParent().removeChild(this);
+    }
+});
+
+var Longer = cc.Layer.extend({
+    type: null,
+    value: 0,
+    
+    ctor: function (object) {
+        var type = getObjectName(object.type);
+        this.type = object.type;
+
+        var toolNormal = cc.Sprite.create(ToolType[type].image);
+        var toolSelected = cc.Sprite.create(ToolType[type].image);
+        var toolDisabled = cc.Sprite.create(ToolType[type].image);
+        var tool = cc.MenuItemSprite.create(toolNormal, toolSelected,
+                                               toolDisabled, this, this.onUse);
+        var menu = cc.Menu.create(tool, null);
+        menu.setAnchorPoint(cc.ccp(0.0));
+        menu.setPosition(cc.ccp(0, 0));
+        this.setPosition(cc.ccp(object.x, object.y));
+        this.addChild(menu, global.Tag.Tool, 2); 
+        this.useAction = cc.MoveTo.create(0.3,cc.ccp(160,350));
+    },
+    
+    onUse: function () {
+        this.getParent()._hook.initWithFile(s_hook_long);
+        this.getParent()._hook.delegate.initWithFile(s_hook_long);
+        this.getParent()._hook.setAnchorPoint(cc.ccp(0.5, 1));
+        this.getParent()._hook.delegate.setAnchorPoint(cc.ccp(0.5, 1));
+        
+        this.destroy();
+    },
+    destroy: function () {
+        //this.runAction(this.useAction);
+        for (var i = 0; i < Game.toolContainer.length; i++) {
+            if (Game.toolContainer[i].type == this.type)
+                Game.toolContainer[i] = null;
+        }
+        this.getParent().reOrderToolContainer();
+        this.getParent().removeChild(this);
+    }
+});
+
+
+var Bombshell = cc.Layer.extend({
+    type: null,
+    value: 0,
+    
+    ctor: function (object) {
+        var type = getObjectName(object.type);
+        this.type = object.type;
+
+        var toolNormal = cc.Sprite.create(ToolType[type].image);
+        var toolSelected = cc.Sprite.create(ToolType[type].image);
+        var toolDisabled = cc.Sprite.create(ToolType[type].image);
+        var tool = cc.MenuItemSprite.create(toolNormal, toolSelected,
+                                               toolDisabled, this, this.onUse);
+        var menu = cc.Menu.create(tool, null);
+        menu.setAnchorPoint(cc.ccp(0.0));
+        menu.setPosition(cc.ccp(0, 0));
+        this.setPosition(cc.ccp(object.x, object.y));
+        this.addChild(menu, global.Tag.Tool, 2); 
+        this.useAction = cc.MoveTo.create(0.3,cc.ccp(160,350));
+    },
+    
+    onUse: function () {
+        var children = this.getParent().getChildren();
+        for (var i = 0; i < children.length; i++) {
+            if (children[i].type == global.Tag.Rock) {
+                // add bomb effect
+                children[i].removeFromParentAndCleanup();
+            }
+        }
+        
+        this.destroy();
+    },   
+    destroy: function () {
+        //this.runAction(this.useAction);
+        for (var i = 0; i < Game.toolContainer.length; i++) {
+            if (Game.toolContainer[i].type == this.type)
+                Game.toolContainer[i] = null;
+        }
+        this.getParent().reOrderToolContainer();
+        this.getParent().removeChild(this);
+    }
+});
+
+
+var BoneToGold = cc.Layer.extend({
+    type: null,
+    value: 0,
+    
+    ctor: function (object) {
+        var type = getObjectName(object.type);
+        this.type = object.type;
+
+        var toolNormal = cc.Sprite.create(ToolType[type].image);
+        var toolSelected = cc.Sprite.create(ToolType[type].image);
+        var toolDisabled = cc.Sprite.create(ToolType[type].image);
+        var tool = cc.MenuItemSprite.create(toolNormal, toolSelected,
+                                               toolDisabled, this, this.onUse);
+        var menu = cc.Menu.create(tool, null);
+        menu.setAnchorPoint(cc.ccp(0.0));
+        menu.setPosition(cc.ccp(0, 0));
+        this.setPosition(cc.ccp(object.x, object.y));
+        this.addChild(menu, global.Tag.Tool, 2); 
+        this.useAction = cc.MoveTo.create(0.3,cc.ccp(160,350));
+    },
+    
+    onUse: function () {
+        var children = this.getParent().getChildren();
+        for (var i = 0; i < children.length; i++) {
+            if (children[i].type == global.Tag.Bomb) {
+                // add bomb effect
+                children[i].removeFromParentAndCleanup();
+                var object = {};
+                object.x = children[i].getPositionX();
+                object.y = children[i].getPositionY();
+                object.type = global.Tag.Gold;
+                object = new MineObject(object, 1);
+                this.getParent().addChild(object, global.zOrder.Gold);
+                this.getParent().mineContainer.push(object);
+            }
+        }
+        this.destroy();
+    },   
+    destroy: function () {
+        //this.runAction(this.useAction);
+        for (var i = 0; i < Game.toolContainer.length; i++) {
+            if (Game.toolContainer[i].type == this.type)
+                Game.toolContainer[i] = null;
+        }
+        this.getParent().reOrderToolContainer();
+        this.getParent().removeChild(this);
+    }
+});
+
+
+var RockToRich = cc.Layer.extend({
+    type: null,
+    value: 0,
+    
+    ctor: function (object) {
+        var type = getObjectName(object.type);
+        this.type = object.type;
+
+        var toolNormal = cc.Sprite.create(ToolType[type].image);
+        var toolSelected = cc.Sprite.create(ToolType[type].image);
+        var toolDisabled = cc.Sprite.create(ToolType[type].image);
+        var tool = cc.MenuItemSprite.create(toolNormal, toolSelected,
+                                               toolDisabled, this, this.onUse);
+        var menu = cc.Menu.create(tool, null);
+        menu.setAnchorPoint(cc.ccp(0.0));
+        menu.setPosition(cc.ccp(0, 0));
+        this.setPosition(cc.ccp(object.x, object.y));
+        this.addChild(menu, global.Tag.Tool, 2); 
+        this.useAction = cc.MoveTo.create(0.3,cc.ccp(160,350));
+    },
+    
+    onUse: function () {
+        var children = this.getParent().getChildren();
+        for (var i = 0; i < children.length; i++) {
+            if (children[i].type == global.Tag.Bomb) {
+                // add bomb effect
+                children[i].value *= 2;
+            }
+        }
+        this.destroy();
+    },   
+    destroy: function () {
+        //this.runAction(this.useAction);
+        for (var i = 0; i < Game.toolContainer.length; i++) {
+            if (Game.toolContainer[i].type == this.type)
+                Game.toolContainer[i] = null;
+        }
+        this.getParent().reOrderToolContainer();
+        this.getParent().removeChild(this);
+    }
+});
+
+/*
 var Quick = cc.Layer.extend({
     type: null,
     value: 0,
@@ -205,110 +432,4 @@ var Sort = cc.Layer.extend({
         this.getParent().reOrderToolContainer();
         this.getParent().removeChild(this);
     }
-});
-
-var Longer = cc.Layer.extend({
-    type: null,
-    value: 0,
-    
-    ctor: function (object) {
-        var type = getObjectName(object.type);
-        this.type = object.type;
-
-        var toolNormal = cc.Sprite.create(ToolType[type].image);
-        var toolSelected = cc.Sprite.create(ToolType[type].image);
-        var toolDisabled = cc.Sprite.create(ToolType[type].image);
-        var tool = cc.MenuItemSprite.create(toolNormal, toolSelected,
-                                               toolDisabled, this, this.onUse);
-        var menu = cc.Menu.create(tool, null);
-        menu.setAnchorPoint(cc.ccp(0.0));
-        menu.setPosition(cc.ccp(0, 0));
-        this.setPosition(cc.ccp(object.x, object.y));
-        this.addChild(menu, global.Tag.Tool, 2); 
-        this.useAction = cc.MoveTo.create(0.3,cc.ccp(160,350));
-    },
-    
-    onUse: function () {
-        this.getParent()._hook.initWithFile(s_hook_long);
-        this.getParent()._hook.delegate.initWithFile(s_hook_long);
-        this.getParent()._hook.setAnchorPoint(cc.ccp(0.5, 1));
-        this.getParent()._hook.delegate.setAnchorPoint(cc.ccp(0.5, 1));
-        
-        this.destroy();
-    },
-    destroy: function () {
-        //this.runAction(this.useAction);
-        for (var i = 0; i < Game.toolContainer.length; i++) {
-            if (Game.toolContainer[i].type == this.type)
-                Game.toolContainer[i] = null;
-        }
-        this.getParent().reOrderToolContainer();
-        this.getParent().removeChild(this);
-    }
-});
-
-var Scan = cc.Layer.extend({
-    type: null,
-    value: 0,
-    
-    ctor: function (object) {
-        var type = getObjectName(object.type);
-        this.type = object.type;
-
-        var toolNormal = cc.Sprite.create(ToolType[type].image);
-        var toolSelected = cc.Sprite.create(ToolType[type].image);
-        var toolDisabled = cc.Sprite.create(ToolType[type].image);
-        var tool = cc.MenuItemSprite.create(toolNormal, toolSelected,
-                                               toolDisabled, this, this.onUse);
-        var menu = cc.Menu.create(tool, null);
-        menu.setAnchorPoint(cc.ccp(0.0));
-        menu.setPosition(cc.ccp(0, 0));
-        this.setPosition(cc.ccp(object.x, object.y));
-        this.addChild(menu, global.Tag.Tool, 2); 
-        this.useAction = cc.MoveTo.create(0.3,cc.ccp(160,350));
-    },
-    
-    onUse: function () {
-        var draw = this.getParent().draw;
-        this.getParent().draw = function () {
-            cc.renderContext.lineWidth = 2;
-            cc.renderContext.strokeStyle = "#eedc4a";
-            var angle = this._hook.delegate.getRotation();
-            var border = 10;
-            var mx = winSize.width / 2;
-            var my = winSize.height - 50;
-            var desX, desY;
-            if (angle > this._criticalAngle) {
-                desX = 0 + border;
-                desY = my - Math.tan(((90-angle)*Math.PI)/180) * mx;
-            } else if (angle < this._criticalAngle && angle >0) {
-                desX = mx - Math.tan((angle*Math.PI)/180) * my;
-                desY = 0 + border;
-            } else if (angle > (-this._criticalAngle) && angle < 0) {
-                desX = mx + Math.tan((-angle*Math.PI)/180) * my
-                desY = 0 + border;
-            } else if (angle < -this._criticalAngle) {
-                desX = winSize.width - border;
-                desY = my - Math.tan(((90+angle)*Math.PI)/180) * mx;
-            }
-            
-            cc.drawingUtil.drawLine(this._hook.getOriginPosition(), cc.ccp(desX, desY));
-        };
-
-        var parent = this.getParent();
-        setTimeout(function () {
-            parent.draw = draw;
-        }, 10 * 1000);
-        
-        this.destroy();
-    },   
-    destroy: function () {
-        //this.runAction(this.useAction);
-        for (var i = 0; i < Game.toolContainer.length; i++) {
-            if (Game.toolContainer[i].type == this.type)
-                Game.toolContainer[i] = null;
-        }
-        this.getParent().reOrderToolContainer();
-        this.getParent().removeChild(this);
-    }
-});
+});*/

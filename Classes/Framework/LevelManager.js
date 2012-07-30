@@ -61,7 +61,7 @@ var LevelManager = cc.Class.extend({
         object.y = Math.random() * winSize.height - 70;
         if (object.y <= 0) object.y = 40;
         else if (object.y >= winSize.height - 70) ojbect.y = 40;
-        var type = Mission[mission-1].props[round];
+        var type = Mission[mission-1].props[round%4];
         object.type = global.Tag[type]; 
         var prop = new PropType[type].create(object);
         this._gameLayer.addChild(prop, global.zOrder.Prop);

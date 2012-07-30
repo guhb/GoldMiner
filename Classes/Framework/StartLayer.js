@@ -136,7 +136,7 @@ var StartLayer = cc.Layer.extend({
         var scene = cc.Scene.create();
         scene.addChild(MissionLayer.create());
         //scene.addChild(GameControlMenu.create());
-        cc.Director.sharedDirector().replaceScene(cc.TransitionMoveInB.create(1.2, scene));
+        cc.Director.sharedDirector().replaceScene(cc.TransitionRotoZoom.create(1.2, scene));
     },
     
     onSettings:function (pSender) {
