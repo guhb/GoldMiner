@@ -66,32 +66,32 @@ var ToolType = {
     Milk1: {
         create: Milk1,
         value: 2000,
-        image: s_milk
+        image: s_milk1
     }, // Make the hook retrieve quicker
     Milk2: {
         create: Milk2,
         value: 500,
-        image: s_milk
+        image: s_milk2
     },
     Longer: {
         create: Longer,
         value: 1000,
-        image: s_hook_long
+        image: s_aim
     }, // Make the hook longer
     Bombshell: {
         create: Bombshell,
         value: 200,
-        image: s_milk
+        image: s_bomb
     }, // Bomb all the rocks
     BoneToGold: {
         create: BoneToGold,
         value: 1500,
-        image: s_milk
+        image: s_bonebook
     }, // Turn Bones into Golds
     RockToRich: {
         create: RockToRich,
         value: 200,
-        image: s_milk
+        image: s_stonebook
     } // Multiplay the value of rocks
 };
 

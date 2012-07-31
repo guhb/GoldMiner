@@ -62,6 +62,11 @@ var s_mission_ruler = "Resources/missionruler.png";
 var s_shopbg = "Resources/shopbg.png";
 var s_nextgame = "Resources/nextgame.png";
 var s_nextgamebig = "Resources/nextgamebig.png";
+var s_milk1 = "Resources/milk1.png";
+var s_milk2 = "Resources/milk2.png";
+var s_stonebook = "Resources/stonebook.png";
+var s_bonebook = "Resources/bonebook.png";
+var s_aim = "Resources/aim.png";
 
 //music
 var s_bgMusic = "Resources/Music/bgMusic";
@@ -98,6 +103,12 @@ var g_ressources = [
     {type:"image", src:s_explode1},
     {type:"image", src:s_explode2},
     {type:"image", src:s_explode3},
+    
+    {type:"image", src:s_milk1},
+    {type:"image", src:s_milk2},
+    {type:"image", src:s_bonebook},
+    {type:"image", src:s_stonebook},
+    {type:"image", src:s_aim},
     
     {type:"image", src:s_background},
     {type:"image", src:s_background1},

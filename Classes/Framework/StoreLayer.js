@@ -22,7 +22,7 @@ var StoreLayer = cc.Layer.extend({
                 var accept = cc.MenuItemSprite.create(acceptNormal, acceptSelected, acceptDisabled, this, this.onAccept);
                 var menu = cc.Menu.create(accept);
                 this.addChild(menu, 1, 2);
-                menu.setPosition(cc.ccp(154, 200));
+                menu.setPosition(cc.ccp(550, 150));
                 
                 this.initShelfMap();
                 this.createTools();
@@ -39,12 +39,12 @@ var StoreLayer = cc.Layer.extend({
     
     initShelfMap: function () {
         this.shelfMap = [
-            {x: 470, y: 310},
-            {x: 570, y: 310},
-            {x: 670, y: 310},
-            {x: 470, y: 370},
-            {x: 570, y: 370},
-            {x: 670, y: 370}
+            {x: 470, y: 290},
+            {x: 570, y: 290},
+            {x: 670, y: 290},
+            {x: 470, y: 350},
+            {x: 570, y: 350},
+            {x: 670, y: 350}
         ];
     },
     

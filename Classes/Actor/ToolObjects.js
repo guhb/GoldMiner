@@ -3,12 +3,12 @@ var ToolObject = cc.Layer.extend({
     value: null,
     buyAction: null,
     dstMap : [
-        {x: 130, y: 310},
-        {x: 230, y: 310},
-        {x: 330, y: 310},
-        {x: 130, y: 370},
-        {x: 230, y: 370},
-        {x: 330, y: 370}
+        {x: 130, y: 290},
+        {x: 230, y: 290},
+        {x: 330, y: 290},
+        {x: 130, y: 350},
+        {x: 230, y: 350},
+        {x: 330, y: 350}
     ],
     ctor:function (object) {
         var type = getObjectName(object.type);
@@ -103,10 +103,7 @@ var Milk1 = cc.Layer.extend({
     destroy: function () {
         //Game.toolContainer["Milk"] = null;
         //this.runAction(this.useAction);
-        for (var i = 0; i < Game.toolContainer.length; i++) {
-            if (Game.toolContainer[i].type == this.type)
-                Game.toolContainer[i] = null;
-        }
+        Game.popToolObject(this.type);
         //this.getParent().reOrderToolContainer();
         //this.getParent().removeChild(this);
     }
@@ -144,10 +141,7 @@ var Milk2 = cc.Layer.extend({
     destroy: function () {
         //Game.toolContainer["Milk"] = null;
         //this.runAction(this.useAction);
-        for (var i = 0; i < Game.toolContainer.length; i++) {
-            if (Game.toolContainer[i].type == this.type)
-                Game.toolContainer[i] = null;
-        }
+        Game.popToolObject(this.type);
         //this.getParent().reOrderToolContainer();
         //this.getParent().removeChild(this);
     }
@@ -184,10 +178,7 @@ var Longer = cc.Layer.extend({
     },
     destroy: function () {
         //this.runAction(this.useAction);
-        for (var i = 0; i < Game.toolContainer.length; i++) {
-            if (Game.toolContainer[i].type == this.type)
-                Game.toolContainer[i] = null;
-        }
+        Game.popToolObject(this.type);
         //this.getParent().reOrderToolContainer();
         //this.getParent().removeChild(this);
     }
@@ -228,10 +219,7 @@ var Bombshell = cc.Layer.extend({
     },   
     destroy: function () {
         //this.runAction(this.useAction);
-        for (var i = 0; i < Game.toolContainer.length; i++) {
-            if (Game.toolContainer[i].type == this.type)
-                Game.toolContainer[i] = null;
-        }
+        Game.popToolObject(this.type);
         //this.getParent().reOrderToolContainer();
         //this.getParent().removeChild(this);
     }
@@ -278,10 +266,7 @@ var BoneToGold = cc.Layer.extend({
     },   
     destroy: function () {
         //this.runAction(this.useAction);
-        for (var i = 0; i < Game.toolContainer.length; i++) {
-            if (Game.toolContainer[i].type == this.type)
-                Game.toolContainer[i] = null;
-        }
+        Game.popToolObject(this.type);
         //this.getParent().reOrderToolContainer();
         //this.getParent().removeChild(this);
     }
@@ -321,10 +306,7 @@ var RockToRich = cc.Layer.extend({
     },   
     destroy: function () {
         //this.runAction(this.useAction);
-        for (var i = 0; i < Game.toolContainer.length; i++) {
-            if (Game.toolContainer[i].type == this.type)
-                Game.toolContainer[i] = null;
-        }
+        Game.popToolObject(this.type);
         //this.getParent().reOrderToolContainer();
         //this.getParent().removeChild(this);
     }

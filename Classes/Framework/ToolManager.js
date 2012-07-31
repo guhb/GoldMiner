@@ -26,8 +26,9 @@ var ToolManager = cc.Class.extend({
             var tool = tools[i];
             object.type = global.Tag[tool];
             object.x = map[j].x;
-            object.y = map[j].y; 
+            object.y = map[j].y;
             object = new ToolObject(object);
+            object.setScale(0.5);
             this._layer.addChild(object, global.zOrder.Tool);
             j++;
         }
