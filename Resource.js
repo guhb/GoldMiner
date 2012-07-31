@@ -57,6 +57,11 @@ var s_mission3 = "Resources/mission3.png";
 var s_mission4 = "Resources/mission4.png";
 var s_mission_bg = "Resources/missionbg.png";
 var s_middle_gold = "Resources/middle_gold.png";
+var s_middle_gold = "Resources/middle_gold.png";
+var s_mission_ruler = "Resources/missionruler.png";
+var s_shopbg = "Resources/shopbg.png";
+var s_nextgame = "Resources/nextgame.png";
+var s_nextgamebig = "Resources/nextgamebig.png";
 
 //music
 var s_bgMusic = "Resources/Music/bgMusic";
@@ -121,6 +126,10 @@ var g_ressources = [
     {type:"image", src:s_mission3},
     {type:"image", src:s_mission4},
     {type:"image", src:s_mission_bg},
+    {type:"image", src:s_mission_ruler},
+    {type:"image", src:s_shopbg},
+    {type:"image", src:s_nextgame},
+    {type:"image", src:s_nextgamebig},
     
     //plist
     {type:"plist", src:s_explosion_plist},

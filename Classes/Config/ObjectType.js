@@ -1,31 +1,31 @@
 var MineType = {
     Rock: {
         big: {
-            value: 10,
-            weight: 100,
+            value: 20,
+            weight: 90,
             image: global.theme.big_rock
         },
         small: {
-            value: 5,
-            weight: 50,
+            value: 10,
+            weight: 40,
             image: global.theme.small_rock
         }
     },
     
     Gold: {
         big: {
-            value: 100,
-            weight: 100,
+            value: 500,
+            weight: 90,
             image: global.theme.big_gold
         },
         middle:{
-			value: 100,
-			weight:100,
+			value: 200,
+			weight: 60,
 			image:global.theme.middle_gold
 		},
         small: {
-            value: 50,
-            weight: 50,
+            value: 100,
+            weight: 20,
             image: global.theme.small_gold
         }
     },
@@ -38,61 +38,61 @@ var MineType = {
     
     Diamond: {
         big: {
-            value: 1000,
-            weight: 100,
+            value: 600,
+            weight: 20,
             image: global.theme.big_diamond
         },
         small: {
             value: 500,
-            weight: 50,
+            weight: 20,
             image: global.theme.small_diamond
         }
     },
     
     Bone: {
-        value: 10,
-        weight: 40,
+        value: 20,
+        weight: 30,
         image: global.theme.bone
-    },
-    
+    }//,
+    /*
     Bomb: {
         value: 0,
-        weight: 0,
+        weight: 20,
         image: global.theme.bomb
-    }
+    }*/
 };
 
 var ToolType = {
     Milk1: {
         create: Milk1,
-        value: 100,
+        value: 2000,
         image: s_milk
     }, // Make the hook retrieve quicker
     Milk2: {
         create: Milk2,
-        value: 200,
+        value: 500,
         image: s_milk
     },
     Longer: {
         create: Longer,
-        value: 100,
+        value: 1000,
         image: s_hook_long
     }, // Make the hook longer
     Bombshell: {
         create: Bombshell,
-        value: 100,
+        value: 200,
         image: s_milk
-    },
+    }, // Bomb all the rocks
     BoneToGold: {
         create: BoneToGold,
-        value: 100,
+        value: 1500,
         image: s_milk
-    },
+    }, // Turn Bones into Golds
     RockToRich: {
         create: RockToRich,
-        value: 100,
+        value: 200,
         image: s_milk
-    }
+    } // Multiplay the value of rocks
 };
 
 var PropType = {
@@ -121,7 +121,7 @@ var PropType = {
 var getObjectName = function (tag) {
     var name = [
             // MineObjects
-            "Rock","Gold","Pig","Diamond","Bone","Bomb",
+            "Rock","Gold","Pig","Diamond","Bone",// "Bomb",
             // ToolObjects
             "Milk1","Milk2","Longer","Bombshell","BoneToGold","RockToRich",
             // PropObjects

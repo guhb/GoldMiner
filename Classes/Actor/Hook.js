@@ -22,6 +22,7 @@ Hook = cc.Sprite.extend({
         this.swing();
     },
     
+    // delegate 用于代理Hook的摇摆动作
     initDelegate: function () {
         this.delegate = new cc.Sprite.create(global.theme.hook);
         this.delegate.setScale(0.6);

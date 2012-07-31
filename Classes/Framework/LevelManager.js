@@ -25,24 +25,26 @@ var LevelManager = cc.Class.extend({
         return minuteStr;
     },
 
+    // 更新关卡的时间限制，目标分数等信息
     updateGameStatus: function () {
         if (Game.dst_round != 1) {
             Game.dst_score += ((Game.round-1) % NUMBER_OF_ROUNDS) * Math.round(Math.random() * 700);
         }
         this._gameLayer.setDstScore(Game.dst_score);
         this._gameLayer.setCurScore(Game.cur_score);
-        if (Game.time_limit >= 10) {
+        /*if (Game.time_limit >= 10) {
             this._gameLayer._time_limit = Game.time_limit 
                                           - Math.round(Game.round * Math.random());
-        }
+        }*/
         this._gameLayer.setRound(Game.round);
     },
 
+    // 根据Level.js里面的Round信息，创建地图
     createMap:function(){
         this._gameLayer.mineContainer = [];
         var round = (this._currentRound - 1) % NUMBER_OF_ROUNDS;
         this.updateGameStatus();
-        if (this._currentRound != 1 && round == 0) this.updateMineType();
+        // 生成物品MineObject
         for (var i=0; i<Round[round].length; i++) {
             var size = Math.round(Math.random());
             var mine = new MineObject(Round[round][i], size);
@@ -52,6 +54,7 @@ var LevelManager = cc.Class.extend({
             } 
         }
         
+        // 生成道具（问号物品），位置目前还是随机生成的
         var mission = this._currentMission;
         this._gameLayer.propContainer = [];
         var object = {};

@@ -90,7 +90,7 @@ MineObject = cc.Sprite.extend({
                 }
                 this.setPosition(cc.ccp(object.x, object.y));
                 this.type = object.type;
-				this.setScale(0.6	);
+				this.setScale(0.6);
                 break;
             case "Bone":
 				this.initWithFile(MineType[type].image);
@@ -124,7 +124,12 @@ MineObject = cc.Sprite.extend({
         this.zOrder = global.zOrder[type];
         this.scheduleUpdate();
     },
-    
+    getCollisionLength: function () {
+        var x = this.getContentSize().width;
+        var y = this.getContentSize().height;
+        //console.log("getCollisionLength: " + this.getScale());
+        return x < y ? x * this.getScale() : y * this.getScale();
+    },
     getValue: function () {
         return this.value;
     },

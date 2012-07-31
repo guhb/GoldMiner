@@ -1,5 +1,5 @@
 var GameLayer = cc.Layer.extend({
-    _time_limit: 30,
+    _time_limit: 5,
     _cur_score: 0,
     _dst_score: 200,
     _roundInterval: null,
@@ -253,19 +253,13 @@ var GameLayer = cc.Layer.extend({
                     var ylen = Math.pow(this._hook.getPositionY() - this.mineContainer[i].getPositionY(), 2);
                 
                     distance = Math.sqrt(xlen + ylen);
-                    if (distance < this.mineContainer[i].getContentSize().height/2 * this.mineContainer[i].getScale()) {
+                    if (distance < this.mineContainer[i].getCollisionLength()/2) {
                         if (this.mineContainer[i].type == global.Tag.Pig)
                             this.mineContainer[i].stopAllActions();
-                        /*
-                        if (this._propContainer.indexOf("Milk") == -1) {
-                            var speed = this.mineContainer[i].weight/50;
-                            if (speed <= 0.2) speed = 0.2;
-                            Game.Speed.retrieve = speed;
-                            this._hook.setRetrieveSpeed(speed);
-                        }*/
+
                         var path = Math.sqrt(Math.pow(this._hook.getPosition().x - this._hook.getOriginPosition().x, 2) + Math.pow(this._hook.getPosition().y - this._hook.getOriginPosition().y, 2))
-                        var speed = this.mineContainer[i].weight/50 * path/this._hook_path * Game.Speed.retrieve;
-                        //this.mineContainer[i].setPosition(cc.ccp(this._hook.getPositionX(), this._hook.getPositionY()));
+                        var speed = (1 - this.mineContainer[i].weight/100) * path/this._hook_path * Game.Speed.retrieve;
+                        this.mineContainer[i].setPosition(cc.ccp(this._hook.getPositionX(), this._hook.getPositionY()));
                         
                         //this.collectAction = cc.MoveTo.create(this._hook.getRetrieveSpeed(), this._hook.getOriginPosition());
                         this.mineContainer[i].collectAction = cc.MoveTo.create(this._hook.getRetrieveSpeed(), this._hook.getCollectPosition());
@@ -303,6 +297,7 @@ var GameLayer = cc.Layer.extend({
     },
     
     onGameOver:function () {
+        Game.resume();
         saveRecord(this._cur_score);
         var scene = cc.Scene.create();
         scene.addChild(GameOverLayer.create());
@@ -312,6 +307,7 @@ var GameLayer = cc.Layer.extend({
     },
     
     onNextGame: function () {
+        Game.cleanToolObjects();
         if (Game.round == 6) {
             if (Game.unlock + 1 <= NUMBER_OF_MISSIONS) {
                 Game.unlock++;

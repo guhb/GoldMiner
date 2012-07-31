@@ -4,36 +4,47 @@ var StoreLayer = cc.Layer.extend({
     init:function () {
         var bRet = false;
             if (this._super()) {
-            // background
-            var bg = cc.Sprite.create(global.theme.storelayer_bg);
-            bg.setAnchorPoint(cc.PointZero());
-            this.addChild(bg, 0, 1);
-            
-            var acceptNormal = cc.Sprite.create(s_accept, cc.RectMake(0, 0, 200, 140));
-            var acceptSelected = cc.Sprite.create(s_accept, cc.RectMake(200, 0, 200, 140));
-            var acceptDisabled = cc.Sprite.create(s_accept, cc.RectMake(400, 0, 200, 140));
-            
-            var accept = cc.MenuItemSprite.create(acceptNormal, acceptSelected, acceptDisabled, this, this.onAccept);
-            var menu = cc.Menu.create(accept);
-            this.addChild(menu, 1, 2);
-            menu.setPosition(cc.ccp(304, 142));
-            
-            this.initShelfMap();
-            this.createTools();
+                // background
+                var bg = cc.Sprite.create(s_shopbg);
+                bg.setAnchorPoint(cc.PointZero());
+                this.addChild(bg, 0, 1);
 
-            bRet = true;
-        }
+                // cur score
+                this._lbCurScore = cc.LabelTTF.create("Score: " + Game.cur_score, cc.TEXT_ALIGNMENT_LEFT, "Arial", 14);
+                this._lbCurScore.setColor(cc.RED());
+                this.addChild(this._lbCurScore, global.zOrder.Label);
+                this._lbCurScore.setPosition(cc.ccp(winSize.width - 100, winSize.height - 60));
+                
+                var acceptNormal = cc.Sprite.create(s_nextgame);
+                var acceptSelected = cc.Sprite.create(s_nextgamebig);
+                var acceptDisabled = cc.Sprite.create(s_nextgame);
+                
+                var accept = cc.MenuItemSprite.create(acceptNormal, acceptSelected, acceptDisabled, this, this.onAccept);
+                var menu = cc.Menu.create(accept);
+                this.addChild(menu, 1, 2);
+                menu.setPosition(cc.ccp(154, 200));
+                
+                this.initShelfMap();
+                this.createTools();
+                this.scheduleUpdate();
+
+                bRet = true;
+            }
         return bRet;
+    },
+
+    update: function () {
+        this._lbCurScore.setString("Score: " + Game.cur_score);
     },
     
     initShelfMap: function () {
         this.shelfMap = [
-            {x: 200, y: 200},
-            {x: 280, y: 200},
-            {x: 360, y: 200},
-            {x: 200, y: 280},
-            {x: 280, y: 280},
-            {x: 360, y: 360}
+            {x: 470, y: 310},
+            {x: 570, y: 310},
+            {x: 670, y: 310},
+            {x: 470, y: 370},
+            {x: 570, y: 370},
+            {x: 670, y: 370}
         ];
     },
     

@@ -22,7 +22,6 @@ var GameOverLayer = cc.Layer.extend({
     },
 
     onPlayAgain:function (pSender) {
-        resume();
         var scene = cc.Scene.create();
         scene.addChild(MissionLayer.create());
         scene.addChild(GameControlMenu.create());

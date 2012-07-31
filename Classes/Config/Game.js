@@ -2,31 +2,37 @@ var Game = {
     round: 1,
     mission: 1,
     unlock: 3,
-    cur_score: 0,
+    cur_score: 5000,
     dst_score: 500,
-    money: 5000,
-    time_limit: 60,
+    time_limit: 5,
     toolContainer: [],
     Speed: {
         rotate: 1,
         launch: 1,
         retrieve: 1
-    }
-};
-
-var resume = function () {
-    Game.round = 1;
-    Game.mission = 1;
-    Game.cur_score = 0;
-    Game.dst_score = 500;
-    Game.time_limit = 60;
-    cleanToolObjects();
-};
-
-var cleanToolObjects = function () {
-    Game.Speed.rotate = 1;
-    Game.Speed.launch = 1;
-    Game.Speed.retrieve = 1;
+    },
+    resume: function () {
+        Game.round = 1;
+        Game.mission = 1;
+        Game.cur_score = 5000;
+        Game.dst_score = 500;
+        Game.time_limit = 60;
+        this.cleanToolObjects();
+    },
+    cleanToolObjects: function () {
+        Game.Speed.rotate = 1;
+        Game.Speed.launch = 1;
+        Game.Speed.retrieve = 1;
+    },
+    popToolObject: function (type) {
+        var container = [];
+        var j = 0;
+        for (var i = 0; i < this.toolContainer.length; i++) {
+            if (this.toolContainer[i].type == type) continue;
+            container[j++] = this.toolContainer[i];
+        }
+        this.toolContainer = container;
+    },
 };
 
 (function(){

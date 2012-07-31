@@ -1,6 +1,6 @@
 var Clock = cc.Sprite.extend({
     type: null,
-    weight: 25,
+    weight: 20,
     value: 0,
     zOrder: 0,
     
@@ -34,6 +34,11 @@ var Clock = cc.Sprite.extend({
         );
     },
     
+    getCollisionLength: function () {
+        var x = this.getContentSize().width;
+        var y = this.getContentSize().height;
+        return x < y ? x * this.getScale() : y * this.getScale();
+    },
     getValue: function () {
         return this.value;
     },
@@ -50,7 +55,7 @@ var Clock = cc.Sprite.extend({
 
 var Thunder = cc.Sprite.extend({
     type: null,
-    weight: 25,
+    weight: 20,
     value: 0,
     zOrder: 0,
     
@@ -87,6 +92,11 @@ var Thunder = cc.Sprite.extend({
         }
     },
     
+    getCollisionLength: function () {
+        var x = this.getContentSize().width;
+        var y = this.getContentSize().height;
+        return x < y ? x * this.getScale() : y * this.getScale();
+    },
     getValue: function () {
         return this.value;
     },
@@ -103,7 +113,7 @@ var Thunder = cc.Sprite.extend({
 
 var Sleep = cc.Sprite.extend({
     type: null,
-    weight: 25,
+    weight: 20,
     value: 0,
     zOrder: 0,
     
@@ -128,6 +138,11 @@ var Sleep = cc.Sprite.extend({
         }
     },
     
+    getCollisionLength: function () {
+        var x = this.getContentSize().width;
+        var y = this.getContentSize().height;
+        return x < y ? x * this.getScale() : y * this.getScale();
+    },
     getValue: function () {
         return this.value;
     },
@@ -144,7 +159,7 @@ var Sleep = cc.Sprite.extend({
 
 var Bump = cc.Sprite.extend({
     type: null,
-    weight: 25,
+    weight: 20,
     value: 0,
     zOrder: 0,
     
@@ -180,6 +195,11 @@ var Bump = cc.Sprite.extend({
         10 * 1000);
     },
     
+    getCollisionLength: function () {
+        var x = this.getContentSize().width;
+        var y = this.getContentSize().height;
+        return x < y ? x * this.getScale() : y * this.getScale();
+    },
     getValue: function () {
         return this.value;
     },
@@ -196,7 +216,7 @@ var Bump = cc.Sprite.extend({
 
 var Scan = cc.Sprite.extend({
     type: null,
-    weight: 25,
+    weight: 20,
     value: 0,
     zOrder: 0,
     
@@ -211,7 +231,7 @@ var Scan = cc.Sprite.extend({
         var draw = this.getParent().draw;
         this.getParent().draw = function () {
             cc.renderContext.lineWidth = 2;
-            cc.renderContext.strokeStyle = "#eedc4a";
+            //cc.renderContext.strokeStyle = "#eedc4a";
             var angle = this._hook.delegate.getRotation();
             var border = 10;
             var mx = winSize.width / 2;
@@ -238,10 +258,13 @@ var Scan = cc.Sprite.extend({
         setTimeout(function () {
             parent.draw = draw;
         }, 10 * 1000);
-        
-        this.destroy();
     },   
     
+    getCollisionLength: function () {
+        var x = this.getContentSize().width;
+        var y = this.getContentSize().height;
+        return x < y ? x * this.getScale() : y * this.getScale();
+    },
     getValue: function () {
         return this.value;
     },

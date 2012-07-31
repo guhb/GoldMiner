@@ -2,6 +2,14 @@ var ToolObject = cc.Layer.extend({
     type: null,
     value: null,
     buyAction: null,
+    dstMap : [
+        {x: 130, y: 310},
+        {x: 230, y: 310},
+        {x: 330, y: 310},
+        {x: 130, y: 370},
+        {x: 230, y: 370},
+        {x: 330, y: 370}
+    ],
     ctor:function (object) {
         var type = getObjectName(object.type);
         this.type = object.type;
@@ -18,28 +26,45 @@ var ToolObject = cc.Layer.extend({
         this.originPosition = cc.ccp(object.x, object.y);
         this.setPosition(cc.ccp(object.x, object.y));
         this.addChild(menu, global.Tag.Tool, 2); 
-        this.buyAction = cc.MoveTo.create(0.3,cc.ccp(160,350));
+        console.log("Tool created: %j %j", getObjectName(this.type), this.type);
     },
     
     onBuy: function () {
         if(cc.Point.CCPointEqualToPoint(this.originPosition, this.getPosition())) {
-            if (this.value <= Game.money) {
-                Game.money -= this.value;
-                var object = {};
-                object.type = this.type;
+            if (this.value <= Game.cur_score) {
+                Game.cur_score -= this.value;
+                //var object = {};
+                //object.type = this.type;
                 //var type = getObjectName(this.type);
-                Game.toolContainer.push(object);
+                Game.toolContainer.push(this);
+                var dstPoint = cc.ccp(this.dstMap[Game.toolContainer.length-1].x,
+                    this.dstMap[Game.toolContainer.length-1].y);
+                this.buyAction = cc.MoveTo.create(0.3,dstPoint);
                 this.runAction(this.buyAction);
+                console.log("buy this.type %j %j.", getObjectName(this.type), this.type);
             } else {
                 this.showIndication();
             }
         } else {
-            Game.money += this.value;
+            Game.cur_score += this.value;
+            Game.popToolObject(this.type);
+            console.log("this.type %j.", getObjectName(this.type));
             var returnAction = cc.MoveTo.create(0.3, this.originPosition);
             this.runAction(returnAction);
+            this.reOrderToolObjects();
         }
     },
     
+    reOrderToolObjects: function () {
+        for (var i = 0; i < Game.toolContainer.length; i++) {
+            if (!cc.Point.CCPointEqualToPoint(Game.toolContainer[i].getPosition(),
+                cc.ccp(this.dstMap[i].x, this.dstMap[i].y))) {
+                var action = cc.MoveTo.create(0.3, cc.ccp(this.dstMap[i].x, this.dstMap[i].y));
+                Game.toolContainer[i].runAction(action);
+            }
+        }
+    },
+
     showIndication: function () {
         // show a indication that the player does not have enough money.
         console.log("Money not enough");
@@ -76,14 +101,14 @@ var Milk1 = cc.Layer.extend({
         console.log("Milk used.");
     },
     destroy: function () {
-        Game.toolContainer["Milk"] = null;
+        //Game.toolContainer["Milk"] = null;
         //this.runAction(this.useAction);
         for (var i = 0; i < Game.toolContainer.length; i++) {
             if (Game.toolContainer[i].type == this.type)
                 Game.toolContainer[i] = null;
         }
-        this.getParent().reOrderToolContainer();
-        this.getParent().removeChild(this);
+        //this.getParent().reOrderToolContainer();
+        //this.getParent().removeChild(this);
     }
 });
 
@@ -117,14 +142,14 @@ var Milk2 = cc.Layer.extend({
         console.log("Milk used.");
     },
     destroy: function () {
-        Game.toolContainer["Milk"] = null;
+        //Game.toolContainer["Milk"] = null;
         //this.runAction(this.useAction);
         for (var i = 0; i < Game.toolContainer.length; i++) {
             if (Game.toolContainer[i].type == this.type)
                 Game.toolContainer[i] = null;
         }
-        this.getParent().reOrderToolContainer();
-        this.getParent().removeChild(this);
+        //this.getParent().reOrderToolContainer();
+        //this.getParent().removeChild(this);
     }
 });
 
@@ -163,8 +188,8 @@ var Longer = cc.Layer.extend({
             if (Game.toolContainer[i].type == this.type)
                 Game.toolContainer[i] = null;
         }
-        this.getParent().reOrderToolContainer();
-        this.getParent().removeChild(this);
+        //this.getParent().reOrderToolContainer();
+        //this.getParent().removeChild(this);
     }
 });
 
@@ -207,8 +232,8 @@ var Bombshell = cc.Layer.extend({
             if (Game.toolContainer[i].type == this.type)
                 Game.toolContainer[i] = null;
         }
-        this.getParent().reOrderToolContainer();
-        this.getParent().removeChild(this);
+        //this.getParent().reOrderToolContainer();
+        //this.getParent().removeChild(this);
     }
 });
 
@@ -237,7 +262,7 @@ var BoneToGold = cc.Layer.extend({
     onUse: function () {
         var children = this.getParent().getChildren();
         for (var i = 0; i < children.length; i++) {
-            if (children[i].type == global.Tag.Bomb) {
+            if (children[i].type == global.Tag.Bone) {
                 // add bomb effect
                 children[i].removeFromParentAndCleanup();
                 var object = {};
@@ -257,8 +282,8 @@ var BoneToGold = cc.Layer.extend({
             if (Game.toolContainer[i].type == this.type)
                 Game.toolContainer[i] = null;
         }
-        this.getParent().reOrderToolContainer();
-        this.getParent().removeChild(this);
+        //this.getParent().reOrderToolContainer();
+        //this.getParent().removeChild(this);
     }
 });
 
@@ -287,7 +312,7 @@ var RockToRich = cc.Layer.extend({
     onUse: function () {
         var children = this.getParent().getChildren();
         for (var i = 0; i < children.length; i++) {
-            if (children[i].type == global.Tag.Bomb) {
+            if (children[i].type == global.Tag.Rock) {
                 // add bomb effect
                 children[i].value *= 2;
             }
@@ -300,8 +325,8 @@ var RockToRich = cc.Layer.extend({
             if (Game.toolContainer[i].type == this.type)
                 Game.toolContainer[i] = null;
         }
-        this.getParent().reOrderToolContainer();
-        this.getParent().removeChild(this);
+        //this.getParent().reOrderToolContainer();
+        //this.getParent().removeChild(this);
     }
 });
 

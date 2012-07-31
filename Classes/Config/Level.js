@@ -85,9 +85,9 @@ var Round = [
         {type: global.Tag.Pig, x: 80,  y: 310,    x2: 80,  y2: 310},
         {type: global.Tag.Bone,   x: 150, y: 300},
         {type: global.Tag.Bone,   x: 370, y: 260},
-        {type: global.Tag.Bone,   x: 540, y: 300},
-        {type: global.Tag.Bomb,   x: 240, y: 210},
-        {type: global.Tag.Bomb,   x: 500, y: 260}
+        {type: global.Tag.Bone,   x: 540, y: 300}//,
+        /*{type: global.Tag.Bomb,   x: 240, y: 210},
+        {type: global.Tag.Bomb,   x: 500, y: 260}*/
     ],
     [ // Round 6
         {type: global.Tag.Gold,    x: 60,  y: 50},
@@ -100,11 +100,11 @@ var Round = [
         {type: global.Tag.Diamond,    x: 380, y: 150},
         {type: global.Tag.Bone,    x: 150, y: 300},
         {type: global.Tag.Bone,    x: 370, y: 260},
-        {type: global.Tag.Bone,    x: 540, y: 300},
-        {type: global.Tag.Bomb,    x: 100, y: 290},
+        {type: global.Tag.Bone,    x: 540, y: 300}//,
+        /*{type: global.Tag.Bomb,    x: 100, y: 290},
         {type: global.Tag.Bomb,    x: 230, y: 160},
         {type: global.Tag.Bomb,    x: 440, y: 210},
-        {type: global.Tag.Bomb,    x: 590, y: 260}
+        {type: global.Tag.Bomb,    x: 590, y: 260}*/
     ],
 ];
 
@@ -114,16 +114,16 @@ Mission = [
     {
         round: Round,
         image: s_mission4,
-        props: ["Clock", "Bump", "Tunder", "Sleep"]
+        props: ["Scan", "Bump", "Clock", "Thunder", "Sleep"]
     },
     {
         round: Round,
         image: s_mission2,
-        props: ["Clock", "Bump", "Tunder", "Sleep"]
+        props: ["Clock", "Bump", "Scan", "Thunder", "Sleep"]
     },
     {
         round: Round,
         image: s_mission3,
-        props: ["Clock", "Bump", "Tunder", "Sleep"]
+        props: ["Clock", "Bump", "Scan", "Thunder", "Sleep"]
     }
 ];

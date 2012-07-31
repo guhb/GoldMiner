@@ -22,7 +22,7 @@ var GameControlMenu = cc.Layer.extend({
     
     onReturn:function (pSender) {
         saveRecord(Game.cur_score);
-        resume();
+        Game.resume();
         var scene = cc.Scene.create();
         scene.addChild(MissionLayer.create());
         cc.Director.sharedDirector().replaceScene(cc.TransitionMoveInB.create(1.2,scene));

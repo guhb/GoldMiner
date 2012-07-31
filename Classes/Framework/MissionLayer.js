@@ -47,9 +47,10 @@ var MissionLayer = cc.Layer.extend({
             if (i > unlock-1) mis.setOpacity(0.8);
             var misItem = cc.MenuItemSprite.create(mis, null,null, this, this.onMissionSelected);
             this._missionView.addChild(misItem);
+            misItem.setScale(0.7);
         }
         
-        this._missionView.alignItemsHorizontallyWithPadding(10);
+        this._missionView.alignItemsHorizontallyWithPadding(65);
         //this._missionView.setContentSize(cc.SizeMake(210*4, 120));
         this.addChild(this._missionView, 2, 2);
         this._missionView.setAnchorPoint(cc.ccp(0,0.5));
@@ -57,9 +58,16 @@ var MissionLayer = cc.Layer.extend({
         this._missionView.setPosition(cc.ccp(this._begin, winSize.height / 2));
         
         var s = cc.Sprite.create(s_mission1);
-        s.setScaleY(1.2);
-        s.setPosition(winSize.width/2, winSize.height/2);
+        
+        s.setPosition(cc.ccp(winSize.width/2, winSize.height/2));
         this.addChild(s, 1);
+    
+        
+        var ruler = cc.Sprite.create(s_mission_ruler);
+        ruler.setPosition(cc.ccp(winSize.width/2,winSize.height/2+100));
+        this.addChild(ruler,10);
+        ruler.setScale(0.9);
+        ruler.setScaleY(0.9);
     },
     
     ccTouchesBegan: function (touches, event) {
@@ -119,7 +127,8 @@ var MissionLayer = cc.Layer.extend({
         var unlock = Game.unlock;
         console.log("unlock:" + unlock + "_num: " + this._num);
         if (this._num <= Game.unlock) {
-            resume();
+            //resume();
+            Game.resume();
             Game.mission = this._num;
             var scene = cc.Scene.create();
             scene.addChild(GameLayer.create());
