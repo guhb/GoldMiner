@@ -38,21 +38,21 @@ var MissionLayer = cc.Layer.extend({
     },
     
     initMissionView: function () {
-        this._missionView = cc.Menu.create(null);
+        this._missionView = new cc.Layer();
+        //this._missionView.setAnchorPoint(cc.ccp(0,0));
         //var unlock = Number(localStorage.unlockMission);
         var unlock = this._missions;
         console.log("mi-unlock" + unlock);
         for (var i = 0; i < Mission.length; i++) {
             var mis = cc.Sprite.create(Mission[i].image);
             if (i > unlock-1) mis.setOpacity(0.8);
-            var misItem = cc.MenuItemSprite.create(mis, null,null, this, this.onMissionSelected);
-            this._missionView.addChild(misItem);
-            misItem.setScale(0.7);
+            this._missionView.addChild(mis);
+            mis.setPosition(cc.ccp(i*(this._missionWidth+10),0));
+            mis.setScale(0.7);
         }
-        
-        this._missionView.alignItemsHorizontallyWithPadding(65);
-        //this._missionView.setContentSize(cc.SizeMake(210*4, 120));
+
         this.addChild(this._missionView, 2, 2);
+        this._missionView.setContentSize(cc.SizeMake(i*(this._missionWidth+10),100));
         this._missionView.setAnchorPoint(cc.ccp(0,0.5));
         this._begin = winSize.width / 2 - 100 + (this._missionWidth * this._missions + (this._missions-1) * 10) / 2;
         this._missionView.setPosition(cc.ccp(this._begin, winSize.height / 2));
@@ -121,6 +121,13 @@ var MissionLayer = cc.Layer.extend({
         var end = this._begin - (num - 1)* (this._missionWidth + 10);
         var action = cc.MoveTo.create(0.1, cc.ccp(end, winSize.height/2));
         this._missionView.runAction(action);
+
+        var distance = Math.sqrt(Math.pow(this._curPos.x - winSize.width/2, 2)
+                               + Math.pow(this._curPos.y - winSize.height/2, 2));
+        console.log(this._direction);
+        if (distance < 50 && this._direction >=-2 && this._direction <=2 ) {
+            this.onMissionSelected();
+        }
     },
     
     onMissionSelected: function () {
