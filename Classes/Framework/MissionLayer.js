@@ -7,6 +7,7 @@ var MissionLayer = cc.Layer.extend({
     _missions: 1,
     _begin: null,
     _num: 1,
+    _buffer: [],
     
     init:function () {
         var bRet = false;
@@ -39,7 +40,7 @@ var MissionLayer = cc.Layer.extend({
     
     initMissionView: function () {
         this._missionView = new cc.Layer();
-        //this._missionView.setAnchorPoint(cc.ccp(0,0));
+        this._missionView.setAnchorPoint(cc.ccp(0,0));
         //var unlock = Number(localStorage.unlockMission);
         var unlock = this._missions;
         console.log("mi-unlock" + unlock);
@@ -53,15 +54,14 @@ var MissionLayer = cc.Layer.extend({
 
         this.addChild(this._missionView, 2, 2);
         this._missionView.setContentSize(cc.SizeMake(i*(this._missionWidth+10),100));
-        this._missionView.setAnchorPoint(cc.ccp(0,0.5));
-        this._begin = winSize.width / 2 - 100 + (this._missionWidth * this._missions + (this._missions-1) * 10) / 2;
+
+        this._begin = winSize.width / 2;
         this._missionView.setPosition(cc.ccp(this._begin, winSize.height / 2));
         
         var s = cc.Sprite.create(s_mission1);
         
         s.setPosition(cc.ccp(winSize.width/2, winSize.height/2));
         this.addChild(s, 1);
-    
         
         var ruler = cc.Sprite.create(s_mission_ruler);
         ruler.setPosition(cc.ccp(winSize.width/2,winSize.height/2+100));
@@ -75,6 +75,9 @@ var MissionLayer = cc.Layer.extend({
             this._beginPos = touches[0].locationInView(0).x;
         }
         this.isMouseDown = true;
+        console.log(this._buffer.length);
+        if (this._buffer.length == 1) this.onMissionSelected();
+        console.log("began");
     },
     
     ccTouchesMoved: function (touches, event) {
@@ -84,16 +87,7 @@ var MissionLayer = cc.Layer.extend({
             this._curPos = this._missionView.getPosition();
 
             var nextPos = cc.ccp(this._curPos.x + nMoveX, this._curPos.y);
-            /*
-            if (nextPos.x < 0.0) {
-                this._missionView.setPosition(cc.ccp(0, winSize.height/2));
-                return;
-            }
 
-            if (nextPos.y > ((testNames.length + 1) * LINE_SPACE - winSize.height)) {
-                this._itemMenu.setPosition(cc.ccp(0, ((testNames.length + 1) * LINE_SPACE - winSize.height)));
-                return;
-            }*/
             this._missionView.setPosition(nextPos);
             this._beginPos = touchLocation;
             this._curPos = nextPos;
@@ -102,6 +96,8 @@ var MissionLayer = cc.Layer.extend({
     },
     
     ccTouchesEnded: function (touches, event) {
+        if (this._buffer.length == 2) this._buffer.shift();
+        this._buffer.push(this._direction);
         if (this._direction < 0) {
             this._num = Math.ceil(Math.abs(this._curPos.x - this._begin) / (this._missionWidth + 10))+1;
         } else {
@@ -124,10 +120,11 @@ var MissionLayer = cc.Layer.extend({
 
         var distance = Math.sqrt(Math.pow(this._curPos.x - winSize.width/2, 2)
                                + Math.pow(this._curPos.y - winSize.height/2, 2));
-        console.log(this._direction);
-        if (distance < 50 && this._direction >=-2 && this._direction <=2 ) {
+        console.log(this._direction, distance);
+        if ((this._buffer[0] == this._buffer[1]) ) {
             this.onMissionSelected();
         }
+        console.log("end");
     },
     
     onMissionSelected: function () {
