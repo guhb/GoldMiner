@@ -1,6 +1,6 @@
 var StoreLayer = cc.Layer.extend({
     shelfMap: null,
-    
+    describeLabel:null,
     init:function () {
         var bRet = false;
             if (this._super()) {
@@ -24,6 +24,15 @@ var StoreLayer = cc.Layer.extend({
                 this.addChild(menu, 1, 2);
                 menu.setPosition(cc.ccp(550, 150));
                 
+                this.describeLabel = cc.LabelTTF.create(" ",
+                    cc.SizeMake(300,200),cc.TEXT_ALIGNMENT_LEFT,'Arial',30
+                    );
+                this.describeLabel.setPosition(cc.ccp(110,170));
+                this.describeLabel.setColor(new cc.Color3B(0,0,0));
+                this.describeLabel.setAnchorPoint(cc.PointZero());
+
+                this.addChild(this.describeLabel,20);
+
                 this.initShelfMap();
                 this.createTools();
                 this.scheduleUpdate();
@@ -35,6 +44,7 @@ var StoreLayer = cc.Layer.extend({
 
     update: function () {
         this._lbCurScore.setString("Score: " + Game.cur_score);
+        this.describeLabel.setString(Game.describe);
     },
     
     initShelfMap: function () {

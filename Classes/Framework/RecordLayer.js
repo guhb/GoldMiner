@@ -19,7 +19,6 @@ var RecordLayer = cc.Layer.extend({
             var menu = cc.Menu.create(back);
             menu.setPosition(cc.ccp(winSize.width-100,150));
             this.addChild(menu);
-
             bRet = true;
         }
 
@@ -29,14 +28,14 @@ var RecordLayer = cc.Layer.extend({
     initRecord: function () {
         var records = getRecords();
         var record;
-        var height = 300;
+        var height = 325;
         var titles = ["First", "Second", "Third", "Yours"];
         if (records != null && records.length != 0) {
             for (var i = 0; i < records.length; i++) {
-                record = cc.LabelTTF.create(titles[i] + " : " + records[i],cc.SizeMake(winSize.width * 0.85 ,100),
-                                            cc.TEXT_ALIGNMENT_CENTER,"Arial",14)
+                record = cc.LabelTTF.create(titles[i] + " : " + records[i],"Arial",35)
                 record.setPosition(cc.ccp(winSize.width/2,height));
-                height -= 40;
+                height -= 60;
+				record.setColor(new cc.Color3B(100,94,94));
                 this.addChild(record);
             }
         }
@@ -45,15 +44,15 @@ var RecordLayer = cc.Layer.extend({
     onAccept: function () {
         var scene = cc.Scene.create();
         scene.addChild(GameLayer.create());
-        cc.Director.sharedDirector().replaceScene(cc.TransitionFade.create(1.2, scene));
+        cc.Director.sharedDirector().replaceScene(cc.TransitionSlideInT.create(1.2, scene));
         this.getParent().removeChild(this);
     },
     
     onReturn: function () {
         var scene = cc.Scene.create();
         scene.addChild(StartLayer.create());
-        cc.Director.sharedDirector().replaceScene(cc.TransitionFade.create(1.2, scene));
-        this.getParent().removeChild(this);
+        cc.Director.sharedDirector().replaceScene(cc.TransitionSlideInT.create(1.2, scene));
+        //this.getParent().removeChild(this);
     }
 });
 

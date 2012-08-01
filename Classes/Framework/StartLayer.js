@@ -57,9 +57,9 @@ var StartLayer = cc.Layer.extend({
 		about.setPosition(cc.ccp(280,180));
         var menu = cc.Menu.create(record, newGame, about);
         //menu.alignItemsInColumns(2,2);
-        this.addChild(menu, 1, 2);
         //menu.setAnchorPoint(cc.ccp(0,0));
         menu.setPosition(cc.ccp(winSize.width / 2, winSize.height / 2));
+        this.addChild(menu, 1, 2);
 		//menu.setScale(0.5);
     },
     
@@ -152,7 +152,7 @@ var StartLayer = cc.Layer.extend({
         var scene = cc.Scene.create();
         scene.addChild(RecordLayer.create());
         //scene.addChild(GameControlMenu.create());
-        cc.Director.sharedDirector().replaceScene(cc.TransitionFade.create(1.2, scene));
+        cc.Director.sharedDirector().replaceScene(cc.TransitionSlideInB.create(1.2, scene));
     },
     
     onAbout:function (pSender) {
@@ -160,7 +160,7 @@ var StartLayer = cc.Layer.extend({
         var scene = cc.Scene.create();
         scene.addChild(AboutLayer.create());
         //scene.addChild(GameControlMenu.create());
-        cc.Director.sharedDirector().replaceScene(cc.TransitionFade.create(1.2, scene));
+        cc.Director.sharedDirector().replaceScene(cc.TransitionSlideInB.create(1.2, scene));
     },
     
     onButtonEffect:function(){
