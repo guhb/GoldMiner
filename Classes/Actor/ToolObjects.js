@@ -237,23 +237,7 @@ var Bombshell = cc.Layer.extend({
             hook.stopAllActions();
             object.stopAllActions();
             hook.setPosition(hook.getOriginPosition());
-
-            var objectBombAction = cc.RotateBy.create(0.6,1080);
-            var conSprite = new cc.Sprite.create(s_burst);
-            conSprite.setScale(0.4);
-            //conSprite.runAction(objectBombAction);
-            conSprite.setPosition(object.getPosition());
-            //var conSpriteAction = cc.MoveTo.create(1,cc.ccp(size.width/2,0));
-            this.getParent().addChild(conSprite,20);
-            var that = this;
-            setTimeout(
-                function(){
-                    that.getParent().removeChild(conSprite);                        
-                },
-                500
-            );  
-            
-            //object.setPosition(hook.getCollectPosition());
+            object.setPosition(hook.getCollectPosition());
             console.log("Bombshell used");
             hook.retrieveAction = {};
             hook.retrieveAction.isDone = function () {return true};

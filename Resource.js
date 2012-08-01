@@ -67,7 +67,6 @@ var s_milk2 = "Resources/milk2.png";
 var s_stonebook = "Resources/stonebook.png";
 var s_bonebook = "Resources/bonebook.png";
 var s_aim = "Resources/aim.png";
-var s_burst = "Resources/burst.png";
 
 //music
 var s_bgMusic = "Resources/Music/bgMusic";
@@ -105,12 +104,12 @@ var g_ressources = [
     {type:"image", src:s_explode2},
     {type:"image", src:s_explode3},
     
-	{type:"image", src:s_milk1},
+    {type:"image", src:s_milk1},
     {type:"image", src:s_milk2},
     {type:"image", src:s_bonebook},
     {type:"image", src:s_stonebook},
     {type:"image", src:s_aim},
-	
+    
     {type:"image", src:s_background},
     {type:"image", src:s_background1},
     {type:"image", src:s_background2},

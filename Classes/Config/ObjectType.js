@@ -2,12 +2,12 @@ var MineType = {
     Rock: {
         big: {
             value: 20,
-            weight: 600,
+            weight: 90,
             image: global.theme.big_rock
         },
         small: {
             value: 10,
-            weight: 400,
+            weight: 40,
             image: global.theme.small_rock
         }
     },
@@ -15,43 +15,43 @@ var MineType = {
     Gold: {
         big: {
             value: 500,
-            weight: 600,
+            weight: 90,
             image: global.theme.big_gold
         },
         middle:{
 			value: 200,
-			weight: 300,
+			weight: 60,
 			image:global.theme.middle_gold
 		},
         small: {
             value: 100,
-            weight: 200,
+            weight: 20,
             image: global.theme.small_gold
         }
     },
     
     Pig: {
         value: 100,
-        weight: 250,
+        weight: 50,
         image: global.theme.pig
     },
     
     Diamond: {
         big: {
             value: 600,
-            weight: 50,
+            weight: 20,
             image: global.theme.big_diamond
         },
         small: {
             value: 500,
-            weight: 50,
+            weight: 20,
             image: global.theme.small_diamond
         }
     },
     
     Bone: {
         value: 20,
-        weight: 130,
+        weight: 30,
         image: global.theme.bone
     }//,
     /*
@@ -65,12 +65,12 @@ var MineType = {
 var ToolType = {
     Milk1: {
         create: Milk1,
-        value: 500,
+        value: 2000,
         image: s_milk1
     }, // Make the hook retrieve quicker
     Milk2: {
         create: Milk2,
-        value: 2000,
+        value: 500,
         image: s_milk2
     },
     Longer: {
