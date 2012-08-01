@@ -94,10 +94,10 @@ var Milk1 = cc.Layer.extend({
     
     onUse: function () {
         Game.Speed.retrieve = Game.Speed.retrieve / 2;
-        Game.Speed.launch = Game.Speed.launch / 2;
+        //Game.Speed.launch = Game.Speed.launch / 2;
         
         this._parent_layer = this.getParent();
-        this.destroy();
+        //this.destroy();
         console.log("Milk used.");
     },
     destroy: function () {
@@ -132,10 +132,10 @@ var Milk2 = cc.Layer.extend({
     
     onUse: function () {
         Game.Speed.retrieve = Game.Speed.retrieve / 4;
-        Game.Speed.launch = Game.Speed.launch / 4;
+        //Game.Speed.launch = Game.Speed.launch / 4;
         
         this._parent_layer = this.getParent();
-        this.destroy();
+        //this.destroy();
         console.log("Milk used.");
     },
     destroy: function () {
@@ -174,7 +174,7 @@ var Longer = cc.Layer.extend({
         this.getParent()._hook.setAnchorPoint(cc.ccp(0.5, 1));
         this.getParent()._hook.delegate.setAnchorPoint(cc.ccp(0.5, 1));
         
-        this.destroy();
+        //this.destroy();
     },
     destroy: function () {
         //this.runAction(this.useAction);
@@ -207,15 +207,22 @@ var Bombshell = cc.Layer.extend({
     },
     
     onUse: function () {
-        var children = this.getParent().getChildren();
-        for (var i = 0; i < children.length; i++) {
-            if (children[i].type == global.Tag.Rock) {
-                // add bomb effect
-                children[i].removeFromParentAndCleanup();
-            }
+        var hook = this.getParent()._hook;
+        var object = this.getParent().collectedObject;
+        if (object != null && hook.state == "retrieve") {
+            hook.stopAllActions();
+            object.stopAllActions();
+            hook.setPosition(hook.getOriginPosition());
+            object.setPosition(hook.getCollectPosition());
+            console.log("Bombshell used");
+            hook.retrieveAction = {};
+            hook.retrieveAction.isDone = function () {return true};
+            object.collectAction = {};
+            object.collectAction.isDone = function () {return true};
+            hook.swing();
         }
         
-        this.destroy();
+        //this.destroy();
     },   
     destroy: function () {
         //this.runAction(this.useAction);
@@ -262,7 +269,7 @@ var BoneToGold = cc.Layer.extend({
                 this.getParent().mineContainer.push(object);
             }
         }
-        this.destroy();
+        //this.destroy();
     },   
     destroy: function () {
         //this.runAction(this.useAction);
@@ -302,7 +309,7 @@ var RockToRich = cc.Layer.extend({
                 children[i].value *= 2;
             }
         }
-        this.destroy();
+        //this.destroy();
     },   
     destroy: function () {
         //this.runAction(this.useAction);

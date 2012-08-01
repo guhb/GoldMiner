@@ -49,11 +49,11 @@ var ToolManager = cc.Class.extend({
                 var type = getObjectName(object.type);
                 //console.log("ToolCreate: "+ i + type); 
                 var tool = new ToolType[type].create(object);
-                Game.toolContainer[i] = null;
+                //Game.toolContainer[i] = null;
                 Game.toolContainer[i] = tool;
-                //Game.toolContainer[i].setPosition(cc.ccp(map[i].x, map[i].y));
-                //Game.toolContainer[i]._parent_layer = this._layer;
+                tool.setScale(0.2);
                 this._layer.addChild(tool, global.zOrder.Tool);
+
                 if (tool.type != global.Tag.Bombshell) tool.onUse();
             }
         }

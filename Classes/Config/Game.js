@@ -9,20 +9,21 @@ var Game = {
     Speed: {
         rotate: 1,
         launch: 1,
-        retrieve: 1
+        retrieve: 4
     },
     resume: function () {
-        Game.round = 1;
-        Game.mission = 1;
-        Game.cur_score = 5000;
-        Game.dst_score = 500;
-        Game.time_limit = 60;
+        this.round = 1;
+        this.mission = 1;
+        this.cur_score = 5000;
+        this.dst_score = 500;
+        this.time_limit = 60;
         this.cleanToolObjects();
     },
     cleanToolObjects: function () {
-        Game.Speed.rotate = 1;
-        Game.Speed.launch = 1;
-        Game.Speed.retrieve = 1;
+        this.toolContainer = [];
+        this.Speed.rotate = 1;
+        this.Speed.launch = 1;
+        this.Speed.retrieve = 4;
     },
     popToolObject: function (type) {
         var container = [];

@@ -82,12 +82,13 @@ Hook = cc.Sprite.extend({
         }
     },
     
-    retrieve: function () {
+    retrieve: function (speed) {
         if (this.lauchAction && this.launchAction.isDone() || this.state == "launch") {
             this.state = "retrieve";
             this.stopAction(this.launchAction);
-            this.retrieveSpeed = Game.Speed.retrieve;
-            this.retrieveAction = cc.MoveTo.create(this.retrieveSpeed, this.originPosition);
+            if (speed == null) speed = Game.Speed.retrieve;
+            //this.retrieveSpeed = Game.Speed.retrieve;
+            this.retrieveAction = cc.MoveTo.create(speed, this.originPosition);
             this.runAction(this.retrieveAction);
         } else {
             console.error("Retrieve could only be started from a launch state, or when the launch is finished");

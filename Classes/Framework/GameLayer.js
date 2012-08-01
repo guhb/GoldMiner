@@ -1,5 +1,5 @@
 var GameLayer = cc.Layer.extend({
-    _time_limit: 5,
+    _time_limit: 20,
     _cur_score: 0,
     _dst_score: 200,
     _roundInterval: null,
@@ -45,7 +45,7 @@ var GameLayer = cc.Layer.extend({
         var bg = cc.Sprite.create(s_gamebg);
         bg.setAnchorPoint(cc.ccp(0, 0));
         this.addChild(bg, global.zOrder.Background);
-		//��ʼ��С�к�
+		//³õÊ¼»¯Ð¡ÄÐº¢
 		var textureForBoy = cc.TextureCache.sharedTextureCache().addImage(s_boy);
 		var boyFrame1 = cc.SpriteFrame.create(textureForBoy,cc.RectMake(0,0,109,140));
 		var boyFrame2 = cc.SpriteFrame.create(textureForBoy,cc.RectMake(109,0,109,140));
@@ -59,7 +59,7 @@ var GameLayer = cc.Layer.extend({
 		var boyAnimation = cc.Animation.create(boyFrames,0.3);
 		var boyAnim = cc.Animate.create(boyAnimation,false);
 		boySprite.runAction(cc.RepeatForever.create(cc.Sequence.create(boyAnim,cc.DelayTime.create(3))));
-		//��ʼ���ŵ��ߵ�ľ��
+		//³õÊ¼»¯·ÅµÀ¾ßµÄÄ¾°å
 		var board = cc.Sprite.create(s_board);	
 		board.setPosition(new cc.ccp(60, this.winSize.height - 70));
 		this.addChild(board,30);
@@ -116,7 +116,7 @@ var GameLayer = cc.Layer.extend({
         this._hook.originPosition = cc.ccp(403, 462);
         this._hook.scheduleUpdate();
         this._criticalAngle = Math.atan((this.winSize.width/2)/(this.winSize.height-50))/Math.PI*180;
-        this._hook_path = Math.sqrt(Math.pow(this._hook.getPositionX(), 2) + Math.pow(this._hook.getPositionY(), 2));
+        this._hook_path = Math.sqrt(Math.pow(this._hook.getPosition().x, 2) + Math.pow(this._hook.getPosition().y, 2));
     },
     
     createMap: function () {
@@ -128,12 +128,12 @@ var GameLayer = cc.Layer.extend({
     
     initShelfMap: function () {
         this.shelfMap = [
-            {x: 60, y: 400},
-            {x: 60, y: 340},
-            {x: 60, y: 280},
-            {x: 60, y: 220},
-            {x: 60, y: 140},
-            {x: 60, y: 120}
+            {x: 40, y: 460},
+            {x: 40, y: 435},
+            {x: 40, y: 410},
+            {x: 85, y: 460},
+            {x: 85, y: 435},
+            {x: 85, y: 410}
         ];
     },
     
@@ -257,19 +257,21 @@ var GameLayer = cc.Layer.extend({
                         if (this.mineContainer[i].type == global.Tag.Pig)
                             this.mineContainer[i].stopAllActions();
 
-                        var path = Math.sqrt(Math.pow(this._hook.getPosition().x - this._hook.getOriginPosition().x, 2) + Math.pow(this._hook.getPosition().y - this._hook.getOriginPosition().y, 2))
-                        var speed = (1 - this.mineContainer[i].weight/100) * path/this._hook_path * Game.Speed.retrieve;
+                        // 计算速度，path为物体位置到回收点的距离，this._hook_path为钩子的绳子最长长度
+                        var path = Math.sqrt(Math.pow(this.mineContainer[i].getPositionX() - this._hook.getCollectPosition().x, 2)
+                            + Math.pow(this.mineContainer[i].getPositionY() - this._hook.getCollectPosition().y, 2))
+                        var speed = (this.mineContainer[i].weight/100) * (path/this._hook_path) * Game.Speed.retrieve * 2;
+
                         this.mineContainer[i].setPosition(cc.ccp(this._hook.getPositionX(), this._hook.getPositionY()));
                         
-                        //this.collectAction = cc.MoveTo.create(this._hook.getRetrieveSpeed(), this._hook.getOriginPosition());
-                        this.mineContainer[i].collectAction = cc.MoveTo.create(this._hook.getRetrieveSpeed(), this._hook.getCollectPosition());
+                        // 创建物体的返回动作
+                        this.mineContainer[i].collectAction = cc.MoveTo.create(speed, this._hook.getCollectPosition());
                         this.collectAction = this.mineContainer[i].collectAction;
                         this.mineContainer[i].runAction(this.mineContainer[i].collectAction);
                         this.collectedObject = this.mineContainer[i];
-                        //this.mineContainer[i] = null;
+                        
                         this.popMineObject(i);
-                        this._hook.retrieve();
-                        //console.log(getObjectName(this.collectedObject.type));
+                        this._hook.retrieve(speed);
                     }
                 }
             }
@@ -329,7 +331,7 @@ var GameLayer = cc.Layer.extend({
             var scene = cc.Scene.create();
             scene.addChild(MissionLayer.create());
             scene.addChild(GameControlMenu.create());
-            MissionLayer.moveToMission(Game.mission);
+            //MissionLayer.moveToMission(Game.mission);
             cc.Director.sharedDirector().replaceScene(cc.TransitionFade.create(1.2, scene));
             this.getParent().removeChild(this);
         }
