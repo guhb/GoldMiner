@@ -110,7 +110,7 @@ MineObject = cc.Sprite.extend({
                 this.weight = MineType[type].weight;
                 this.setPosition(cc.ccp(object.x, object.y));
                 this.type = object.type;
-				this.setScale(0.4);
+				this.setScale(0.3);
 				var dogFrame2 = cc.SpriteFrame.create(texture2,cc.RectMake(0,159,237,159));
 				var dogFrames = [];
 				dogFrames.push(dogFrame1);
@@ -118,7 +118,6 @@ MineObject = cc.Sprite.extend({
 				var dogAnimation = cc.Animation.create(dogFrames,0.5);
 				var dogAnimate = cc.Animate.create(dogAnimation,false);
 				this.runAction(cc.RepeatForever.create(dogAnimate));
-                
                 break;
         }
         this.zOrder = global.zOrder[type];

@@ -53,8 +53,32 @@ var ToolObject = cc.Layer.extend({
             this.runAction(returnAction);
             this.reOrderToolObjects();
         }
+        this.showDescribe(getObjectName(this.type));
     },
     
+    showDescribe:function(type) {
+        switch(type){
+            case "Milk1":
+                Game.describe = "钩子回收速度x2";
+                break;
+            case "Milk2":
+                Game.describe = "钩子回收速度x4";
+                break;
+            case "Longer":
+                Game.describe = "钩子变长更易瞄准";
+                break;
+            case "Bombshell":
+                Game.describe = "炸掉不需要的物品";
+                break;
+            case "BoneToGold":
+                Game.describe = "所有石头变为金子";
+                break;
+            case "RockToRich":   
+                Game.describe = "所有石头价格增加";
+                break;
+        }
+    },
+
     reOrderToolObjects: function () {
         for (var i = 0; i < Game.toolContainer.length; i++) {
             if (!cc.Point.CCPointEqualToPoint(Game.toolContainer[i].getPosition(),
