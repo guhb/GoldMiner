@@ -37,7 +37,7 @@ Hook = cc.Sprite.extend({
             this.rotateSpeed = Game.Speed.rotate;
             var rotoLeft = cc.RotateTo.create(this.rotateSpeed, this.rotateLimit);
             var rotoRight = cc.RotateTo.create(this.rotateSpeed, -this.rotateLimit);
-            var seq = cc.Sequence.create(rotoLeft, cc.DelayTime.create(0.1), rotoRight, cc.DelayTime.create(0.1));
+            var seq = cc.Sequence.create(rotoLeft, cc.DelayTime.create(0.2), rotoRight, cc.DelayTime.create(0.2));
             this.swingAction = cc.RepeatForever.create(seq);
             this.setIsVisible(false);
             this.delegate.setIsVisible(true);
