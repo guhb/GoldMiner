@@ -26,6 +26,7 @@ var GameLayer = cc.Layer.extend({
             this.initHook();
             // create map
             this.initShelfMap();
+            this.createTools();
             this.createMap();
 
             this.setIsTouchEnabled(true);
@@ -122,8 +123,25 @@ var GameLayer = cc.Layer.extend({
     createMap: function () {
         var levelManager = new LevelManager(this);
         levelManager.createMap();
-        var toolManager = new ToolManager(this);
-        toolManager.getTools();
+    },
+
+    createTools: function () {
+        var map = this.shelfMap;
+        for (var i = 0; i < Game.toolContainer.length; i++) {
+            if (Game.toolContainer[i] != null) {
+                var object = {};
+                object.type = Game.toolContainer[i].type;
+                object.x = map[i].x;
+                object.y = map[i].y;
+                var type = getObjectName(object.type);
+                var tool = new ToolType[type].create(object);
+                Game.toolContainer[i] = tool;
+                tool.setScale(0.2);
+                this.addChild(tool, global.zOrder.Tool);
+
+                if (tool.type != global.Tag.Bombshell) tool.onUse();
+            }
+        }
     },
     
     initShelfMap: function () {

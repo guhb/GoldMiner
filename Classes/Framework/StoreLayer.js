@@ -97,7 +97,6 @@ var StoreLayer = cc.Layer.extend({
     ccTouchesEnded: function (touches,event) {
         // Campare the touch point with shelfMap and DstMap to checkout which
         // Object is touched.
-        this.isMouseDown = false;
         var x = touches[0].locationInView(0).x;
         var y = touches[0].locationInView(0).y;
         var touchPosition = cc.ccp(0, 0);
