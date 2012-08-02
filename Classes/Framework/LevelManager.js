@@ -2,6 +2,8 @@ var LevelManager = cc.Class.extend({
     _currentRound: null,
     _currentMission: null,
     _gameLayer: null,
+    addQ: 300,
+
     ctor: function (gameLayer) {
         if (!gameLayer) {
             throw "gameLayer must be non-nil";
@@ -27,16 +29,46 @@ var LevelManager = cc.Class.extend({
 
     // 更新关卡的时间限制，目标分数等信息
     updateGameStatus: function () {
-        if (Game.dst_round != 1) {
+        /*if (Game.dst_round != 1) {
             Game.dst_score += ((Game.round-1) % NUMBER_OF_ROUNDS) * Math.round(Math.random() * 700);
         }
+        if(Game.round <= 1)
+        {
+            Game.dst_score = 600;
+        }
+        else if(Game.round <= 5 && Game.round >1)
+        {
+            Game.dst_score +=500;
+        }
+        else if(Game.round >5 && Game.round <=10)
+        {
+            this.addQ += 300;
+            Game.dst_score += addQ;
+        }
+        else if(Game.round >10)
+        {
+            Game.dst_score += 2700;
+        }*/
+        Game.dst_score = this.getDstScore(Game.round);
         this._gameLayer.setDstScore(Game.dst_score);
         this._gameLayer.setCurScore(Game.cur_score);
-        /*if (Game.time_limit >= 10) {
-            this._gameLayer._time_limit = Game.time_limit 
-                                          - Math.round(Game.round * Math.random());
-        }*/
         this._gameLayer.setRound(Game.round);
+    },
+
+    getDstScore:function(round) {
+        var temp = Game.dst_score;
+        var add = 300;
+        if(round <= 1) {
+            temp = 600
+;        } else if(round <= 5 && round >1) {
+            temp += 500;
+        } else if(round >5 && round <=10) {
+            this.addQ += 300;
+            temp += this.addQ;
+        } else if(round >10) {
+            temp += 2700;
+        }
+        return temp;
     },
 
     // 根据Level.js里面的Round信息，创建地图

@@ -86,6 +86,7 @@ cc.loadjs('Classes/Actor/PropObjects.js');
 cc.loadjs('Classes/Config/ObjectType.js');
 cc.loadjs('Classes/Config/Level.js');
 cc.loadjs('Classes/Config/Game.js');
+cc.loadjs('Classes/Config/util.js');
 
 // Framework Module
 cc.loadjs('Classes/Framework/LevelManager.js');

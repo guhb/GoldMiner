@@ -7,7 +7,8 @@ var MissionLayer = cc.Layer.extend({
     _missions: 1,
     _begin: null,
     _num: 1,
-    _buffer: [],
+    _direction: 0,
+    _buffer: [0,0],
     
     init:function () {
         var bRet = false;
@@ -76,11 +77,12 @@ var MissionLayer = cc.Layer.extend({
         }
         this.isMouseDown = true;
         console.log(this._buffer.length);
-        if (this._buffer.length == 1) this.onMissionSelected();
+        //if (this._buffer.length == 1) this.onMissionSelected();
         console.log("began");
     },
     
     ccTouchesMoved: function (touches, event) {
+        //console.log("moved.");
         if (this.isMouseDown) {
             var touchLocation = touches[0].locationInView(0).x;
             var nMoveX = touchLocation - this._beginPos;
@@ -96,6 +98,7 @@ var MissionLayer = cc.Layer.extend({
     },
     
     ccTouchesEnded: function (touches, event) {
+        console.log("ended.");
         if (this._buffer.length == 2) this._buffer.shift();
         this._buffer.push(this._direction);
         if (this._direction < 0) {
@@ -121,7 +124,7 @@ var MissionLayer = cc.Layer.extend({
         var distance = Math.sqrt(Math.pow(this._curPos.x - winSize.width/2, 2)
                                + Math.pow(this._curPos.y - winSize.height/2, 2));
         console.log(this._direction, distance);
-        if ((this._buffer[0] == this._buffer[1]) ) {
+        if (this._buffer[0] == this._buffer[1]) {
             this.onMissionSelected();
         }
         console.log("end");

@@ -118,6 +118,23 @@ MineObject = cc.Sprite.extend({
 				var dogAnimation = cc.Animation.create(dogFrames,0.5);
 				var dogAnimate = cc.Animate.create(dogAnimation,false);
 				this.runAction(cc.RepeatForever.create(dogAnimate));
+                var point1 = cc.ccp(object.x, object.y);
+                var point2 = cc.ccp(winSize.width - object.x, object.y2);
+                if (!cc.Point.CCPointEqualToPoint(point1, point2)) {
+                    var duration = Math.abs((point2.x -point1.x))/winSize.width * 10;
+                    var tmpMove1 = cc.MoveTo.create(duration, point2);
+                    var tmpMove2 = cc.MoveTo.create(duration, point1);
+                    if (point1.x > point2.x) {
+                        var seq = cc.Sequence.create(tmpMove1, cc.DelayTime.create(0.2),
+                    cc.FlipX.create(true), tmpMove2, cc.DelayTime.create(0.2), cc.FlipX.create(false));
+                    } else {
+                        var seq = cc.Sequence.create(cc.FlipX.create(true), tmpMove1, cc.DelayTime.create(0.2),
+                    cc.FlipX.create(false), tmpMove2, cc.DelayTime.create(0.2));
+                    }
+                    
+                    var action = cc.RepeatForever.create(seq, null);
+                    this.runAction(action);
+                }
                 break;
         }
         this.zOrder = global.zOrder[type];

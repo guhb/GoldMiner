@@ -9,7 +9,7 @@ var Game = {
     Speed: {
         rotate: 1,
         launch: 1,
-        retrieve: 4
+        retrieve: 1
     },
     resume: function () {
         this.round = 1;
@@ -23,7 +23,7 @@ var Game = {
         this.toolContainer = [];
         this.Speed.rotate = 1;
         this.Speed.launch = 1;
-        this.Speed.retrieve = 4;
+        this.Speed.retrieve = 1;
     },
     popToolObject: function (type) {
         var container = [];

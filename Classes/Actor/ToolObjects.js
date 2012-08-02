@@ -153,7 +153,7 @@ var Bombshell = cc.Layer.extend({
                 function(){
                     that.getParent().removeChild(conSprite);                        
                 },
-                500
+                3000
             );  
             
             //object.setPosition(hook.getCollectPosition());
