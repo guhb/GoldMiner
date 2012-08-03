@@ -94,6 +94,7 @@ cc.loadjs('Classes/Framework/ToolManager.js');
 cc.loadjs('Classes/Framework/AboutLayer.js');
 cc.loadjs('Classes/Framework/GameControlMenu.js');
 cc.loadjs('Classes/Framework/GameLayer.js');
+cc.loadjs('Classes/Framework/singleGameLayer.js');
 cc.loadjs('Classes/Framework/GameOverLayer.js');
 cc.loadjs('Classes/Framework/RecordLayer.js');
 cc.loadjs('Classes/Framework/SettingsLayer.js');

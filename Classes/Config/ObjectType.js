@@ -58,6 +58,13 @@ var MineType = {
         value: 20,
         weight: 130,
         image: global.theme.bone
+    },
+    
+    Bat: {
+        create: Bat,
+        value: 10,
+        weight: 100,
+        image: global.theme.bat
     }
 };
 
@@ -120,7 +127,7 @@ var PropType = {
 var getObjectName = function (tag) {
     var name = [
             // MineObjects
-            "Rock","Gold","Pig","Diamond","Bone",
+            "Rock","Gold","Pig","Diamond","Bone","Bat",
             // ToolObjects
             "Milk1","Milk2","Longer","Bombshell","BoneToGold","RockToRich",
             // PropObjects

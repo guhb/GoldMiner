@@ -70,7 +70,7 @@ var LevelManager = cc.Class.extend({
         // 生成物品MineObject
         for (var i=0; i<Round[difficulty][round].length; i++) {
             var size = Math.round(Math.random()),
-                type = getObjectName(Round[round][i].type),
+                type = getObjectName(Round[difficulty][round][i].type),
                 mine = new MineType[type].create(Round[difficulty][round][i], size);
             if (mine != null) {
                 this._gameLayer.addChild(mine, mine.zOrder, mine.type);

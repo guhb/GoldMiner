@@ -1,5 +1,3 @@
-var MineType = MineType || {};
-
 var MineObject = cc.Sprite.extend({
     type: null,
     weight: 0,
@@ -88,9 +86,9 @@ var Rock = MineObject.extend({
 
 var Diamond = MineObject.extend({
     ctor: function (object, size) {
+        var type = getObjectName(object.type);
+            
         if (size == 1) {
-            var type = getObjectName(object.type);
-
             var texture1 = cc.TextureCache.sharedTextureCache().addImage(s_animals);
             var pigFrame1 = cc.SpriteFrame.create(texture1,cc.RectMake(0,0,90,130));
             this.initWithSpriteFrame(pigFrame1);

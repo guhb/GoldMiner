@@ -5,7 +5,7 @@ var s_menuTitle = "Resources/menuTitle.png";
 var s_flare = "Resources/flare.jpg";
 var s_explosion = "Resources/explosion.png";
 var s_explode1 = "Resources/explode1.jpg";
-var s_explode2 = "Resources/explode2.jpg";
+var s_explode2= "Resources/explode2.jpg";
 var s_explode3 = "Resources/explode3.jpg";
 
 var s_background = "Resources/background.png";
@@ -68,6 +68,8 @@ var s_stonebook = "Resources/stonebook.png";
 var s_bonebook = "Resources/bonebook.png";
 var s_aim = "Resources/aim.png";
 var s_burst = "Resources/burst.png";
+var s_blank = "Resources/blank.png";
+var s_bat = "Resources/bat.png";
 
 //music
 var s_bgMusic = "Resources/Music/bgMusic";
@@ -83,19 +85,19 @@ var s_explosion_plist = "Resources/explosion.plist";
 
 var g_ressources = [
     //image
-    {type:"image", src:s_bg},
-	{type:"image", src:s_boy},
-	{type:"image", src:s_sheep},
-	{type:"image", src:s_animals},
-	{type:"image", src:s_cow},
-	{type:"image", src:s_about},
-	{type:"image", src:s_dog},
-	{type:"image", src:s_back},
-	{type:"image", src:s_backbig},
-	{type:"image", src:s_failedbg},
-	{type:"image", src:s_replaybig},
-	{type:"image", src:s_replay},
-	{type:"image", src:s_board},
+    {type:"image",src:s_bg},
+	{type:"image",src:s_boy},
+	{type:"image",src:s_sheep},
+	{type:"image",src:s_animals},
+	{type:"image",src:s_cow},
+	{type:"image",src:s_about},
+	{type:"image",src:s_dog},
+	{type:"image",src:s_back},
+	{type:"image",src:s_backbig},
+	{type:"image",src:s_failedbg},
+	{type:"image",src:s_replaybig},
+	{type:"image",src:s_replay},
+	{type:"image",src:s_board},
     {type:"image", src:s_logo},
     {type:"image", src:s_gameOver},
     {type:"image", src:s_menuTitle},
@@ -104,13 +106,13 @@ var g_ressources = [
     {type:"image", src:s_explode1},
     {type:"image", src:s_explode2},
     {type:"image", src:s_explode3},
-    
+    {type:"image", src:s_blank},
 	{type:"image", src:s_milk1},
     {type:"image", src:s_milk2},
     {type:"image", src:s_bonebook},
     {type:"image", src:s_stonebook},
     {type:"image", src:s_aim},
-	
+	{type:"image", src:s_bat},
     {type:"image", src:s_background},
     {type:"image", src:s_background1},
     {type:"image", src:s_background2},
