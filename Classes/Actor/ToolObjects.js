@@ -46,6 +46,12 @@ var Longer = cc.Sprite.extend({
         this.getParent()._hook.delegate.initWithFile(s_hook_long);
         this.getParent()._hook.setAnchorPoint(cc.ccp(0.5, 1));
         this.getParent()._hook.delegate.setAnchorPoint(cc.ccp(0.5, 1));
+        if (this.getParent()._hoo2) {
+            this.getParent()._hook2.initWithFile(s_hook_long);
+            this.getParent()._hook2.delegate.initWithFile(s_hook_long);
+            this.getParent()._hook2.setAnchorPoint(cc.ccp(0.5, 1));
+            this.getParent()._hook2.delegate.setAnchorPoint(cc.ccp(0.5, 1));
+        }
     }
 });
 
@@ -71,9 +77,21 @@ var Bombshell = cc.Layer.extend({
         this.useAction = cc.MoveTo.create(0.3,cc.ccp(160,350));
     },
     
-    onUse: function () {
-        var hook = this.getParent()._hook;
-        var object = this.getParent().collectedObject;
+    onUse: function (hookNum) {
+        var hook,object;
+        if(hookNum == null ){
+            hookNum = 1;
+        }
+
+        if(hookNum == 1){
+            hook = this.getParent()._hook;
+            object = this.getParent().collectedObject;
+        }
+        else if(hookNum == 2){
+            hook = this.getParent()._hook2;
+            object = this.getParent().collectedObject2;   
+        }
+
         if (object != null && hook.state == "retrieve") {
             hook.stopAllActions();
             object.stopAllActions();
@@ -122,12 +140,12 @@ var BoneToGold = cc.Sprite.extend({
         for (var i = 0; i < children.length; i++) {
             if (children[i].type == global.Tag.Bone) {
                 // add bomb effect
-                children[i].removeFromParentAndCleanup();
                 var object = {};
                 object.x = children[i].getPositionX();
                 object.y = children[i].getPositionY();
                 object.type = global.Tag.Gold;
-                object = new MineObject(object, 1);
+                object = new MineType["Gold"].create(object, 1);
+                children[i].removeFromParentAndCleanup();
                 this.getParent().addChild(object, global.zOrder.Gold);
                 this.getParent().mineContainer.push(object);
             }

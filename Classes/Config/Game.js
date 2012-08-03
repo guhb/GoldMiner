@@ -6,9 +6,9 @@ var Game = {
     dst_score: 500,
     time_limit: 20,
     toolContainer: [],
-    describe:null,
-    gameMode:null,//单人：1，多人：2
-    difficulty:1,//游戏难度1,2,3
+    describe: null,
+    gameMode: null,//单人：1，多人：2
+    difficulty: 1,//游戏难度1,2,3
     Speed: {
         rotate: 2,
         launch: 1,
@@ -23,7 +23,8 @@ var Game = {
         this.cleanToolObjects();
     },
     cleanToolObjects: function () {
-        this.Speed.rotate = Game.Speed.rotate;
+        this.toolContainer = [];
+        this.Speed.rotate = 2;
         this.Speed.launch = 1;
         this.Speed.retrieve = 1;
     },
