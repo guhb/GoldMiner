@@ -124,6 +124,26 @@ var StoreLayer = cc.Layer.extend({
 
     onBuy: function () {
         if (this.touchedObject.value <= Game.cur_score) {
+            if (this.touchedObject.type === global.Tag.Milk2) {
+                for (var i = 0, max = Game.toolContainer.length; i < max; i++) {
+                    if (Game.toolContainer[i].type === global.Tag.Milk1) {
+                        var object = this.touchedObject;
+                        this.touchedObject = Game.toolContainer[i];
+                        this.onUnBuy();
+                        this.touchedObject = object;
+                    }
+                }
+            }
+            if (this.touchedObject.type === global.Tag.Milk1) {
+                for (i = 0, max = Game.toolContainer.length; i < max; i++) {
+                    if (Game.toolContainer[i].type === global.Tag.Milk2) {
+                        var object = this.touchedObject;
+                        this.touchedObject = Game.toolContainer[i];
+                        this.onUnBuy();
+                        this.touchedObject = object;
+                    }
+                }
+            }
             Game.cur_score -= this.touchedObject.value;
             Game.toolContainer.push(this.touchedObject);
             var action = cc.MoveTo.create(0.2, this.shelfMap[5+Game.toolContainer.length]);
