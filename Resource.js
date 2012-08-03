@@ -5,7 +5,7 @@ var s_menuTitle = "Resources/menuTitle.png";
 var s_flare = "Resources/flare.jpg";
 var s_explosion = "Resources/explosion.png";
 var s_explode1 = "Resources/explode1.jpg";
-var s_explode2= "Resources/explode2.jpg";
+var s_explode2 = "Resources/explode2.jpg";
 var s_explode3 = "Resources/explode3.jpg";
 
 var s_background = "Resources/background.png";
@@ -83,19 +83,19 @@ var s_explosion_plist = "Resources/explosion.plist";
 
 var g_ressources = [
     //image
-    {type:"image",src:s_bg},
-	{type:"image",src:s_boy},
-	{type:"image",src:s_sheep},
-	{type:"image",src:s_animals},
-	{type:"image",src:s_cow},
-	{type:"image",src:s_about},
-	{type:"image",src:s_dog},
-	{type:"image",src:s_back},
-	{type:"image",src:s_backbig},
-	{type:"image",src:s_failedbg},
-	{type:"image",src:s_replaybig},
-	{type:"image",src:s_replay},
-	{type:"image",src:s_board},
+    {type:"image", src:s_bg},
+	{type:"image", src:s_boy},
+	{type:"image", src:s_sheep},
+	{type:"image", src:s_animals},
+	{type:"image", src:s_cow},
+	{type:"image", src:s_about},
+	{type:"image", src:s_dog},
+	{type:"image", src:s_back},
+	{type:"image", src:s_backbig},
+	{type:"image", src:s_failedbg},
+	{type:"image", src:s_replaybig},
+	{type:"image", src:s_replay},
+	{type:"image", src:s_board},
     {type:"image", src:s_logo},
     {type:"image", src:s_gameOver},
     {type:"image", src:s_menuTitle},

@@ -1,98 +1,44 @@
-var Milk1 = cc.Layer.extend({
+var Milk1 = cc.Sprite.extend({
     type: null,
     value: 0,
     
     ctor: function (object) {
         var type = getObjectName(object.type);
         this.type = object.type;
-
-        var toolNormal = cc.Sprite.create(ToolType[type].image);
-        var toolSelected = cc.Sprite.create(ToolType[type].image);
-        var toolDisabled = cc.Sprite.create(ToolType[type].image);
-        var tool = cc.MenuItemSprite.create(toolNormal, toolSelected,
-                                               toolDisabled, this, this.onUse);
-        var menu = cc.Menu.create(tool, null);
-        menu.setAnchorPoint(cc.ccp(0.0));
-        menu.setPosition(cc.ccp(0, 0));
+        this.initWithFile(ToolType[type].image);
         this.setPosition(cc.ccp(object.x, object.y));
-        this.addChild(menu, global.Tag.Tool, 2); 
-        this.useAction = cc.MoveTo.create(0.3,cc.ccp(160,350));
     },
     
     onUse: function () {
         Game.Speed.retrieve = Game.Speed.retrieve / 2;
-        //Game.Speed.launch = Game.Speed.launch / 2;
-        
-        this._parent_layer = this.getParent();
-        //this.destroy();
-        console.log("Milk used.");
-    },
-    destroy: function () {
-        //Game.toolContainer["Milk"] = null;
-        //this.runAction(this.useAction);
-        Game.popToolObject(this.type);
-        //this.getParent().reOrderToolContainer();
-        //this.getParent().removeChild(this);
     }
 });
 
-var Milk2 = cc.Layer.extend({
+var Milk2 = cc.Sprite.extend({
     type: null,
     value: 0,
     
     ctor: function (object) {
         var type = getObjectName(object.type);
         this.type = object.type;
-
-        var toolNormal = cc.Sprite.create(ToolType[type].image);
-        var toolSelected = cc.Sprite.create(ToolType[type].image);
-        var toolDisabled = cc.Sprite.create(ToolType[type].image);
-        var tool = cc.MenuItemSprite.create(toolNormal, toolSelected,
-                                               toolDisabled, this, this.onUse);
-        var menu = cc.Menu.create(tool, null);
-        menu.setAnchorPoint(cc.ccp(0.0));
-        menu.setPosition(cc.ccp(0, 0));
+        this.initWithFile(ToolType[type].image);
         this.setPosition(cc.ccp(object.x, object.y));
-        this.addChild(menu, global.Tag.Tool, 2); 
-        this.useAction = cc.MoveTo.create(0.3,cc.ccp(160,350));
     },
     
     onUse: function () {
         Game.Speed.retrieve = Game.Speed.retrieve / 4;
-        //Game.Speed.launch = Game.Speed.launch / 4;
-        
-        this._parent_layer = this.getParent();
-        //this.destroy();
-        console.log("Milk used.");
-    },
-    destroy: function () {
-        //Game.toolContainer["Milk"] = null;
-        //this.runAction(this.useAction);
-        Game.popToolObject(this.type);
-        //this.getParent().reOrderToolContainer();
-        //this.getParent().removeChild(this);
     }
 });
 
-var Longer = cc.Layer.extend({
+var Longer = cc.Sprite.extend({
     type: null,
     value: 0,
     
     ctor: function (object) {
         var type = getObjectName(object.type);
         this.type = object.type;
-
-        var toolNormal = cc.Sprite.create(ToolType[type].image);
-        var toolSelected = cc.Sprite.create(ToolType[type].image);
-        var toolDisabled = cc.Sprite.create(ToolType[type].image);
-        var tool = cc.MenuItemSprite.create(toolNormal, toolSelected,
-                                               toolDisabled, this, this.onUse);
-        var menu = cc.Menu.create(tool, null);
-        menu.setAnchorPoint(cc.ccp(0.0));
-        menu.setPosition(cc.ccp(0, 0));
+        this.initWithFile(ToolType[type].image);
         this.setPosition(cc.ccp(object.x, object.y));
-        this.addChild(menu, global.Tag.Tool, 2); 
-        this.useAction = cc.MoveTo.create(0.3,cc.ccp(160,350));
     },
     
     onUse: function () {
@@ -100,14 +46,6 @@ var Longer = cc.Layer.extend({
         this.getParent()._hook.delegate.initWithFile(s_hook_long);
         this.getParent()._hook.setAnchorPoint(cc.ccp(0.5, 1));
         this.getParent()._hook.delegate.setAnchorPoint(cc.ccp(0.5, 1));
-        
-        //this.destroy();
-    },
-    destroy: function () {
-        //this.runAction(this.useAction);
-        Game.popToolObject(this.type);
-        //this.getParent().reOrderToolContainer();
-        //this.getParent().removeChild(this);
     }
 });
 
@@ -164,37 +102,19 @@ var Bombshell = cc.Layer.extend({
             object.collectAction.isDone = function () {return true};
             hook.swing();
         }
-        
-        //this.destroy();
-    },   
-    destroy: function () {
-        //this.runAction(this.useAction);
-        Game.popToolObject(this.type);
-        //this.getParent().reOrderToolContainer();
-        //this.getParent().removeChild(this);
     }
 });
 
 
-var BoneToGold = cc.Layer.extend({
+var BoneToGold = cc.Sprite.extend({
     type: null,
     value: 0,
     
     ctor: function (object) {
         var type = getObjectName(object.type);
         this.type = object.type;
-
-        var toolNormal = cc.Sprite.create(ToolType[type].image);
-        var toolSelected = cc.Sprite.create(ToolType[type].image);
-        var toolDisabled = cc.Sprite.create(ToolType[type].image);
-        var tool = cc.MenuItemSprite.create(toolNormal, toolSelected,
-                                               toolDisabled, this, this.onUse);
-        var menu = cc.Menu.create(tool, null);
-        menu.setAnchorPoint(cc.ccp(0.0));
-        menu.setPosition(cc.ccp(0, 0));
+        this.initWithFile(ToolType[type].image);
         this.setPosition(cc.ccp(object.x, object.y));
-        this.addChild(menu, global.Tag.Tool, 2); 
-        this.useAction = cc.MoveTo.create(0.3,cc.ccp(160,350));
     },
     
     onUse: function () {
@@ -212,153 +132,40 @@ var BoneToGold = cc.Layer.extend({
                 this.getParent().mineContainer.push(object);
             }
         }
-        //this.destroy();
-    },   
-    destroy: function () {
-        //this.runAction(this.useAction);
-        Game.popToolObject(this.type);
-        //this.getParent().reOrderToolContainer();
-        //this.getParent().removeChild(this);
     }
 });
 
 
-var RockToRich = cc.Layer.extend({
+var RockToRich = cc.Sprite.extend({
     type: null,
     value: 0,
     
     ctor: function (object) {
         var type = getObjectName(object.type);
         this.type = object.type;
-
-        var toolNormal = cc.Sprite.create(ToolType[type].image);
-        var toolSelected = cc.Sprite.create(ToolType[type].image);
-        var toolDisabled = cc.Sprite.create(ToolType[type].image);
-        var tool = cc.MenuItemSprite.create(toolNormal, toolSelected,
-                                               toolDisabled, this, this.onUse);
-        var menu = cc.Menu.create(tool, null);
-        menu.setAnchorPoint(cc.ccp(0.0));
-        menu.setPosition(cc.ccp(0, 0));
+        this.initWithFile(ToolType[type].image);
         this.setPosition(cc.ccp(object.x, object.y));
-        this.addChild(menu, global.Tag.Tool, 2); 
-        this.useAction = cc.MoveTo.create(0.3,cc.ccp(160,350));
     },
     
     onUse: function () {
         var children = this.getParent().getChildren();
         for (var i = 0; i < children.length; i++) {
             if (children[i].type == global.Tag.Rock) {
-                // add bomb effect
                 children[i].value *= 2;
             }
         }
-        //this.destroy();
-    },   
-    destroy: function () {
-        //this.runAction(this.useAction);
-        Game.popToolObject(this.type);
-        //this.getParent().reOrderToolContainer();
-        //this.getParent().removeChild(this);
     }
 });
 
-/*
-var Quick = cc.Layer.extend({
+var Sort = cc.Sprite.extend({
     type: null,
     value: 0,
     
     ctor: function (object) {
         var type = getObjectName(object.type);
         this.type = object.type;
-
-        var toolNormal = cc.Sprite.create(ToolType[type].image);
-        var toolSelected = cc.Sprite.create(ToolType[type].image);
-        var toolDisabled = cc.Sprite.create(ToolType[type].image);
-        var tool = cc.MenuItemSprite.create(toolNormal, toolSelected,
-                                               toolDisabled, this, this.onUse);
-        var menu = cc.Menu.create(tool, null);
-        menu.setAnchorPoint(cc.ccp(0.0));
-        menu.setPosition(cc.ccp(0, 0));
+        this.initWithFile(ToolType[type].image);
         this.setPosition(cc.ccp(object.x, object.y));
-        this.addChild(menu, global.Tag.Tool, 2); 
-        this.useAction = cc.MoveTo.create(0.3,cc.ccp(160,350));
-    },
-    
-    onUse: function () {
-        Game.Speed.rotate = 0.4;
-        
-        this.destroy();
-    },
-    destroy: function () {
-        //this.runAction(this.useAction);
-        for (var i = 0; i < Game.toolContainer.length; i++) {
-            if (Game.toolContainer[i].type == this.type)
-                Game.toolContainer[i] = null;
-        }
-        this.getParent().reOrderToolContainer();
-        this.getParent().removeChild(this);
-    }
-});
-
-var Lighter = cc.Layer.extend({
-    type: null,
-    value: 0,
-    
-    ctor: function (object) {
-        var type = getObjectName(object.type);
-        this.type = object.type;
-
-        var toolNormal = cc.Sprite.create(ToolType[type].image);
-        var toolSelected = cc.Sprite.create(ToolType[type].image);
-        var toolDisabled = cc.Sprite.create(ToolType[type].image);
-        var tool = cc.MenuItemSprite.create(toolNormal, toolSelected,
-                                               toolDisabled, this, this.onUse);
-        var menu = cc.Menu.create(tool, null);
-        menu.setAnchorPoint(cc.ccp(0.0));
-        menu.setPosition(cc.ccp(0, 0));
-        this.setPosition(cc.ccp(object.x, object.y));
-        this.addChild(menu, global.Tag.Tool, 2); 
-        this.useAction = cc.MoveTo.create(0.3,cc.ccp(160,350));
-    },
-    
-    onUse: function () {
-        var children = this.getParent().getChildren();
-        for (var i = 0; i < children.length; i++) {
-            children[i].weight /= 2;
-        }
-        
-        this.destroy();
-    },
-    destroy: function () {
-        //this.runAction(this.useAction);
-        for (var i = 0; i < Game.toolContainer.length; i++) {
-            if (Game.toolContainer[i].type == this.type)
-                Game.toolContainer[i] = null;
-        }
-        this.getParent().reOrderToolContainer();
-        this.getParent().removeChild(this);
-    }
-});
-
-var Sort = cc.Layer.extend({
-    type: null,
-    value: 0,
-    
-    ctor: function (object) {
-        var type = getObjectName(object.type);
-        this.type = object.type;
-
-        var toolNormal = cc.Sprite.create(ToolType[type].image);
-        var toolSelected = cc.Sprite.create(ToolType[type].image);
-        var toolDisabled = cc.Sprite.create(ToolType[type].image);
-        var tool = cc.MenuItemSprite.create(toolNormal, toolSelected,
-                                               toolDisabled, this, this.onUse);
-        var menu = cc.Menu.create(tool, null);
-        menu.setAnchorPoint(cc.ccp(0.0));
-        menu.setPosition(cc.ccp(0, 0));
-        this.setPosition(cc.ccp(object.x, object.y));
-        this.addChild(menu, global.Tag.Tool, 2); 
-        this.useAction = cc.MoveTo.create(0.3,cc.ccp(160,350));
     },
     
     onUse: function () {
@@ -377,16 +184,5 @@ var Sort = cc.Layer.extend({
                 }
             }
         }
-        
-        this.destroy();
-    },
-    destroy: function () {
-        //this.runAction(this.useAction);
-        for (var i = 0; i < Game.toolContainer.length; i++) {
-            if (Game.toolContainer[i].type == this.type)
-                Game.toolContainer[i] = null;
-        }
-        this.getParent().reOrderToolContainer();
-        this.getParent().removeChild(this);
     }
-});*/
+});

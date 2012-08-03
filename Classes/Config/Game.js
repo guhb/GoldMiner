@@ -12,6 +12,7 @@ var Game = {
         retrieve: 1
     },
     resume: function () {
+        'use strict';
         this.round = 1;
         this.mission = 1;
         this.cur_score = 5000;
@@ -26,9 +27,9 @@ var Game = {
         this.Speed.retrieve = 1;
     },
     popToolObject: function (type) {
-        var container = [];
-        var j = 0;
-        for (var i = 0; i < this.toolContainer.length; i++) {
+        var container = [],
+            j = 0;
+        for (var i = 0, max = this.toolContainer.length; i < max; i++) {
             if (this.toolContainer[i].type == type) continue;
             container[j++] = this.toolContainer[i];
         }
@@ -48,4 +49,4 @@ var Game = {
     } else {
         console.error("Sorry! No web storage support..");
     }
-})();
+}());

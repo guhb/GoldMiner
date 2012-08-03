@@ -64,7 +64,7 @@ var StartLayer = cc.Layer.extend({
     },
     
     initSprites:function() {	
-		//÷Ì
+		
 		var texture1 = cc.TextureCache.sharedTextureCache().addImage(s_animals);
 		var pigFrame1 = cc.SpriteFrame.create(texture1,cc.RectMake(0,0,90,130));
 		var pigSprite = cc.Sprite.createWithSpriteFrame(pigFrame1);
@@ -82,7 +82,7 @@ var StartLayer = cc.Layer.extend({
 		var pigAnimation = cc.Animation.create(pigFrames,0.5);
 		var pigAnimate = cc.Animate.create(pigAnimation,false);
 		pigSprite.runAction(cc.RepeatForever.create(pigAnimate));
-		//π∑
+		
 		var texture2 = cc.TextureCache.sharedTextureCache().addImage(s_dog);
 		var dogFrame1 = cc.SpriteFrame.create(texture2,cc.RectMake(0,0,237,159));
 		var dogSprite = cc.Sprite.createWithSpriteFrame(dogFrame1);
@@ -96,7 +96,7 @@ var StartLayer = cc.Layer.extend({
 		var dogAnimation = cc.Animation.create(dogFrames,0.5);
 		var dogAnimate = cc.Animate.create(dogAnimation,false);
 		dogSprite.runAction(cc.RepeatForever.create(dogAnimate));
-		//ƒÃ≈£
+		
 		var texture3 = cc.TextureCache.sharedTextureCache().addImage(s_cow);
 		var cowFrame1 = cc.SpriteFrame.create(texture3,cc.RectMake(0,0,324,200));
 		var cowSprite = cc.Sprite.createWithSpriteFrame(cowFrame1);
@@ -112,7 +112,7 @@ var StartLayer = cc.Layer.extend({
 		var cowAnimation = cc.Animation.create(cowFrames,0.5);
 		var cowAnimate = cc.Animate.create(cowAnimation,false);
 		cowSprite.runAction(cc.RepeatForever.create(cowAnimate));
-		//√‡—Ú
+		
 		var texture1 = cc.TextureCache.sharedTextureCache().addImage(s_sheep);
 		var sheepFrame1 = cc.SpriteFrame.create(texture1,cc.RectMake(0,0,104,170));
 		var sheepFrame2 = cc.SpriteFrame.create(texture1,cc.RectMake(103,0,106,170));
@@ -132,14 +132,14 @@ var StartLayer = cc.Layer.extend({
 		//sheepSprite.runAction(cc.RepeatForever.create(sheepAnimate));	
 	},
     
-    onNewGame:function (pSender) {
+    onNewGame: function (pSender) {
         var scene = cc.Scene.create();
         scene.addChild(MissionLayer.create());
         //scene.addChild(GameControlMenu.create());
         cc.Director.sharedDirector().replaceScene(cc.TransitionRotoZoom.create(1.2, scene));
     },
     
-    onSettings:function (pSender) {
+    onSettings: function (pSender) {
         this.onButtonEffect();
         var scene = cc.Scene.create();
         scene.addChild(SettingsLayer.create());
@@ -147,7 +147,7 @@ var StartLayer = cc.Layer.extend({
         cc.Director.sharedDirector().replaceScene(cc.TransitionFade.create(1.2, scene));
     },
     
-    onRecord:function (pSender) {
+    onRecord: function (pSender) {
         this.onButtonEffect();
         var scene = cc.Scene.create();
         scene.addChild(RecordLayer.create());
@@ -155,7 +155,7 @@ var StartLayer = cc.Layer.extend({
         cc.Director.sharedDirector().replaceScene(cc.TransitionSlideInB.create(1.2, scene));
     },
     
-    onAbout:function (pSender) {
+    onAbout: function (pSender) {
         this.onButtonEffect();
         var scene = cc.Scene.create();
         scene.addChild(AboutLayer.create());
@@ -163,7 +163,7 @@ var StartLayer = cc.Layer.extend({
         cc.Director.sharedDirector().replaceScene(cc.TransitionSlideInB.create(1.2, scene));
     },
     
-    onButtonEffect:function(){
+    onButtonEffect: function() {
         if (global.sound) {
             var s = cc.AudioManager.sharedEngine().playEffect(s_buttonEffect);
         }

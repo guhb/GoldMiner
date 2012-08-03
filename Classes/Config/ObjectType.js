@@ -1,5 +1,6 @@
 var MineType = {
     Rock: {
+        create: Rock,
         big: {
             value: 20,
             weight: 600,
@@ -13,6 +14,7 @@ var MineType = {
     },
     
     Gold: {
+        create: Gold,
         big: {
             value: 500,
             weight: 600,
@@ -31,12 +33,14 @@ var MineType = {
     },
     
     Pig: {
+        create: Pig,
         value: 100,
         weight: 250,
         image: global.theme.pig
     },
     
     Diamond: {
+        create: Diamond,
         big: {
             value: 600,
             weight: 50,
@@ -50,16 +54,11 @@ var MineType = {
     },
     
     Bone: {
+        create: Bone,
         value: 20,
         weight: 130,
         image: global.theme.bone
-    }//,
-    /*
-    Bomb: {
-        value: 0,
-        weight: 20,
-        image: global.theme.bomb
-    }*/
+    }
 };
 
 var ToolType = {
@@ -121,13 +120,13 @@ var PropType = {
 var getObjectName = function (tag) {
     var name = [
             // MineObjects
-            "Rock","Gold","Pig","Diamond","Bone",// "Bomb",
+            "Rock","Gold","Pig","Diamond","Bone",
             // ToolObjects
             "Milk1","Milk2","Longer","Bombshell","BoneToGold","RockToRich",
             // PropObjects
             "Clock","Thunder","Sleep","Bump","Scan"
             ];
-    return name[tag-global.Tag.Rock];
+    return name[tag - global.Tag.Rock];
 };
 
 var getMineType = function () {

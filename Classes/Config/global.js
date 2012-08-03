@@ -3,7 +3,7 @@ var keys = [];
 var global = {
     sound: true,
     theme: Theme[0],
-    Tag:{
+    Tag: {
         Rock: 900,
         Gold: 901,
         Pig: 902,
@@ -35,5 +35,5 @@ var global = {
         Prop: 47,
         Menu: 60
     },
-    debug: false,
+    debug: false
 };

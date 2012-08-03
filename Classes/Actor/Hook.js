@@ -1,4 +1,4 @@
-Hook = cc.Sprite.extend({
+var Hook = cc.Sprite.extend({
     state: "init",
     rotateLimit: 80,
     rotateSpeed: 1,
@@ -112,16 +112,16 @@ Hook = cc.Sprite.extend({
     },
     
     getPositionX: function () {
-        return this.getPosition().x - Math.sin(this.delegate.getRotation()*Math.PI/180) * this.getContentSize().height * this.getScale();
+        return this.getPosition().x - Math.sin(this.delegate.getRotation() * Math.PI / 180) * this.getContentSize().height * this.getScale();
     },
     
     getPositionY: function () {
-        return this.getPosition().y - Math.cos(this.delegate.getRotation()*Math.PI/180) * this.getContentSize().height * this.getScale();
+        return this.getPosition().y - Math.cos(this.delegate.getRotation() * Math.PI / 180) * this.getContentSize().height * this.getScale();
     },
     
     getCollectPosition: function () {
-        var x = this.getOriginPosition().x - Math.sin(this.delegate.getRotation()*Math.PI/180) * this.getContentSize().height * this.getScale();
-        var y = this.getOriginPosition().y - Math.cos(this.delegate.getRotation()*Math.PI/180) * this.getContentSize().height * this.getScale();
+        var x = this.getOriginPosition().x - Math.sin(this.delegate.getRotation() * Math.PI / 180) * this.getContentSize().height * this.getScale();
+        var y = this.getOriginPosition().y - Math.cos(this.delegate.getRotation() * Math.PI / 180) * this.getContentSize().height * this.getScale();
         return cc.ccp(x, y);
     },
     

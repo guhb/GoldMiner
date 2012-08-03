@@ -1,9 +1,27 @@
-var Clock = cc.Sprite.extend({
+var PropObject = cc.Sprite.extend({
     type: null,
-    weight: 20,
+    weight: 150,
     value: 0,
-    zOrder: 0,
-    
+    getCollisionLength: function () {
+        var x = this.getContentSize().width;
+        var y = this.getContentSize().height;
+        return x < y ? x * this.getScale() : y * this.getScale();
+    },
+    getValue: function () {
+        return this.value;
+    },
+    getWeight: function () {
+        return this.weight;
+    },
+    update: function () {
+        if (this.collectAction && this.collectAction.isDone()) {
+            this.use();
+            this.getParent().removeChild(this);
+        }
+    }
+});
+
+var Clock = PropObject.extend({
     ctor: function (object) {
         this.initWithFile(PropType.Clock.image);
         this.setPosition(cc.ccp(object.x, object.y));
@@ -32,33 +50,10 @@ var Clock = cc.Sprite.extend({
             },
             10 * 1000
         );
-    },
-    
-    getCollisionLength: function () {
-        var x = this.getContentSize().width;
-        var y = this.getContentSize().height;
-        return x < y ? x * this.getScale() : y * this.getScale();
-    },
-    getValue: function () {
-        return this.value;
-    },
-    getWeight: function () {
-        return this.weight;
-    },
-    update: function () {
-        if (this.collectAction && this.collectAction.isDone()) {
-            this.use();
-            this.getParent().removeChild(this);
-        }
     }
 });
 
-var Thunder = cc.Sprite.extend({
-    type: null,
-    weight: 20,
-    value: 0,
-    zOrder: 0,
-    
+var Thunder = PropObject.extend({
     ctor: function (object) {
         this.initWithFile(PropType.Thunder.image);
         this.setPosition(cc.ccp(object.x, object.y));
@@ -90,33 +85,10 @@ var Thunder = cc.Sprite.extend({
                children[i].runAction(children[i].action);
            }
         }
-    },
-    
-    getCollisionLength: function () {
-        var x = this.getContentSize().width;
-        var y = this.getContentSize().height;
-        return x < y ? x * this.getScale() : y * this.getScale();
-    },
-    getValue: function () {
-        return this.value;
-    },
-    getWeight: function () {
-        return this.weight;
-    },
-    update: function () {
-        if (this.collectAction && this.collectAction.isDone()) {
-            this.use();
-            this.getParent().removeChild(this);
-        }
     }
 });
 
-var Sleep = cc.Sprite.extend({
-    type: null,
-    weight: 20,
-    value: 0,
-    zOrder: 0,
-    
+var Sleep = PropObject.extend({
     ctor: function (object) {
         this.initWithFile(PropType.Sleep.image);
         this.setPosition(cc.ccp(object.x, object.y));
@@ -136,33 +108,10 @@ var Sleep = cc.Sprite.extend({
                 children[i].stopAllActions();
             }
         }
-    },
-    
-    getCollisionLength: function () {
-        var x = this.getContentSize().width;
-        var y = this.getContentSize().height;
-        return x < y ? x * this.getScale() : y * this.getScale();
-    },
-    getValue: function () {
-        return this.value;
-    },
-    getWeight: function () {
-        return this.weight;
-    },
-    update: function () {
-        if (this.collectAction && this.collectAction.isDone()) {
-            this.use();
-            this.getParent().removeChild(this);
-        }
     }
 });
 
-var Bump = cc.Sprite.extend({
-    type: null,
-    weight: 20,
-    value: 0,
-    zOrder: 0,
-    
+var Bump = PropObject.extend({
     ctor: function (object) {
         this.initWithFile(PropType.Sleep.image);
         this.setPosition(cc.ccp(object.x, object.y));
@@ -193,33 +142,10 @@ var Bump = cc.Sprite.extend({
             that.unschedule(bump);
         },
         10 * 1000);
-    },
-    
-    getCollisionLength: function () {
-        var x = this.getContentSize().width;
-        var y = this.getContentSize().height;
-        return x < y ? x * this.getScale() : y * this.getScale();
-    },
-    getValue: function () {
-        return this.value;
-    },
-    getWeight: function () {
-        return this.weight;
-    },
-    update: function () {
-        if (this.collectAction && this.collectAction.isDone()) {
-            this.use();
-            this.getParent().removeChild(this);
-        }
     }
 });
 
-var Scan = cc.Sprite.extend({
-    type: null,
-    weight: 20,
-    value: 0,
-    zOrder: 0,
-    
+var Scan = PropObject.extend({
     ctor: function (object) {
         this.initWithFile(PropType.Sleep.image);
         this.setPosition(cc.ccp(object.x, object.y));
@@ -258,170 +184,10 @@ var Scan = cc.Sprite.extend({
         setTimeout(function () {
             parent.draw = draw;
         }, 10 * 1000);
-    },   
-    
-    getCollisionLength: function () {
-        var x = this.getContentSize().width;
-        var y = this.getContentSize().height;
-        return x < y ? x * this.getScale() : y * this.getScale();
-    },
-    getValue: function () {
-        return this.value;
-    },
-    getWeight: function () {
-        return this.weight;
-    },
-    update: function () {
-        if (this.collectAction && this.collectAction.isDone()) {
-            this.use();
-            this.getParent().removeChild(this);
-        }
     }
 });
 
-/*
-var Bone = cc.Sprite.extend({
-    type: null,
-    weight: 25,
-    value: 0,
-    zOrder: 0,
-    
-    ctor: function (object) {
-        this.initWithFile(PropType.Bone.image);
-        this.setPosition(cc.ccp(object.x, object.y));
-        this.type = object.type;
-        this.scheduleUpdate();
-    },
-    
-    use: function () {
-        //var dog = this.getParent().getChildByTag(global.Tag.Pig);
-        var children = this.getParent().getChildren();
-        for (var i = 0; i < children.length; i++) {
-            if (children[i].type == global.Tag.Pig) {
-                dog = children[i];
-                break;
-            }
-        }
-        console.log("Dog");
-        dog.stopAllActions();
-        // add eat aniamtion
-        Explosion.sharedExplosion();
-        var a = new Explosion();
-        a.setPosition(dog.getPosition());
-        this.getParent().addChild(a);
-    },
-    
-    getValue: function () {
-        return this.value;
-    },
-    getWeight: function () {
-        return this.weight;
-    },
-    update: function () {
-        if (this.collectAction && this.collectAction.isDone()) {
-            this.use();
-            this.getParent().removeChild(this);
-        }
-    }
-});
-
-var Silent = cc.Sprite.extend({
-    type: null,
-    weight: 25,
-    value: 0,
-    zOrder: 0,
-    
-    ctor: function (object) {
-        this.initWithFile(PropType.Silent.image);
-        this.setPosition(cc.ccp(object.x, object.y));
-        this.type = object.type;
-        this.scheduleUpdate();
-    },
-    
-    use: function () {
-        //var dog = this.getParent().getChildByTag(global.Tag.Dog);
-        //dog pause and add sleep animation;
-        var children = this.getParent().getChildren();
-        for (var i = 0; i < children.length; i++) {
-            if (children[i].type == global.Tag.Pig) {
-                dog = children[i];
-                break;
-            }
-        }
-        console.log("Dog");
-        dog.pauseSchedulerAndActions();
-        // add slient aniamtion
-        Explosion.sharedExplosion();
-        var a = new Explosion();
-        a.setPosition(dog.getPosition());
-        this.getParent().addChild(a);
-        setTimeout(function () {
-            dog.resumeSchedulerAndActions();
-        }, 1 * 1000);
-    },
-    
-    getValue: function () {
-        return this.value;
-    },
-    getWeight: function () {
-        return this.weight;
-    },
-    update: function () {
-        if (this.collectAction && this.collectAction.isDone()) {
-            this.use();
-            this.getParent().removeChild(this);
-        }
-    }
-});
-
-var Alarm = cc.Sprite.extend({
-    type: null,
-    weight: 25,
-    value: 0,
-    zOrder: 0,
-    
-    ctor: function (object) {
-        this.initWithFile(PropType.Thunder.image);
-        this.setPosition(cc.ccp(object.x, object.y));
-        this.type = object.type;
-        this.scheduleUpdate();
-    },
-    
-    use: function () {
-        // display the alarm animation and end the game
-        // as the farmer is waked up.
-        // add slient aniamtion
-        Explosion.sharedExplosion();
-        var a = new Explosion();
-        a.setPosition(cc.ccp(winSize.width / 2, winSize.height / 2));
-        this.getParent().addChild(a);
-        
-        var parent = this.getParent();
-        setTimeout(function () {
-            parent.onGameOver();
-        }, 1 * 1000);
-    },
-    
-    getValue: function () {
-        return this.value;
-    },
-    getWeight: function () {
-        return this.weight;
-    },
-    update: function () {
-        if (this.collectAction && this.collectAction.isDone()) {
-            this.use();
-            this.getParent().removeChild(this);
-        }
-    }
-});
-
-var Smaller = cc.Sprite.extend({
-    type: null,
-    weight: 25,
-    value: 0,
-    zOrder: 0,
-    
+var Smaller = PropObject.extend({
     ctor: function (object) {
         this.initWithFile(PropType.Sleep.image);
         this.setPosition(cc.ccp(object.x, object.y));
@@ -440,28 +206,10 @@ var Smaller = cc.Sprite.extend({
                 children[i].setScale(0.5);
             }
         }
-    },
-    
-    getValue: function () {
-        return this.value;
-    },
-    getWeight: function () {
-        return this.weight;
-    },
-    update: function () {
-        if (this.collectAction && this.collectAction.isDone()) {
-            this.use();
-            this.getParent().removeChild(this);
-        }
     }
 });
 
-var Bigger = cc.Sprite.extend({
-    type: null,
-    weight: 25,
-    value: 0,
-    zOrder: 0,
-    
+var Bigger = PropObject.extend({
     ctor: function (object) {
         this.initWithFile(PropType.Sleep.image);
         this.setPosition(cc.ccp(object.x, object.y));
@@ -480,28 +228,10 @@ var Bigger = cc.Sprite.extend({
                 children[i].setScale(2);
             }
         }
-    },
-    
-    getValue: function () {
-        return this.value;
-    },
-    getWeight: function () {
-        return this.weight;
-    },
-    update: function () {
-        if (this.collectAction && this.collectAction.isDone()) {
-            this.use();
-            this.getParent().removeChild(this);
-        }
     }
 });
 
-var Frozen = cc.Sprite.extend({
-    type: null,
-    weight: 25,
-    value: 0,
-    zOrder: 0,
-    
+var Frozen = PropObject.extend({
     ctor: function (object) {
         this.initWithFile(PropType.Sleep.image);
         this.setPosition(cc.ccp(object.x, object.y));
@@ -519,28 +249,10 @@ var Frozen = cc.Sprite.extend({
         setTimeout(function () {
             parent._hook.resumeSchedulerAndActions();
         }, 10 * 1000);
-    },
-    
-    getValue: function () {
-        return this.value;
-    },
-    getWeight: function () {
-        return this.weight;
-    },
-    update: function () {
-        if (this.collectAction && this.collectAction.isDone()) {
-            this.use();
-            this.getParent().removeChild(this);
-        }
     }
 });
 
-var Reverse = cc.Sprite.extend({
-    type: null,
-    weight: 25,
-    value: 0,
-    zOrder: 0,
-    
+var Reverse = PropObject.extend({
     ctor: function (object) {
         this.initWithFile(PropType.Sleep.image);
         this.setPosition(cc.ccp(object.x, object.y));
@@ -584,28 +296,10 @@ var Reverse = cc.Sprite.extend({
         setTimeout(function () {
             parent.getDstPoint = getDstPoint;
         }, 10 * 1000);
-    },
-    
-    getValue: function () {
-        return this.value;
-    },
-    getWeight: function () {
-        return this.weight;
-    },
-    update: function () {
-        if (this.collectAction && this.collectAction.isDone()) {
-            this.use();
-            this.getParent().removeChild(this);
-        }
     }
 });
 
-var Shift = cc.Sprite.extend({
-    type: null,
-    weight: 25,
-    value: 0,
-    zOrder: 0,
-    
+var Shift = PropObject.extend({
     ctor: function (object) {
         this.initWithFile(PropType.Sleep.image);
         this.setPosition(cc.ccp(object.x, object.y));
@@ -628,49 +322,5 @@ var Shift = cc.Sprite.extend({
             parent._hook.setPosition(originPosition);
             parent._hook.originPosition = originPosition;
         }, 10 * 1000);
-    },
-    
-    getValue: function () {
-        return this.value;
-    },
-    getWeight: function () {
-        return this.weight;
-    },
-    update: function () {
-        if (this.collectAction && this.collectAction.isDone()) {
-            this.use();
-            this.getParent().removeChild(this);
-        }
     }
 });
-
-var Rich = cc.Sprite.extend({
-    type: null,
-    weight: 25,
-    value: 0,
-    zOrder: 0,
-    
-    ctor: function (object) {
-        this.initWithFile(PropType.Sleep.image);
-        this.setPosition(cc.ccp(object.x, object.y));
-        this.type = object.type;
-        this.scheduleUpdate();
-    },
-    
-    use: function () {
-        Game.money *= 2;
-    },
-    
-    getValue: function () {
-        return this.value;
-    },
-    getWeight: function () {
-        return this.weight;
-    },
-    update: function () {
-        if (this.collectAction && this.collectAction.isDone()) {
-            this.use();
-            this.getParent().removeChild(this);
-        }
-    }
-});*/
