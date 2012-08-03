@@ -2,8 +2,7 @@ var LevelManager = cc.Class.extend({
     _currentRound: null,
     _currentMission: null,
     _gameLayer: null,
-    addQ: 300,
-
+    addQ:300,
     ctor: function (gameLayer) {
         if (!gameLayer) {
             throw "gameLayer must be non-nil";
@@ -37,15 +36,21 @@ var LevelManager = cc.Class.extend({
 
     getDstScore:function(round) {
         var temp = Game.dst_score;
-        var add = 300;
-        if(round <= 1) {
+        if(round <= 1)
+        {
             temp = 600;
-        } else if(round <= 5 && round >1) {
+        }
+        else if(round <= 5 && round >1)
+        {
             temp += 500;
-        } else if(round >5 && round <=10) {
+        }
+        else if(round >5 && round <=10)
+        {
             this.addQ += 300;
             temp += this.addQ;
-        } else if(round >10) {
+        }
+        else if(round >10)
+        {
             temp += 2700;
         }
         return temp;
@@ -53,42 +58,41 @@ var LevelManager = cc.Class.extend({
 
     // 根据Level.js里面的Round信息，创建地图
     createMap:function(){
+        if(Game.difficulty >= 3)
+            Game.difficulty = 3;
+        //var difficulty = Game.difficulty - 1;
+        var difficulty = 2;
         this._gameLayer.mineContainer = [];
-        var round = (this._currentRound - 1) % NUMBER_OF_ROUNDS;
+        //var round = (this._currentRound - 1) % NUMBER_OF_ROUNDS;
+        var round = 5;
+
         this.updateGameStatus();
         // 生成物品MineObject
-        for (var i=0; i<Round[round].length; i++) {
+        for (var i=0; i<Round[difficulty][round].length; i++) {
             var size = Math.round(Math.random()),
                 type = getObjectName(Round[round][i].type),
-                mine = new MineType[type].create(Round[round][i], size);
-
+                mine = new MineType[type].create(Round[difficulty][round][i], size);
             if (mine != null) {
                 this._gameLayer.addChild(mine, mine.zOrder, mine.type);
                 this._gameLayer.mineContainer.push(mine);
             } 
         }
-        
+              
         // 生成道具（问号物品），位置目前还是随机生成的
         var mission = this._currentMission;
         this._gameLayer.propContainer = [];
         var object = {};
         object.x = Math.random() * winSize.width;
-
-        if (object.x <= 0)
-            ojbect.x = 20;
-        else if (object.x >= winSize.width)
-            object.x = winSize.width - 20;
-
+        
+        if (object.x <= 0) ojbect.x = 20;
+        else if (object.x >= winSize.width) object.x = winSize.width - 20;
+        
         object.y = Math.random() * winSize.height - 70;
-
-        if (object.y <= 0)
-            object.y = 40;
-        else if (object.y >= winSize.height - 70)
-            ojbect.y = 40;
-
-        var type = Mission[mission - 1].props[round % 4];
-        object.type = global.Tag[type];
-
+        if (object.y <= 0) object.y = 40;
+        else if (object.y >= winSize.height - 70) ojbect.y = 40;
+        
+        var type = Mission[0].props[round%4];
+        object.type = global.Tag[type]; 
         var prop = new PropType[type].create(object);
         this._gameLayer.addChild(prop, global.zOrder.Prop);
         this._gameLayer.mineContainer.push(prop);

@@ -179,3 +179,37 @@ var Pig = MineObject.extend({
         this.scheduleUpdate();
     }
 });
+
+var Bat = MineObject.extend({
+    ctor: function (object, size) {
+        var type = getObjectName(object.type);
+
+        var batTexture = cc.TextureCache.sharedTextureCache().addImage(s_bat);
+        var batFrame1 = cc.SpriteFrame.create(batTexture,cc.RectMake(0,0,212,109));
+        var batFrame2 = cc.SpriteFrame.create(batTexture,cc.RectMake(0,109,212,109));
+        this.initWithFile(batFrame1);
+        this.value = MineType[type].value;
+        this.weight = MineType[type].weight;
+        this.setPosition(cc.ccp(object.x, object.y));
+        this.type = object.type;
+        this.setScale(0.3);
+        var batFrames = [];
+        batFrames.push(batFrame1);
+        batFrames.push(batFrame2);
+        var batAnimation = cc.Animation.create(batFrames,0.5);
+        var batAnimate = cc.Animate.create(batAnimation,false);
+        this.runAction(cc.RepeatForever.create(batAnimate));
+        var point1 = cc.ccp(object.x,object.y);
+        var point2 = cc.ccp(object.x2,object.y2);
+        if(!cc.Point.CCPointEqualToPoint(point1,point2)){
+            //var duration = Math.abs((point2.y-point1.y))/winSize.width*10;
+            var tmpMove1 = cc.MoveTo.create(4,point2);
+            var tmpMove2 = cc.MoveTo.create(4,point1);
+            var seq = cc.Sequence.create(tmpMove1,cc.DelayTime.create(0.3),tmpMove2,cc.DelayTime.create(0.3));
+            this.runAction(cc.RepeatForever.create(seq));
+        }
+        
+        this.zOrder = global.zOrder[type];
+        this.scheduleUpdate();
+    }
+});

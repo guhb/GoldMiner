@@ -97,6 +97,7 @@ var StoreLayer = cc.Layer.extend({
     ccTouchesEnded: function (touches,event) {
         // Campare the touch point with shelfMap and DstMap to checkout which
         // Object is touched.
+        this.isMouseDown = false;
         var x = touches[0].locationInView(0).x;
         var y = touches[0].locationInView(0).y;
         var touchPosition = cc.ccp(0, 0);
@@ -123,20 +124,10 @@ var StoreLayer = cc.Layer.extend({
 
     onBuy: function () {
         if (this.touchedObject.value <= Game.cur_score) {
-            /*if (this.touchedObject.type === global.Tag.Milk2) {
-                for (var i = 0, max = Game.toolContainer.length; i < max; i++) {
-                    if (Game.toolContainer[i].type === global.Tag.Milk1) {
-                        var object = this.touchedObject;
-                        this.touchedObject = Game.toolContainer[i];
-                        this.onUnBuy();
-                        this.touchedObject = object;
-                    }
-                }
-            }*/
             Game.cur_score -= this.touchedObject.value;
             Game.toolContainer.push(this.touchedObject);
             var action = cc.MoveTo.create(0.2, this.shelfMap[5+Game.toolContainer.length]);
-            this.touchedObject.runAcion(action);
+            this.touchedObject.runAction(action);
         }
     },
 
@@ -180,11 +171,20 @@ var StoreLayer = cc.Layer.extend({
     },
 
     onAccept: function () {
-        var scene = cc.Scene.create();
-        scene.addChild(GameLayer.create());
-        scene.addChild(GameControlMenu.create());
-        cc.Director.sharedDirector().replaceScene(cc.TransitionFade.create(1.2, scene));
-        this.getParent().removeChild(this);
+        if(Game.gameMode == 1){
+            var scene = cc.Scene.create();
+            scene.addChild(singleGameLayer.create());
+            scene.addChild(GameControlMenu.create());
+            cc.Director.sharedDirector().replaceScene(cc.TransitionFade.create(1.2, scene));
+            this.getParent().removeChild(this);
+        }
+        else if(Game.gameMode == 2){
+            var scene = cc.Scene.create();
+            scene.addChild(GameLayer.create());
+            scene.addChild(GameControlMenu.create());
+            cc.Director.sharedDirector().replaceScene(cc.TransitionFade.create(1.2, scene));
+            this.getParent().removeChild(this);   
+        }
     },
     
     onReturn: function () {

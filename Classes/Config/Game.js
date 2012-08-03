@@ -4,15 +4,17 @@ var Game = {
     unlock: 3,
     cur_score: 5000,
     dst_score: 500,
-    time_limit: 5,
+    time_limit: 20,
     toolContainer: [],
+    describe:null,
+    gameMode:null,//单人：1，多人：2
+    difficulty:1,//游戏难度1,2,3
     Speed: {
-        rotate: 1,
+        rotate: 2,
         launch: 1,
         retrieve: 1
     },
     resume: function () {
-        'use strict';
         this.round = 1;
         this.mission = 1;
         this.cur_score = 5000;
@@ -21,15 +23,14 @@ var Game = {
         this.cleanToolObjects();
     },
     cleanToolObjects: function () {
-        this.toolContainer = [];
-        this.Speed.rotate = 1;
+        this.Speed.rotate = Game.Speed.rotate;
         this.Speed.launch = 1;
         this.Speed.retrieve = 1;
     },
     popToolObject: function (type) {
-        var container = [],
-            j = 0;
-        for (var i = 0, max = this.toolContainer.length; i < max; i++) {
+        var container = [];
+        var j = 0;
+        for (var i = 0; i < this.toolContainer.length; i++) {
             if (this.toolContainer[i].type == type) continue;
             container[j++] = this.toolContainer[i];
         }
