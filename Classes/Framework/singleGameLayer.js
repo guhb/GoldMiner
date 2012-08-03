@@ -1,10 +1,9 @@
-var GameLayer = cc.Layer.extend({
+var singleGameLayer = cc.Layer.extend({
     _time_limit: 10,
     _cur_score: 0,
     _dst_score: 200,
     _roundInterval: null,
     _hook: null,
-    _hook2:null,
     mineContainer: [],
     _propContainer: [],
     _criticalAngle: null,
@@ -27,11 +26,10 @@ var GameLayer = cc.Layer.extend({
             this.initHook();
             // create map
             this.initShelfMap();
-            this.createTools();
             this.createMap();
 
             this.setIsTouchEnabled(true);
-            //this.setIsKeypadEnabled(true);
+            this.setIsKeypadEnabled(true);
             this.schedule(this.update);
 
             if (global.sound) {
@@ -109,47 +107,23 @@ var GameLayer = cc.Layer.extend({
     },
     
     initHook: function () {
-        //hook1初始化
         this._hook = new Hook();
         this.addChild(this._hook, global.zOrder.Hook);
         this._hook.setAnchorPoint(new cc.ccp(0.5, 1));
+        //this._hook.setPosition(new cc.ccp(this.winSize.width/2, this.winSize.height-50));
+        //this._hook.originPosition = new cc.ccp(this.winSize.width/2, this.winSize.height-50);
         this._hook.setPosition(cc.ccp(403, 462));
         this._hook.originPosition = cc.ccp(403, 462);
         this._hook.scheduleUpdate();
         this._criticalAngle = Math.atan((this.winSize.width/2)/(this.winSize.height-50))/Math.PI*180;
-        //半对角线路径长度
         this._hook_path = Math.sqrt(Math.pow(this._hook.getPosition().x, 2) + Math.pow(this._hook.getPosition().y, 2));
-        //hook2初始化
-        this._hook2 = new Hook();
-        this.addChild(this._hook2, global.zOrder.Hook);
-        this._hook2.setAnchorPoint(new cc.ccp(0.5, 1));
-        this._hook2.setPosition(cc.ccp(350, 462));
-        this._hook2.originPosition = cc.ccp(350, 462);
-        this._hook2.scheduleUpdate();
     },
     
     createMap: function () {
         var levelManager = new LevelManager(this);
         levelManager.createMap();
-    },
-
-    createTools: function () {
-        var map = this.shelfMap;
-        for (var i = 0; i < Game.toolContainer.length; i++) {
-            if (Game.toolContainer[i] != null) {
-                var object = {};
-                object.type = Game.toolContainer[i].type;
-                object.x = map[i].x;
-                object.y = map[i].y;
-                var type = getObjectName(object.type);
-                var tool = new ToolType[type].create(object);
-                Game.toolContainer[i] = tool;
-                tool.setScale(0.2);
-                this.addChild(tool, global.zOrder.Tool);
-
-                if (tool.type != global.Tag.Bombshell) tool.onUse();
-            }
-        }
+        var toolManager = new ToolManager(this);
+        toolManager.getTools();
     },
     
     initShelfMap: function () {
@@ -175,36 +149,17 @@ var GameLayer = cc.Layer.extend({
     },
         
     ccTouchesBegan:function (touches, event) {
-        var touchPos = touches[0].locationInView(0);
-        if(touchPos.x > this.winSize.width / 2)
-        {
-            if (this._hook.state == "swing") {
-                this._hook.launch(this.getDstPoint(1));
-            }
-            if(this._hook.state == "retrieve"){
-                var con = Game.toolContainer;
-                for (var i = con.length - 1; i >= 0; i--) {
-                    if(con[i].type == global.Tag.Bombshell){
-
-                        con[i].onUse(1);
-                    }
-                };
-            }
+        if (this._hook.state == "swing") {
+            this._hook.launch(this.getDstPoint());
         }
-        else if(touchPos.x < this.winSize.width / 2){
-            if (this._hook2.state == "swing") {
-                this._hook2.launch(this.getDstPoint(2));
-            }   
-            if(this._hook2.state == "retrieve"){
-                var con = Game.toolContainer;
-                for (var i = con.length - 1; i >= 0; i--) {
-                    if(con[i].type == global.Tag.Bombshell){
-                        con[i].onUse(2);
-                    }
-                };
-            }
+        if(this._hook.state == "retrieve"){
+            var con = Game.toolContainer;
+            for (var i = con.length - 1; i >= 0; i--) {
+                if(con[i].type == global.Tag.Bombshell){
+                    con[i].onUse();
+                }
+            };
         }
-
     },
 
     draw: function () {
@@ -212,7 +167,6 @@ var GameLayer = cc.Layer.extend({
         //cc.renderContext.lineWidth = 2;
         //cc.renderContext.strokeStyle = "#eedc4a";
         cc.drawingUtil.drawLine(this._hook.getOriginPosition(), this._hook.getPosition());
-        cc.drawingUtil.drawLine(this._hook2.getOriginPosition(), this._hook2.getPosition());
     },
     
     setCurScore: function (score) {
@@ -256,7 +210,6 @@ var GameLayer = cc.Layer.extend({
     update:function (dt) {
         this.onTimeLimit();
         this.checkCollision();
-        this.checkCollision2();
         if (this.collectAction && this.collectAction.isDone()) {
             if (this.collectedObject != null) {
                 //this.collectedObject.setIsVisible(false);
@@ -266,36 +219,21 @@ var GameLayer = cc.Layer.extend({
                 this.collectAction = null;
             }
         }
-        if (this.collectAction2 && this.collectAction2.isDone()) {
-            if (this.collectedObject2 != null) {
-                //this.collectedObject.setIsVisible(false);
-                this.updateScore(this.collectedObject2.getValue());
-                //this.removeChild(this.collectedObject);
-                this.collectedObject2 = null;
-                this.collectAction2 = null;
-                
-            }
-        }
     },
         
-    getDstPoint: function (hookNum) {
-        var hook;
-        if (hookNum == 1) 
-            hook = this._hook;
-        else if(hookNum ==2)
-            hook = this._hook2;
+    getDstPoint: function () {
         var size = cc.Director.sharedDirector().getWinSize();
         //var mx = size.width / 2;
         //var my = size.height - 50;
-        var mx = hook.getPosition().x;
-        var my = hook.getPosition().y;
+        var mx = this._hook.getPosition().x;
+        var my = this._hook.getPosition().y;
         var desX = null;
         var desY = null;
         var border = 10;
 
-        if (hook.state == "swing") {
-            hook.stopSwing();
-            var angle = hook.getRotation();
+        if (this._hook.state == "swing") {
+            this._hook.stopSwing();
+            var angle = this._hook.getRotation();
             if (angle > this._criticalAngle) {
                 desX = 0 + border;
                 desY = my - Math.tan(((90-angle)*Math.PI)/180) * mx;
@@ -314,7 +252,7 @@ var GameLayer = cc.Layer.extend({
         console.error("Could not get dstPosition");
     },
     
-    checkCollision: function () {
+   checkCollision: function () {
         if (this._hook.getState() == "launch") {
             var distance = null;
             for (var i=0; i<this.mineContainer.length; i++) {
@@ -322,7 +260,7 @@ var GameLayer = cc.Layer.extend({
                     var xlen = Math.pow(this._hook.getPositionX() - this.mineContainer[i].getPositionX(), 2);
                     var ylen = Math.pow(this._hook.getPositionY() - this.mineContainer[i].getPositionY(), 2);
                 
-                    distance = Math.sqrt(xlen + ylen);
+                    distance = Math.sqrt(xlen + ylen);  
                     if (distance < this.mineContainer[i].getCollisionLength()/2) {
                         if (this.mineContainer[i].type == global.Tag.Pig)
                             this.mineContainer[i].stopAllActions();
@@ -330,7 +268,7 @@ var GameLayer = cc.Layer.extend({
                         // 计算速度，path为物体位置到回收点的距离，this._hook_path为钩子的绳子最长长度
                         var path = Math.sqrt(Math.pow(this.mineContainer[i].getPositionX() - this._hook.getCollectPosition().x, 2)
                             + Math.pow(this.mineContainer[i].getPositionY() - this._hook.getCollectPosition().y, 2))
-                        var speed = (this.mineContainer[i].weight/100) * (path/this._hook_path) * Game.Speed.retrieve * 2;
+                        var speed = (this.mineContainer[i].weight/100) * (path/this._hook_path) * Game.Speed.retrieve*2; //Game.Speed.retrieve;
 
                         this.mineContainer[i].setPosition(cc.ccp(this._hook.getPositionX(), this._hook.getPositionY()));
                         
@@ -342,40 +280,6 @@ var GameLayer = cc.Layer.extend({
                         
                         this.popMineObject(i);
                         this._hook.retrieve(speed);
-                    }
-                }
-            }
-        }
-    },
-
-    checkCollision2: function () {
-        if (this._hook2.getState() == "launch") {
-            var distance = null;
-            for (var i=0; i<this.mineContainer.length; i++) {
-                if (this.mineContainer[i] != null) {
-                    var xlen = Math.pow(this._hook2.getPositionX() - this.mineContainer[i].getPositionX(), 2);
-                    var ylen = Math.pow(this._hook2.getPositionY() - this.mineContainer[i].getPositionY(), 2);
-                
-                    distance = Math.sqrt(xlen + ylen);
-                    if (distance < this.mineContainer[i].getCollisionLength()/2) {
-                        if (this.mineContainer[i].type == global.Tag.Pig)
-                            this.mineContainer[i].stopAllActions();
-
-                        // 计算速度，path为物体位置到回收点的距离，this._hook_path为钩子的绳子最长长度
-                        var path = Math.sqrt(Math.pow(this.mineContainer[i].getPositionX() - this._hook2.getCollectPosition().x, 2)
-                            + Math.pow(this.mineContainer[i].getPositionY() - this._hook2.getCollectPosition().y, 2))
-                        var speed = (this.mineContainer[i].weight/100) * (path/this._hook_path) * Game.Speed.retrieve * 2;
-
-                        this.mineContainer[i].setPosition(cc.ccp(this._hook2.getPositionX(), this._hook2.getPositionY()));
-                        
-                        // 创建物体的返回动作
-                        this.mineContainer[i].collectAction = cc.MoveTo.create(speed, this._hook2.getCollectPosition());
-                        this.collectAction2 = this.mineContainer[i].collectAction;
-                        this.mineContainer[i].runAction(this.mineContainer[i].collectAction);
-                        this.collectedObject2 = this.mineContainer[i];
-                        
-                        this.popMineObject(i);
-                        this._hook2.retrieve(speed);
                     }
                 }
             }
@@ -450,17 +354,17 @@ var GameLayer = cc.Layer.extend({
     }
 });
 
-GameLayer.create = function () {
-    var sg = new GameLayer();
+singleGameLayer.create = function () {
+    var sg = new singleGameLayer();
     if (sg && sg.init()) {
         return sg;
     }
     return null;
 };
 
-GameLayer.scene = function () {
+singleGameLayer.scene = function () {
     var scene = cc.Scene.create();
-    var layer = GameLayer.create();
+    var layer = singleGameLayer.create();
     scene.addChild(layer, 1);
     return scene;
 };

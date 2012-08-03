@@ -3,7 +3,7 @@ var keys = [];
 var global = {
     sound: true,
     theme: Theme[0],
-    Tag: {
+    Tag:{
         Rock: 900,
         Gold: 901,
         Pig: 902,
@@ -19,7 +19,8 @@ var global = {
         Thunder: 912,
         Sleep: 913,
         Bump: 914,
-        Scan: 915
+        Scan: 915,
+        Bat: 916
     },
     zOrder: {
         Background: -10,
@@ -29,11 +30,12 @@ var global = {
         Rock: 41,
         Gold: 42,
         Pig: 43,
+        Bat: 70,
         Diamond: 44,
         Bone: 45,
         Tool: 46,
         Prop: 47,
         Menu: 60
     },
-    debug: false
+    debug: false,
 };

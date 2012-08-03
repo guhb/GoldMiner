@@ -1,4 +1,4 @@
-var Theme = [
+    var Theme = [
     {
         startlayer_bg: s_background1,
         gamelayer_bg: s_background3,
@@ -20,7 +20,8 @@ var Theme = [
         clock: s_clock,
         money_tree: s_money_tree,
         rich: s_rich,
-        accept: s_accept
+        accept: s_accept,
+        bat: s_bat
     },
     {
         startlayer_bg: s_background1,
