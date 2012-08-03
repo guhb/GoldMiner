@@ -24,7 +24,6 @@ var Game = {
     },
     cleanToolObjects: function () {
         this.toolContainer = [];
-        this.Speed.rotate = 2;
         this.Speed.launch = 1;
         this.Speed.retrieve = 1;
     },
