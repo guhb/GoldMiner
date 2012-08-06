@@ -140,7 +140,7 @@ var Pig = MineObject.extend({
 
         var texture2 = cc.TextureCache.sharedTextureCache().addImage(s_dog);
         var dogFrame1 = cc.SpriteFrame.create(texture2,cc.RectMake(0,0,237,159));
-        this.initWithFile(dogFrame1);
+        this.initWithSpriteFrame(dogFrame1);
         this.value = MineType[type].value;
         this.weight = MineType[type].weight;
         this.setPosition(cc.ccp(object.x, object.y));
@@ -185,7 +185,7 @@ var Bat = MineObject.extend({
         var batTexture = cc.TextureCache.sharedTextureCache().addImage(s_bat);
         var batFrame1 = cc.SpriteFrame.create(batTexture,cc.RectMake(0,0,212,109));
         var batFrame2 = cc.SpriteFrame.create(batTexture,cc.RectMake(0,109,212,109));
-        this.initWithFile(batFrame1);
+        this.initWithSpriteFrame(batFrame1);
         this.value = MineType[type].value;
         this.weight = MineType[type].weight;
         this.setPosition(cc.ccp(object.x, object.y));
