@@ -143,6 +143,7 @@ var MissionLayer = cc.Layer.extend({
     },
     
     onMissionSelected: function () {
+        Game.gameMode = 1;
         Game.resume();
         Game.mission = this._num;
         var scene = cc.Scene.create();

@@ -90,7 +90,7 @@ cc.loadjs('Classes/Config/Game.js');
 
 // Framework Module
 cc.loadjs('Classes/Framework/LevelManager.js');
-cc.loadjs('Classes/Framework/ToolManager.js');
+//cc.loadjs('Classes/Framework/ToolManager.js');
 cc.loadjs('Classes/Framework/AboutLayer.js');
 cc.loadjs('Classes/Framework/GameControlMenu.js');
 cc.loadjs('Classes/Framework/GameLayer.js');

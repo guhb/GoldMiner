@@ -86,14 +86,6 @@ var StoreLayer = cc.Layer.extend({
         }
     },
 
-    ccTouchesBegan: function (touches, event) {
-        // TODO
-    },
-
-    ccTouchesMoved: function (touches, event) {
-        // TODO
-    },
-
     ccTouchesEnded: function (touches,event) {
         // Campare the touch point with shelfMap and DstMap to checkout which
         // Object is touched.
