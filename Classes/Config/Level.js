@@ -8,8 +8,8 @@ var Round =
             {type: global.Tag.Rock,    x: 100, y: 290},
             {type: global.Tag.Rock,    x: 260, y: 90},
             {type: global.Tag.Rock,    x: 470, y: 250},
-            {type: global.Tag.Rock,    x: 610, y: 370},
-            {type: global.Tag.Gold,    x: 100, y: 210},
+            {type: global.Tag.Rock,    x: 610, y: 320},
+            //{type: global.Tag.Gold,    x: 100, y: 210},
             //{type: global.Tag.Gold,    x: 140, y: 340},
             {type: global.Tag.Gold,    x: 170, y: 80},
             {type: global.Tag.Gold,    x: 200, y: 300},
@@ -17,7 +17,7 @@ var Round =
             {type: global.Tag.Gold,    x: 410, y: 170},
             {type: global.Tag.Gold,    x: 530, y: 100},
             {type: global.Tag.Gold,    x: 580, y: 230},
-            {type: global.Tag.Gold,    x: 630, y: 310},
+            //{type: global.Tag.Gold,    x: 630, y: 310},
             {type: global.Tag.Gold,    x: 720, y: 250}
         ],
         [ // Round 2
@@ -41,8 +41,10 @@ var Round =
         [ // Round 3
             {type: global.Tag.Rock,    x: 90,  y: 250},
             {type: global.Tag.Rock,    x: 200, y: 260},
+            {type: global.Tag.Rock,    x: 340, y: 300},
             {type: global.Tag.Rock,    x: 440, y: 240},
             {type: global.Tag.Rock,    x: 620, y: 280},
+            {type: global.Tag.Rock,    x: 590, y: 130},
             //{type: global.Tag.Rock,    x: 180, y: 140},
             //{type: global.Tag.Rock,    x: 390, y: 120},
             //{type: global.Tag.Rock,    x: 540, y: 140},
@@ -50,7 +52,7 @@ var Round =
             {type: global.Tag.Gold,    x: 280, y: 130},
             {type: global.Tag.Gold,    x: 370, y: 100},
             {type: global.Tag.Gold,    x: 480, y: 140},
-            {type: global.Tag.Gold,    x: 630, y: 140},
+            //{type: global.Tag.Gold,    x: 630, y: 140},
             {type: global.Tag.Gold,    x: 700, y: 110},
             
             {type: global.Tag.Pig,    x: 50,  y: 280,    x2: 50,  y2: 300},
@@ -75,10 +77,14 @@ var Round =
             {type: global.Tag.Pig,    x: 550, y: 240,    x2: 550, y2: 200},
             {type: global.Tag.Pig,    x: 550, y: 310,    x2: 550, y2: 310}, // Not right
             {type: global.Tag.Diamond,    x: 210, y: 40},
-            {type: global.Tag.Diamond,    x: 400, y: 70},
+            //{type: global.Tag.Diamond,    x: 400, y: 70},
             {type: global.Tag.Diamond,    x: 580, y: 40}
         ],
         [ // Round 5
+            {type: global.Tag.Rock,    x: 230, y: 240},
+            {type: global.Tag.Rock,    x: 400, y: 290},
+            {type: global.Tag.Rock,    x: 600, y: 100},
+            {type: global.Tag.Rock,    x: 620, y: 300},
             {type: global.Tag.Gold,    x: 90,  y: 70},
             {type: global.Tag.Gold,    x: 150, y: 170},
             {type: global.Tag.Gold,    x: 300, y: 70},
@@ -105,13 +111,15 @@ var Round =
             {type: global.Tag.Diamond,    x: 150, y: 200},
             //{type: global.Tag.Diamond,    x: 480, y: 70},
             {type: global.Tag.Diamond,    x: 680, y: 60},
-            {type: global.Tag.Bone,    x: 150, y: 300},
+            {type: global.Tag.Bone,    x: 170, y: 300},
             {type: global.Tag.Bone,    x: 370, y: 260},
-            {type: global.Tag.Bone,    x: 540, y: 300}//,
-            /*{type: global.Tag.Bomb,    x: 100, y: 290},
-            {type: global.Tag.Bomb,    x: 230, y: 160},
-            {type: global.Tag.Bomb,    x: 440, y: 210},
-            {type: global.Tag.Bomb,    x: 590, y: 260}*/
+            {type: global.Tag.Bone,    x: 540, y: 300},
+            {type: global.Tag.Rock,    x: 100, y: 290},
+            {type: global.Tag.Rock,    x: 230, y: 160},
+            {type: global.Tag.Rock,    x: 440, y: 210},
+            {type: global.Tag.Rock,    x: 590, y: 260},
+            {type: global.Tag.Bat, x: 250, y: 30,    x2: 250, y2: 150},
+            {type: global.Tag.Bat, x: 550, y: 100,    x2: 550, y2: 220}
         ],
     ],
     //普通难度
@@ -119,7 +127,10 @@ var Round =
         [ // Round 1
             {type: global.Tag.Rock,    x: 100, y: 290},
             {type: global.Tag.Rock,    x: 260, y: 90},
-            {type: global.Tag.Rock,    x: 470, y: 250},
+            {type: global.Tag.Rock,    x: 470, y: 220},
+            {type: global.Tag.Rock,    x: 300, y: 290},
+            {type: global.Tag.Rock,    x: 460, y: 290},
+            {type: global.Tag.Rock,    x: 320, y: 150},
             //{type: global.Tag.Rock,    x: 610, y: 370},
             {type: global.Tag.Gold,    x: 100, y: 210},
             {type: global.Tag.Gold,    x: 140, y: 340},
@@ -138,6 +149,9 @@ var Round =
             {type: global.Tag.Rock,    x: 440, y: 240},
             {type: global.Tag.Rock,    x: 520, y: 340},
             {type: global.Tag.Rock,    x: 300, y: 300},
+            {type: global.Tag.Rock,    x: 620, y: 230},
+            {type: global.Tag.Rock,    x: 170, y: 140},
+            {type: global.Tag.Rock,    x: 400, y: 140},
             {type: global.Tag.Gold,    x: 30,  y: 110},
             {type: global.Tag.Gold,    x: 110, y: 170},
             {type: global.Tag.Gold,    x: 170, y: 240},
@@ -154,12 +168,14 @@ var Round =
             {type: global.Tag.Rock,    x: 280, y: 260},
             {type: global.Tag.Rock,    x: 440, y: 240},
             {type: global.Tag.Rock,    x: 620, y: 280},
+            {type: global.Tag.Rock,    x: 340, y: 290},
+            //{type: global.Tag.Rock,    x: 520, y: 210},
             //{type: global.Tag.Rock,    x: 180, y: 140},
             //{type: global.Tag.Rock,    x: 390, y: 120},
             //{type: global.Tag.Rock,    x: 540, y: 140},
             {type: global.Tag.Gold,    x: 50, y: 130},
             {type: global.Tag.Gold,    x: 250, y: 70},
-            {type: global.Tag.Gold,    x: 370, y: 40},
+            //{type: global.Tag.Gold,    x: 370, y: 40},
             {type: global.Tag.Gold,    x: 460, y: 80},
             {type: global.Tag.Gold,    x: 590, y: 80},
             {type: global.Tag.Gold,    x: 710, y: 140},
@@ -186,15 +202,19 @@ var Round =
             {type: global.Tag.Pig,    x: 90,  y: 340,    x2: 90, y2: 350},
             {type: global.Tag.Pig,    x: 550, y: 240,    x2: 550, y2: 200},
             //{type: global.Tag.Pig,    x: 550, y: 310,    x2: 550, y2: 310}, // Not right
-            {type: global.Tag.Diamond,    x: 100, y: 20},
-            {type: global.Tag.Diamond,    x: 400, y: 70},
-            {type: global.Tag.Diamond,    x: 580, y: 30}
+            {type: global.Tag.Diamond,    x: 100, y: 30},
+            //{type: global.Tag.Diamond,    x: 400, y: 70},
+            {type: global.Tag.Diamond,    x: 580, y: 50}
         ],
         [ // Round 5
+            {type: global.Tag.Rock,    x: 230, y: 240},
+            {type: global.Tag.Rock,    x: 400, y: 290},
+            {type: global.Tag.Rock,    x: 600, y: 100},
+            {type: global.Tag.Rock,    x: 620, y: 300},
             {type: global.Tag.Gold,    x: 70,  y: 50},
-            //{type: global.Tag.Gold,    x: 150, y: 170},
+            {type: global.Tag.Gold,    x: 150, y: 170},
             {type: global.Tag.Gold,    x: 300, y: 30},
-            //{type: global.Tag.Gold,    x: 450, y: 150},
+            {type: global.Tag.Gold,    x: 450, y: 150},
             {type: global.Tag.Diamond,    x: 650, y: 200},
             {type: global.Tag.Pig, x: 50,  y: 230,    x2: 50,  y2: 230}, // Not right
             {type: global.Tag.Pig, x: 450, y: 330,    x2: 450, y2: 330},
@@ -216,13 +236,15 @@ var Round =
             {type: global.Tag.Diamond,    x: 150, y: 40},
             //{type: global.Tag.Diamond,    x: 280, y: 100},
             {type: global.Tag.Diamond,    x: 730, y: 180},
-            {type: global.Tag.Bone,    x: 150, y: 300},
+            {type: global.Tag.Bone,    x: 190, y: 300},
             {type: global.Tag.Bone,    x: 370, y: 260},
-            {type: global.Tag.Bone,    x: 540, y: 300}//,
-            /*{type: global.Tag.Bomb,    x: 100, y: 290},
-            {type: global.Tag.Bomb,    x: 230, y: 160},
-            {type: global.Tag.Bomb,    x: 440, y: 210},
-            {type: global.Tag.Bomb,    x: 590, y: 260}*/
+            {type: global.Tag.Bone,    x: 540, y: 300},
+            {type: global.Tag.Rock,    x: 100, y: 290},
+            {type: global.Tag.Rock,    x: 230, y: 160},
+            {type: global.Tag.Rock,    x: 440, y: 210},
+            {type: global.Tag.Rock,    x: 590, y: 260},
+            {type: global.Tag.Bat, x: 250, y: 30,    x2: 550, y2: 150},
+            {type: global.Tag.Bat, x: 550, y: 100,    x2: 250, y2: 220}
         ],
     ],
     //困难
@@ -231,10 +253,13 @@ var Round =
             {type: global.Tag.Rock,    x: 180, y: 320},
             {type: global.Tag.Rock,    x: 260, y: 90},
             {type: global.Tag.Rock,    x: 470, y: 250},
-            {type: global.Tag.Rock,    x: 610, y: 330},
+            {type: global.Tag.Rock,    x: 310, y: 300},
+            {type: global.Tag.Rock,    x: 230, y: 190},
+            {type: global.Tag.Rock,    x: 570, y: 270},
+            {type: global.Tag.Rock,    x: 330, y: 200},
             {type: global.Tag.Gold,    x: 70, y: 210},
             {type: global.Tag.Gold,    x: 100, y: 310},
-            {type: global.Tag.Gold,    x: 170, y: 140},
+            {type: global.Tag.Gold,    x: 170, y: 140}, 
             {type: global.Tag.Gold,    x: 250, y: 250},
             {type: global.Tag.Gold,    x: 300, y: 160},
             {type: global.Tag.Gold,    x: 410, y: 170},
@@ -248,10 +273,14 @@ var Round =
             {type: global.Tag.Rock,    x: 280, y: 210},
             {type: global.Tag.Rock,    x: 440, y: 240},
             {type: global.Tag.Rock,    x: 520, y: 340},
+
+            {type: global.Tag.Rock,    x: 140,  y: 300},
+            {type: global.Tag.Rock,    x: 300, y: 290},
+            //{type: global.Tag.Rock,    x: 580, y: 200},
             //{type: global.Tag.Gold,    x: 30,  y: 110},
             {type: global.Tag.Gold,    x: 110, y: 170},
             //{type: global.Tag.Gold,    x: 170, y: 240},
-            {type: global.Tag.Gold,    x: 160, y: 380},
+            {type: global.Tag.Gold,    x: 160, y: 350},
             {type: global.Tag.Gold,    x: 250, y: 80},
             {type: global.Tag.Gold,    x: 380, y: 110},
             //{type: global.Tag.Gold,    x: 490, y: 300},
@@ -280,6 +309,8 @@ var Round =
             {type: global.Tag.Pig,    x: 90,  y: 320,    x2: 90,  y2: 350},
             {type: global.Tag.Pig,    x: 550, y: 200,    x2: 550, y2: 200},
             {type: global.Tag.Pig,    x: 550, y: 310,    x2: 550, y2: 310},
+            {type: global.Tag.Bat,    x: 50, y: 240,    x2: 550, y2: 200},
+            {type: global.Tag.Bat,    x: 50, y: 310,    x2: 550, y2: 310},
             {type: global.Tag.Diamond,    x: 270, y: 90}
         ],
         [ // Round 4
@@ -292,11 +323,11 @@ var Round =
             {type: global.Tag.Rock,    x: 520, y: 230},
             {type: global.Tag.Rock,    x: 600, y: 100},
             {type: global.Tag.Rock,    x: 620, y: 180},
-            {type: global.Tag.Diamond,    x: 690, y: 180},
+            {type: global.Tag.Gold,    x: 690, y: 180},
             {type: global.Tag.Rock,    x: 300, y: 310},
             {type: global.Tag.Rock,    x: 500, y: 300},
             {type: global.Tag.Rock,    x: 650, y: 300},
-            {type: global.Tag.Diamond,    x: 110, y: 40},
+            {type: global.Tag.Gold,    x: 110, y: 40},
             //{type: global.Tag.Gold,    x: 200, y: 110},
             //{type: global.Tag.Gold,    x: 320, y: 120},
             {type: global.Tag.Diamond,    x: 410, y: 150},
@@ -309,18 +340,18 @@ var Round =
             {type: global.Tag.Bat,    x: 50, y: 310,    x2: 550, y2: 310},
             {type: global.Tag.Diamond,    x: 210, y: 40},
             {type: global.Tag.Diamond,    x: 400, y: 70},
-            {type: global.Tag.Diamond,    x: 180, y: 260},
-            {type: global.Tag.Diamond,    x: 250, y: 270},
+            //{type: global.Tag.Diamond,    x: 180, y: 260},
+            //{type: global.Tag.Diamond,    x: 250, y: 270},
             {type: global.Tag.Diamond,    x: 500, y: 200}
         ],
         [ // Round 5
             //{type: global.Tag.Rock,    x: 90,  y: 150},
             {type: global.Tag.Rock,    x: 60,  y: 250},
             {type: global.Tag.Rock,    x: 180, y: 210},
-            //{type: global.Tag.Rock,    x: 200, y: 110},
+            {type: global.Tag.Rock,    x: 200, y: 110},
             {type: global.Tag.Rock,    x: 300, y: 130},
             {type: global.Tag.Rock,    x: 340, y: 240},
-            //{type: global.Tag.Rock,    x: 520, y: 230},
+            {type: global.Tag.Rock,    x: 520, y: 230},
             {type: global.Tag.Rock,    x: 600, y: 100},
             {type: global.Tag.Rock,    x: 620, y: 180},
             {type: global.Tag.Gold,    x: 70,  y: 50},
@@ -387,16 +418,16 @@ Mission = [
     {
         round: Round,
         image: s_mission4,
-        props: ["Clock", "Bump", "Scan", "Thunder", "Sleep"]
+        props: ["Clock", "Bump", "Scan"/*, "Thunder", "Sleep"*/]
     },
     {
         round: Round,
         image: s_mission2,
-        props: ["Clock", "Bump", "Scan", "Thunder", "Sleep"]
+        props: ["Clock", "Bump", "Scan"/*, "Thunder", "Sleep"*/]
     },
     {
         round: Round,
         image: s_mission3,
-        props: ["Clock", "Bump", "Scan", "Thunder", "Sleep"]
+        props: ["Clock", "Bump", "Scan"/*, "Thunder", "Sleep"*/]
     }
 ];

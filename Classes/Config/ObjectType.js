@@ -2,12 +2,12 @@ var MineType = {
     Rock: {
         create: Rock,
         big: {
-            value: 20,
-            weight: 600,
+            value: 40,
+            weight: 800,
             image: global.theme.big_rock
         },
         small: {
-            value: 10,
+            value: 20,
             weight: 400,
             image: global.theme.small_rock
         }
@@ -17,16 +17,16 @@ var MineType = {
         create: Gold,
         big: {
             value: 500,
-            weight: 600,
+            weight: 800,
             image: global.theme.big_gold
         },
         middle:{
-			value: 200,
-			weight: 300,
+			value: 250,
+			weight: 400,
 			image:global.theme.middle_gold
 		},
         small: {
-            value: 100,
+            value: 150,
             weight: 200,
             image: global.theme.small_gold
         }
@@ -35,19 +35,19 @@ var MineType = {
     Pig: {
         create: Pig,
         value: 100,
-        weight: 250,
+        weight: 200,
         image: global.theme.pig
     },
     
     Diamond: {
         create: Diamond,
         big: {
-            value: 600,
-            weight: 50,
+            value: 800,
+            weight: 150,
             image: global.theme.big_diamond
         },
         small: {
-            value: 500,
+            value: 700,
             weight: 50,
             image: global.theme.small_diamond
         }
@@ -55,15 +55,15 @@ var MineType = {
     
     Bone: {
         create: Bone,
-        value: 20,
-        weight: 130,
+        value: 80,
+        weight: 200,
         image: global.theme.bone
     },
     
     Bat: {
         create: Bat,
-        value: 10,
-        weight: 100,
+        value: 50,
+        weight: 200,
         image: global.theme.bat
     }
 };
@@ -81,17 +81,17 @@ var ToolType = {
     },
     Longer: {
         create: Longer,
-        value: 1000,
+        value: 500,
         image: s_aim
     }, // Make the hook longer
     Bombshell: {
         create: Bombshell,
-        value: 200,
+        value: 800,
         image: s_bomb
     }, // Bomb all the rocks
     BoneToGold: {
         create: BoneToGold,
-        value: 1500,
+        value: 800,
         image: s_bonebook
     }, // Turn Bones into Golds
     RockToRich: {
@@ -105,7 +105,8 @@ var PropType = {
     Clock: {
         create: Clock,
         image: s_clock
-    }, // Make the time longer
+    }, // Make the time Longer
+    /*
     Thunder: {
         create: Thunder,
         image: s_milk
@@ -114,6 +115,7 @@ var PropType = {
         create: Sleep,
         image: s_milk
     }, // Make the animals sleep
+    */
     Bump: {
         create: Bump,
         image: s_milk
