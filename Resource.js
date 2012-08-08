@@ -70,6 +70,12 @@ var s_aim = "Resources/aim.png";
 var s_burst = "Resources/burst.png";
 var s_blank = "Resources/blank.png";
 var s_bat = "Resources/bat.png";
+var s_bgdouble = "Resources/backgrounddouble.png";
+var s_singleplayer = "Resources/singleplayer.png";
+var s_doubleplayer = "Resources/doubleplayer.png";
+var s_singleplayerbig = "Resources/singleplayerbig.png";
+var s_doubleplayerbig = "Resources/doubleplayerbig.png";
+
 
 //music
 var s_bgMusic = "Resources/Music/bgMusic";
@@ -82,6 +88,16 @@ var s_fireEffect = "Resources/Music/fireEffect";
 var s_shipDestroyEffect = "Resources/Music/shipDestroyEffect";
 
 var s_explosion_plist = "Resources/explosion.plist";
+
+var s_bitmapFontTest3_fnt = "Resources/fonts/bitmapFontTest3.fnt";
+var s_bitmapFontTest3_png = "Resources/fonts/bitmapFontTest3.png";
+var s_bitmapFontTest5_fnt = "Resources/fonts/bitmapFontTest5.fnt";
+var s_bitmapFontTest5_png = "Resources/fonts/bitmapFontTest5.png";
+var s_futura_fnt = "Resources/fonts/futura-48.fnt";
+var s_futura_png = "Resources/fonts/futura-48.png";
+var s_bitMapChinese = "Resources/fonts/bitmapFontChinese.fnt";
+var s_bitMapChinesepng = "Resources/fonts/bitmapFontChinese.png";
+
 
 var g_ressources = [
     //image
@@ -152,7 +168,23 @@ var g_ressources = [
     {type:"image", src:s_shopbg},
     {type:"image", src:s_nextgame},
     {type:"image", src:s_nextgamebig},
-    
+	{type:"image", src:s_bgdouble},
+    {type:"image", src:s_singleplayer},
+    {type:"image", src:s_singleplayerbig},
+    {type:"image", src:s_doubleplayer},
+    {type:"image", src:s_doubleplayerbig},
+	{type:"image", src:s_exitbig},
+	{type:"image", src:s_exit},
+
+    {type:"fnt", src:s_bitMapChinese},
+	{type:"image", src:s_bitMapChinesepng},
+	{type:"fnt", src:s_bitmapFontTest3_fnt},
+	{type:"image", src:s_bitmapFontTest3_png},
+	{type:"fnt", src:s_bitmapFontTest5_fnt},
+	{type:"image", src:s_bitmapFontTest5_png},
+	{type:"fnt", src:s_futura_fnt},
+	{type:"image", src:s_futura_png},
+	
     //plist
     {type:"plist", src:s_explosion_plist},
 
