@@ -1,29 +1,19 @@
 var SplashLayer = cc.Layer.extend({
-    
+    _background: null,
     init: function () {
-        var bRet = false;
-        if (this._super) {
-            //this._background = cc.Sprite.create(s_splash_background);
-            //this._background.setAnchorPoint(cc.PointZero());
-            //this.addChild(this.background, -10);
-            
-            // TODO: animation
-            
-            //this.gotoStartLayer();
-            var p = this;
-            setTimeout(function () {
-                p.gotoStartLayer(),
-                2 * 1000
-            });
-            bRet = true;
-        }
-        return bRet;
+        this._background = cc.Sprite.create(s_splash_background);
+        this._background.setAnchorPoint(cc.PointZero());
+        this.addChild(this.background, -10);
+        
+        // TODO: animation
+        
+        gotoStartLayer();
 	},
     gotoStartLayer: function () {
         var scene = cc.Scene.create();
         scene.addChild(StartLayer.create());
-        cc.Director.sharedDirector().replaceScene(cc.TransitionFade.create(1.2, scene));
-        //this.getParent().removeChild(this);
+        cc.Director.sharedDirctor().replaceScene(cc.TransitionFade.create(1.2, scene));
+        this.getParent().removeChild(this);
     }
 });
 

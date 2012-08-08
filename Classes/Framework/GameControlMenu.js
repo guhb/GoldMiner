@@ -21,7 +21,7 @@ var GameControlMenu = cc.Layer.extend({
     },
     
     onReturn:function (pSender) {
-        saveRecord(Game.cur_score);
+        //saveRecord(Game.cur_score);
         Game.resume();
         var scene = cc.Scene.create();
         scene.addChild(MissionLayer.create());

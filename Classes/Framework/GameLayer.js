@@ -1,5 +1,5 @@
 var GameLayer = cc.Layer.extend({
-    _time_limit: 10,
+    _time_limit: 30,
     _cur_score: 0,
     _dst_score: 200,
     _roundInterval: null,
@@ -27,8 +27,9 @@ var GameLayer = cc.Layer.extend({
             this.initHook();
             // create map
             this.initShelfMap();
-            this.createTools();
+            
             this.createMap();
+            this.createTools();
 
             this.setIsTouchEnabled(true);
             //this.setIsKeypadEnabled(true);
@@ -44,15 +45,15 @@ var GameLayer = cc.Layer.extend({
     },
     
     initBackground: function () {
-        var bg = cc.Sprite.create(s_gamebg);
+        var bg = cc.Sprite.create(s_bgdouble);
         bg.setAnchorPoint(cc.ccp(0, 0));
         this.addChild(bg, global.zOrder.Background);
-		//³õÊ¼»¯Ð¡ÄÐº¢
+		//小男孩1
 		var textureForBoy = cc.TextureCache.sharedTextureCache().addImage(s_boy);
 		var boyFrame1 = cc.SpriteFrame.create(textureForBoy,cc.RectMake(0,0,109,140));
 		var boyFrame2 = cc.SpriteFrame.create(textureForBoy,cc.RectMake(109,0,109,140));
 		var boySprite = cc.Sprite.createWithSpriteFrame(boyFrame1);
-		boySprite.setPosition(new cc.ccp(this.winSize.width / 2 +115, this.winSize.height - 58));
+		boySprite.setPosition(new cc.ccp(this.winSize.width / 2 +125, this.winSize.height - 64));
 		boySprite.setScale(0.3);
 		this.addChild(boySprite,10);
 		var boyFrames = [];
@@ -61,7 +62,21 @@ var GameLayer = cc.Layer.extend({
 		var boyAnimation = cc.Animation.create(boyFrames,0.3);
 		var boyAnim = cc.Animate.create(boyAnimation,false);
 		boySprite.runAction(cc.RepeatForever.create(cc.Sequence.create(boyAnim,cc.DelayTime.create(3))));
-		//³õÊ¼»¯·ÅµÀ¾ßµÄÄ¾°å
+        //小男孩2
+        var textureForBoy2 = cc.TextureCache.sharedTextureCache().addImage(s_boy);
+        var boyFrame12 = cc.SpriteFrame.create(textureForBoy,cc.RectMake(0,0,109,140));
+        var boyFrame22 = cc.SpriteFrame.create(textureForBoy,cc.RectMake(109,0,109,140));
+        var boySprite2 = cc.Sprite.createWithSpriteFrame(boyFrame1);
+        boySprite2.setPosition(new cc.ccp(this.winSize.width / 2 -130, this.winSize.height - 64));
+        boySprite2.setScale(0.3);
+        this.addChild(boySprite2,10);
+        var boyFrames2 = [];
+        boyFrames2.push(boyFrame2);
+        boyFrames2.push(boyFrame1);
+        var boyAnimation2 = cc.Animation.create(boyFrames2,0.3);
+        var boyAnim2 = cc.Animate.create(boyAnimation2,false);
+        boySprite2.runAction(cc.RepeatForever.create(cc.Sequence.create(boyAnim2,cc.DelayTime.create(3))));
+		//放道具的木板
 		var board = cc.Sprite.create(s_board);	
 		board.setPosition(new cc.ccp(60, this.winSize.height - 70));
 		this.addChild(board,30);
@@ -70,30 +85,33 @@ var GameLayer = cc.Layer.extend({
     
     initLabels: function () {
         // dst score
-        this._lbDstScore = cc.LabelTTF.create("Goal: 000", cc.TEXT_ALIGNMENT_LEFT, "Arial", 14);
-        this._lbDstScore.setColor(cc.RED());
+        this._lbDstScore = cc.LabelBMFont.create("Goal: 000", s_futura_fnt);
+        this._lbDstScore.setScale(0.5);
+        //this._lbDstScore.setColor(cc.RED());
         this.addChild(this._lbDstScore, global.zOrder.Label);
         this._lbDstScore.setPosition(cc.ccp(this.winSize.width - 100, this.winSize.height - 30));
         
         // cur score
-        this._lbCurScore = cc.LabelTTF.create("Score: 000", cc.TEXT_ALIGNMENT_LEFT, "Arial", 14);
-        this._lbCurScore.setColor(cc.RED());
+        this._lbCurScore = cc.LabelBMFont.create("Score: 000", s_futura_fnt);
+        //this._lbCurScore.setColor(cc.RED());
+        this._lbCurScore.setScale(0.5);
         this.addChild(this._lbCurScore, global.zOrder.Label);
         this._lbCurScore.setPosition(cc.ccp(this.winSize.width - 100, this.winSize.height - 60));
         
         // time
-        this._lbTime = cc.LabelTTF.create("Time: 00:00", cc.TEXT_ALIGNMENT_LEFT, "Arial", 14);
-        this._lbTime.setColor(cc.RED());
+        this._lbTime = cc.LabelBMFont.create("Time: 00:00", s_futura_fnt);
+        //this._lbTime.setColor(cc.RED());
+        this._lbTime.setScale(0.5);
         this.addChild(this._lbTime, global.zOrder.Label);
         this._lbTime.setPosition(cc.ccp(this.winSize.width - 100, this.winSize.height - 90));
 
         // round count
-        this._lbRound = cc.LabelTTF.create("Round: 0", "Arial", 20);
-        this._lbRound.setPosition(cc.ccp(60, this.winSize.height-30));
-        this._lbRound.setColor(cc.RED());
+        this._lbRound = cc.LabelBMFont.create("Round: 0", s_futura_fnt);
+        this._lbRound.setScale(0.5);
+        this._lbRound.setPosition(cc.ccp(60, this.winSize.height-100));
+        //this._lbRound.setColor(cc.RED());
         this.addChild(this._lbRound, global.zOrder.Label);
     },
-    
     initTimeCounter: function () {
         var that = this;
         if(this._time_limit >= 0)
@@ -113,8 +131,8 @@ var GameLayer = cc.Layer.extend({
         this._hook = new Hook();
         this.addChild(this._hook, global.zOrder.Hook);
         this._hook.setAnchorPoint(new cc.ccp(0.5, 1));
-        this._hook.setPosition(cc.ccp(403, 462));
-        this._hook.originPosition = cc.ccp(403, 462);
+        this._hook.setPosition(cc.ccp(413, 460));
+        this._hook.originPosition = cc.ccp(413, 460);
         this._hook.scheduleUpdate();
         this._criticalAngle = Math.atan((this.winSize.width/2)/(this.winSize.height-50))/Math.PI*180;
         //半对角线路径长度
@@ -123,8 +141,8 @@ var GameLayer = cc.Layer.extend({
         this._hook2 = new Hook();
         this.addChild(this._hook2, global.zOrder.Hook);
         this._hook2.setAnchorPoint(new cc.ccp(0.5, 1));
-        this._hook2.setPosition(cc.ccp(350, 462));
-        this._hook2.originPosition = cc.ccp(350, 462);
+        this._hook2.setPosition(cc.ccp(380, 457));
+        this._hook2.originPosition = cc.ccp(380, 457);
         this._hook2.scheduleUpdate();
     },
     
@@ -148,6 +166,7 @@ var GameLayer = cc.Layer.extend({
                 this.addChild(tool, global.zOrder.Tool);
 
                 if (tool.type != global.Tag.Bombshell) tool.onUse();
+                if (tool.type == global.Tag.Scan) tool.onUse();
             }
         }
     },
@@ -210,7 +229,7 @@ var GameLayer = cc.Layer.extend({
     draw: function () {
         this._super();
         //cc.renderContext.lineWidth = 2;
-        //cc.renderContext.strokeStyle = "#eedc4a";
+        cc.renderContext.strokeStyle = "#3f3e3e";
         cc.drawingUtil.drawLine(this._hook.getOriginPosition(), this._hook.getPosition());
         cc.drawingUtil.drawLine(this._hook2.getOriginPosition(), this._hook2.getPosition());
     },
@@ -261,6 +280,7 @@ var GameLayer = cc.Layer.extend({
             if (this.collectedObject != null) {
                 //this.collectedObject.setIsVisible(false);
                 this.updateScore(this.collectedObject.getValue());
+                this.showMineValue(this.collectedObject);
                 //this.removeChild(this.collectedObject);
                 this.collectedObject = null;
                 this.collectAction = null;
@@ -270,6 +290,7 @@ var GameLayer = cc.Layer.extend({
             if (this.collectedObject2 != null) {
                 //this.collectedObject.setIsVisible(false);
                 this.updateScore(this.collectedObject2.getValue());
+                this.showMineValue(this.collectedObject2);
                 //this.removeChild(this.collectedObject);
                 this.collectedObject2 = null;
                 this.collectAction2 = null;
@@ -381,6 +402,35 @@ var GameLayer = cc.Layer.extend({
             }
         }
     },
+
+    showMineValue: function (obj) {
+        var stringToShow;
+        if(obj.type >= 900 && obj.type <=905){
+            stringToShow = "+"+obj.getValue().toString();
+        }
+        else if(obj.type >= 912 && obj.type <= 916 ){
+            console.log(obj.type);
+            switch(obj.type){
+                case 912:
+                    stringToShow = "+10 seconds!";
+                    break;
+                /*case 913:
+                case 914:
+                    stringToShow = "Nothing there...";
+                    break;*/
+                case 915:
+                    stringToShow = "Hook error!";
+                    break;
+                case 916:
+                    stringToShow = "Scanning";
+                    break;
+            }
+        }
+        var showBoard = cc.LabelBMFont.create(stringToShow, s_futura_fnt);
+        showBoard.setPosition(cc.ccp(winSize.width/2 , winSize.height-100));
+        this.addChild(showBoard,50);
+        setTimeout(function(){showBoard.setIsVisible(false);},1000); 
+    },
     
     popMineObject: function (index) {
         var container = [];
@@ -403,8 +453,8 @@ var GameLayer = cc.Layer.extend({
     },
     
     onGameOver:function () {
-        Game.resume();
         saveRecord(this._cur_score);
+		Game.resume();
         var scene = cc.Scene.create();
         scene.addChild(GameOverLayer.create());
         scene.addChild(GameControlMenu.create());
@@ -414,7 +464,8 @@ var GameLayer = cc.Layer.extend({
     
     onNextGame: function () {
         Game.cleanToolObjects();
-        if (Game.round == 6) {
+		//saveRecord(this._cur_score);
+        /*if (Game.round == 6) {
             if (Game.unlock + 1 <= NUMBER_OF_MISSIONS) {
                 Game.unlock++;
                 if(typeof(Storage)!=="undefined") {
@@ -425,12 +476,12 @@ var GameLayer = cc.Layer.extend({
             }
         }
     
-        if (Game.round != NUMBER_OF_ROUNDS) {
+        if (Game.round != NUMBER_OF_ROUNDS) {*/
             var scene = cc.Scene.create();
             scene.addChild(StoreLayer.create());
             scene.addChild(GameControlMenu.create());
             cc.Director.sharedDirector().replaceScene(cc.TransitionFade.create(1.2, scene));
-            this.getParent().removeChild(this);
+            this.getParent().removeChild(this);/*
         } else {
             var scene = cc.Scene.create();
             scene.addChild(MissionLayer.create());
@@ -438,7 +489,7 @@ var GameLayer = cc.Layer.extend({
             //MissionLayer.moveToMission(Game.mission);
             cc.Director.sharedDirector().replaceScene(cc.TransitionFade.create(1.2, scene));
             this.getParent().removeChild(this);
-        }
+        }*/
         
     },
     

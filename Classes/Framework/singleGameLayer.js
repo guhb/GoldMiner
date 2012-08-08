@@ -1,5 +1,5 @@
 var singleGameLayer = cc.Layer.extend({
-    _time_limit: 10,
+    _time_limit: 60,
     _cur_score: 0,
     _dst_score: 200,
     _roundInterval: null,
@@ -52,7 +52,7 @@ var singleGameLayer = cc.Layer.extend({
 		var boySprite = cc.Sprite.createWithSpriteFrame(boyFrame1);
 		boySprite.setPosition(new cc.ccp(this.winSize.width / 2 +115, this.winSize.height - 58));
 		boySprite.setScale(0.3);
-		this.addChild(boySprite,10);
+		this.addChild(boySprite,1);
 		var boyFrames = [];
 		boyFrames.push(boyFrame2);
 		boyFrames.push(boyFrame1);
@@ -68,33 +68,37 @@ var singleGameLayer = cc.Layer.extend({
     
     initLabels: function () {
         // dst score
-        this._lbDstScore = cc.LabelTTF.create("Goal: 000", cc.TEXT_ALIGNMENT_LEFT, "Arial", 14);
-        this._lbDstScore.setColor(cc.RED());
+        this._lbDstScore = cc.LabelBMFont.create("Goal: 000", s_futura_fnt);
+        this._lbDstScore.setScale(0.5);
+        //this._lbDstScore.setColor(cc.RED());
         this.addChild(this._lbDstScore, global.zOrder.Label);
         this._lbDstScore.setPosition(cc.ccp(this.winSize.width - 100, this.winSize.height - 30));
         
         // cur score
-        this._lbCurScore = cc.LabelTTF.create("Score: 000", cc.TEXT_ALIGNMENT_LEFT, "Arial", 14);
-        this._lbCurScore.setColor(cc.RED());
+        this._lbCurScore = cc.LabelBMFont.create("Score: 000", s_futura_fnt);
+        //this._lbCurScore.setColor(cc.RED());
+        this._lbCurScore.setScale(0.5);
         this.addChild(this._lbCurScore, global.zOrder.Label);
         this._lbCurScore.setPosition(cc.ccp(this.winSize.width - 100, this.winSize.height - 60));
         
         // time
-        this._lbTime = cc.LabelTTF.create("Time: 00:00", cc.TEXT_ALIGNMENT_LEFT, "Arial", 14);
-        this._lbTime.setColor(cc.RED());
+        this._lbTime = cc.LabelBMFont.create("Time: 00:00", s_futura_fnt);
+        //this._lbTime.setColor(cc.RED());
+        this._lbTime.setScale(0.5);
         this.addChild(this._lbTime, global.zOrder.Label);
         this._lbTime.setPosition(cc.ccp(this.winSize.width - 100, this.winSize.height - 90));
 
         // round count
-        this._lbRound = cc.LabelTTF.create("Round: 0", "Arial", 20);
-        this._lbRound.setPosition(cc.ccp(60, this.winSize.height-30));
-        this._lbRound.setColor(cc.RED());
+        this._lbRound = cc.LabelBMFont.create("Round: 0", s_futura_fnt);
+        this._lbRound.setScale(0.5);
+        this._lbRound.setPosition(cc.ccp(60, this.winSize.height-100));
+        //this._lbRound.setColor(cc.RED());
         this.addChild(this._lbRound, global.zOrder.Label);
     },
     
     initTimeCounter: function () {
         var that = this;
-        if(this._time_limit >= 0)
+        //if(this._time_limit >= 0)
         {
             this._roundInterval = setInterval(
                 function(){
@@ -165,7 +169,7 @@ var singleGameLayer = cc.Layer.extend({
     draw: function () {
         this._super();
         //cc.renderContext.lineWidth = 2;
-        //cc.renderContext.strokeStyle = "#eedc4a";
+        cc.renderContext.strokeStyle = "#3f3e3e";
         cc.drawingUtil.drawLine(this._hook.getOriginPosition(), this._hook.getPosition());
     },
     
@@ -214,6 +218,7 @@ var singleGameLayer = cc.Layer.extend({
             if (this.collectedObject != null) {
                 //this.collectedObject.setIsVisible(false);
                 this.updateScore(this.collectedObject.getValue());
+                this.showMineValue(this.collectedObject);
                 //this.removeChild(this.collectedObject);
                 this.collectedObject = null;
                 this.collectAction = null;
@@ -275,9 +280,9 @@ var singleGameLayer = cc.Layer.extend({
                         // 创建物体的返回动作
                         this.mineContainer[i].collectAction = cc.MoveTo.create(speed, this._hook.getCollectPosition());
                         this.collectAction = this.mineContainer[i].collectAction;
-                        this.mineContainer[i].runAction(this.mineContainer[i].collectAction);
+                        this.mineContainer[i].runAction(cc.Sequence.create(this.mineContainer[i].collectAction/*,cc.CallFunc.create(this,this.showMineValue)*/));
                         this.collectedObject = this.mineContainer[i];
-                        
+                 
                         this.popMineObject(i);
                         this._hook.retrieve(speed);
                     }
@@ -286,8 +291,37 @@ var singleGameLayer = cc.Layer.extend({
         }
     },
     
+    showMineValue: function (obj) {
+        var stringToShow;
+        if(obj.type >= 900 && obj.type <=905){
+            stringToShow = "+"+obj.getValue().toString();
+        }
+        else if(obj.type >= 912 && obj.type <= 916 ){
+            console.log(obj.type);
+            switch(obj.type){
+                case 912:
+                    stringToShow = "+10 seconds!";
+                    break;
+                /*case 913:
+                case 914:
+                    stringToShow = "Nothing there...";
+                    break;*/
+                case 915:
+                    stringToShow = "Hook error!";
+                    break;
+                case 916:
+                    stringToShow = "Scanning";
+                    break;
+            }
+        }
+        var showBoard = cc.LabelBMFont.create(stringToShow, s_futura_fnt);
+        showBoard.setPosition(cc.ccp(winSize.width/2 , winSize.height-100));
+        this.addChild(showBoard,50);
+        setTimeout(function(){showBoard.setIsVisible(false);},1000); 
+    },
+
     popMineObject: function (index) {
-        var container = [];
+        var container = []; 
         var j = 0;
         for (var i = 0; i < this.mineContainer.length; i++) {
             if (i == index) continue;
@@ -318,6 +352,11 @@ var singleGameLayer = cc.Layer.extend({
     
     onNextGame: function () {
         Game.cleanToolObjects();
+		//saveRecord(this._cur_score);
+        /*if(Game.round == 6){
+            Game.round = 1;
+        }*/
+        /*
         if (Game.round == 6) {
             if (Game.unlock + 1 <= NUMBER_OF_MISSIONS) {
                 Game.unlock++;
@@ -328,21 +367,21 @@ var singleGameLayer = cc.Layer.extend({
                 }
             }
         }
-    
-        if (Game.round != NUMBER_OF_ROUNDS) {
-            var scene = cc.Scene.create();
-            scene.addChild(StoreLayer.create());
-            scene.addChild(GameControlMenu.create());
-            cc.Director.sharedDirector().replaceScene(cc.TransitionFade.create(1.2, scene));
-            this.getParent().removeChild(this);
-        } else {
+        */
+        //if (Game.round != NUMBER_OF_ROUNDS) {
+        var scene = cc.Scene.create();
+        scene.addChild(StoreLayer.create());
+        scene.addChild(GameControlMenu.create());
+        cc.Director.sharedDirector().replaceScene(cc.TransitionFade.create(1.2, scene));
+        this.getParent().removeChild(this);
+        /*} else {
             var scene = cc.Scene.create();
             scene.addChild(MissionLayer.create());
             scene.addChild(GameControlMenu.create());
             //MissionLayer.moveToMission(Game.mission);
             cc.Director.sharedDirector().replaceScene(cc.TransitionFade.create(1.2, scene));
             this.getParent().removeChild(this);
-        }
+        }*/
         
     },
     

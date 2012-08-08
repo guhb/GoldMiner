@@ -6,25 +6,25 @@ var AboutLayer = cc.Layer.extend({
             bg.setAnchorPoint(cc.PointZero());
             this.addChild(bg, 0, 1);
 
-            var about = cc.LabelTTF.create("\n A game that play like the Gold Miner.","Arial",24);
+            var about = cc.LabelTTF.create("\n A game that play like the Gold Miner.","arial",20);
             about.setPosition(cc.ccp(winSize.width/2,winSize.height/2 + 80));
             this.addChild(about);
-			about.setColor(new cc.Color3B(100,94,94));
+			//about.setColor(new cc.Color3B(100,94,94));
 
-            var author = cc.LabelTTF.create("Programmer","Arial",30);
+            var author = cc.LabelBMFont.create("Programmer","Resources/fonts/bitmapFontTest5.fnt");
             author.setPosition(cc.ccp(winSize.width/2,270));
             this.addChild(author);
-            author.setColor(new cc.Color3B(100,94,94));
+            //author.setColor(new cc.Color3B(100,94,94));
 			
-            author = cc.LabelTTF.create("Koh Ou Ping","Arial",30);
+            author = cc.LabelBMFont.create("Koh Ou Ping","Resources/fonts/bitmapFontTest5.fnt");
             author.setPosition(cc.ccp(winSize.width/2,210));
             this.addChild(author);
-			author.setColor(new cc.Color3B(100,94,94));
+			//author.setColor(new cc.Color3B(100,94,94));
 			
-            author = cc.LabelTTF.create("Xi Ling Ran",cc.SizeMake(winSize.width * 0.85 ,100),cc.TEXT_ALIGNMENT_CENTER,"Arial",30);
+            author = cc.LabelBMFont.create("Xi Ling Ran","Resources/fonts/bitmapFontTest5.fnt");
             author.setPosition(cc.ccp(winSize.width/2,145));
             this.addChild(author);
-			author.setColor(new cc.Color3B(100,94,94));
+			//author.setColor(new cc.Color3B(100,94,94));
 			
             var backButton = cc.Sprite.create(s_back);
 			backButton.setScale(0.5);

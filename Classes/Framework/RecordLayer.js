@@ -27,15 +27,16 @@ var RecordLayer = cc.Layer.extend({
     
     initRecord: function () {
         var records = getRecords();
-        var record;
+        //var record;
         var height = 325;
         var titles = ["First", "Second", "Third", "Yours"];
         if (records != null && records.length != 0) {
             for (var i = 0; i < records.length; i++) {
-                record = cc.LabelTTF.create(titles[i] + " : " + records[i],"Arial",35)
+                var record = cc.LabelBMFont.create(titles[i] + " : " + records[i],"Resources/fonts/bitmapFontTest3.fnt")
+				//record = cc.LabelBMFont.create("configuration", "Resources/fonts/bitmapFontTest3.fnt");
                 record.setPosition(cc.ccp(winSize.width/2,height));
                 height -= 60;
-				record.setColor(new cc.Color3B(100,94,94));
+				//record.setColor(new cc.Color3B(100,94,94));
                 this.addChild(record);
             }
         }
@@ -73,14 +74,22 @@ RecordLayer.scene = function () {
 
 var saveRecord = function (record) {
     if(typeof(Storage)!=="undefined") {
-        if (record > Number(localStorage.firstScore))
+        /*if (record > Number(localStorage.firstScore))
             localStorage.firstScore = record;
         else if (record > Number(localStorage.secondScore))
             localStorage.secondScore = record;
         else if (record > Number(localStorage.thirdScore))
             localStorage.thirdScore = record;
-        else console.log("Score not in top three.");
-        localStorage.yourScore = record;
+        else console.log("Score not in top three.");*/
+        
+		var r = localStorage.record;
+		r = r.split(",");
+		r.push("" + record);
+		localStorage.yourScore = record;
+		r.sort();
+		r.reverse();
+		localStorage.record = r;
+		
     } else {
         console.error("Sorry! No web storage support..");
     }
@@ -89,10 +98,13 @@ var saveRecord = function (record) {
 var getRecords = function () {
     var records = [];
     if(typeof(Storage)!=="undefined") {
-        records.push(localStorage.firstScore);
+        /*records.push(localStorage.firstScore);
         records.push(localStorage.secondScore);
-        records.push(localStorage.thirdScore);
-        records.push(localStorage.yourScore);
+        records.push(localStorage.thirdScore);*/
+        
+		records = localStorage.record.split(",").slice(0, 3);
+		records.push(localStorage.yourScore);
+		
         return records;
     } else {
         console.error("Sorry! No web storage support..");

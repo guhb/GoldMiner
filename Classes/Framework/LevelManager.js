@@ -32,6 +32,7 @@ var LevelManager = cc.Class.extend({
         this._gameLayer.setDstScore(Game.dst_score);
         this._gameLayer.setCurScore(Game.cur_score);
         this._gameLayer.setRound(Game.round);
+        //this._gameLayer._time_limit = Game.time_limit;
     },
 
     getDstScore:function(round) {
@@ -44,12 +45,12 @@ var LevelManager = cc.Class.extend({
         {
             temp += 500;
         }
-        else if(round >5 && round <=10)
+        else if(round >5 && round < 10)
         {
-            this.addQ += 300;
+            this.addQ = 300 * (round - 4);
             temp += this.addQ;
         }
-        else if(round >10)
+        else if(round >= 10)
         {
             temp += 2700;
         }
@@ -60,11 +61,12 @@ var LevelManager = cc.Class.extend({
     createMap:function(){
         if(Game.difficulty >= 3)
             Game.difficulty = 3;
-        //var difficulty = Game.difficulty - 1;
-        var difficulty = 2;
+        var difficulty = Game.difficulty - 1;
+        //var difficulty = 2;
+        console.log(Game.difficulty);
         this._gameLayer.mineContainer = [];
-        //var round = (this._currentRound - 1) % NUMBER_OF_ROUNDS;
-        var round = 5;
+        var round = (this._currentRound - 1) % NUMBER_OF_ROUNDS;
+        //var round = 2;
 
         this.updateGameStatus();
         // 生成物品MineObject
@@ -84,14 +86,15 @@ var LevelManager = cc.Class.extend({
         var object = {};
         object.x = Math.random() * winSize.width;
         
-        if (object.x <= 0) ojbect.x = 20;
+        if (object.x <= 0) ojbect.x = 40;
         else if (object.x >= winSize.width) object.x = winSize.width - 20;
         
-        object.y = Math.random() * winSize.height - 70;
+        object.y = Math.random() * winSize.height - 170;
         if (object.y <= 0) object.y = 40;
         else if (object.y >= winSize.height - 70) ojbect.y = 40;
         
-        var type = Mission[0].props[round%4];
+        var type = Mission[0].props[round%3];
+        //var type = Math.floor(Math.random()*3);
         object.type = global.Tag[type]; 
         var prop = new PropType[type].create(object);
         this._gameLayer.addChild(prop, global.zOrder.Prop);

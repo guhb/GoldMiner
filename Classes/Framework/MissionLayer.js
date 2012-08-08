@@ -67,23 +67,27 @@ var MissionLayer = cc.Layer.extend({
         ruler.setScale(0.9);
         ruler.setScaleY(0.8);
         
-        var singleButton = cc.Sprite.create(s_array1);
-        var singleButtonDisabled = cc.Sprite.create(s_array1);
-        var singleButtonSelected = cc.Sprite.create(s_array1_big);
+        var singleButton = cc.Sprite.create(s_singleplayer);
+        var singleButtonDisabled = cc.Sprite.create(s_singleplayer);
+        var singleButtonSelected = cc.Sprite.create(s_singleplayerbig);
+        var myScaleBy = cc.ScaleBy.create(0.5,1.02,1.02);
         
-        var doubleButtonDisabled = cc.Sprite.create(s_array3);
-        var doubleButton = cc.Sprite.create(s_array3);
-        var doubleButtonSelected = cc.Sprite.create(s_array3_big);
+        var doubleButtonDisabled = cc.Sprite.create(s_doubleplayer);
+        var doubleButton = cc.Sprite.create(s_doubleplayer);
+        var doubleButtonSelected = cc.Sprite.create(s_doubleplayerbig);
         
         var singleMode = cc.MenuItemSprite.create(singleButton,singleButtonSelected,singleButtonDisabled,this,this.onMissionSelected); 
-        singleMode.setPosition(cc.ccp(300,100));
+        singleMode.setPosition(cc.ccp(winSize.width / 2 -120,100));
 
         var doubleMode = cc.MenuItemSprite.create(doubleButton,doubleButtonSelected,doubleButtonDisabled,this,this.onMissionSelected2);
-        doubleMode.setPosition(cc.ccp(550,100));
+        doubleMode.setPosition(cc.ccp(winSize.width / 2 +120,100));
 
         var menu = cc.Menu.create(singleMode, doubleMode);
+        //singleMode.runAction(cc.RepeatForever.create(jump));
+        //doubleMode.runAction(cc.RepeatForever.create(jump));
 
         menu.setPosition(cc.ccp(0, 0));
+        menu.runAction(cc.RepeatForever.create(cc.Sequence.create(myScaleBy,myScaleBy.reverse(),null)));
         this.addChild(menu, 1, 2);
     },
     
@@ -111,19 +115,19 @@ var MissionLayer = cc.Layer.extend({
     
     ccTouchesEnded: function (touches, event) {
         if (this._direction < 0) {
-            this._num = Math.ceil(Math.abs(this._curPos.x - this._begin) / (this._missionWidth + 10))+1;
+            Game._num = Math.ceil(Math.abs(this._curPos.x - this._begin) / (this._missionWidth + 10))+1;
         } else {
-            this._num = Math.ceil(Math.abs(this._curPos.x - this._begin) / (this._missionWidth + 10));
+            Game._num = Math.ceil(Math.abs(this._curPos.x - this._begin) / (this._missionWidth + 10));
         }
-        if (this._num > 3) this._num = 3;
+        if (Game._num > 3) this._num = 3;
         if (typeof (this._direction) == "undefined") {
-            this._num = Math.ceil(Math.abs(this._curPos.x - this._begin) / (this._missionWidth + 10));
+            Game._num = Math.ceil(Math.abs(this._curPos.x - this._begin) / (this._missionWidth + 10));
             this.isMouseDown = false;
             return;
         }
-        this.moveToMission(this._num);
+        this.moveToMission(Game._num);
         this.isMouseDown = false;
-        Game.difficulty = this._num;
+        Game.difficulty = Game._num || Game.difficulty;
         if(Game.difficulty == 1){
             Game.Speed.rotate = 2;
         }
@@ -145,7 +149,7 @@ var MissionLayer = cc.Layer.extend({
     onMissionSelected: function () {
         Game.gameMode = 1;
         Game.resume();
-        Game.mission = this._num;
+        Game.mission = Game._num;
         var scene = cc.Scene.create();
         scene.addChild(singleGameLayer.create());
         scene.addChild(GameControlMenu.create());
@@ -155,7 +159,7 @@ var MissionLayer = cc.Layer.extend({
     onMissionSelected2: function () {
         Game.gameMode = 2;
         Game.resume();
-        Game.mission = this._num;   
+        Game.mission = Game._num;   
         var scene = cc.Scene.create();
         scene.addChild(GameLayer.create());
         scene.addChild(GameControlMenu.create());

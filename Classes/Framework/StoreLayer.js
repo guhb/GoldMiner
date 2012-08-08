@@ -11,10 +11,10 @@ var StoreLayer = cc.Layer.extend({
                 this.addChild(bg, 0, 1);
 
                 // cur score
-                this._lbCurScore = cc.LabelTTF.create("Score: " + Game.cur_score, cc.TEXT_ALIGNMENT_LEFT, "Arial", 14);
-                this._lbCurScore.setColor(cc.RED());
+                this._lbCurScore = cc.LabelBMFont.create("Score: " + Game.cur_score, "Resources/fonts/bitmapFontTest5.fnt");
+                //this._lbCurScore.setColor(cc.RED());
                 this.addChild(this._lbCurScore, global.zOrder.Label);
-                this._lbCurScore.setPosition(cc.ccp(winSize.width - 100, winSize.height - 60));
+                this._lbCurScore.setPosition(cc.ccp(155,180));
                 
                 var acceptNormal = cc.Sprite.create(s_nextgame);
                 var acceptSelected = cc.Sprite.create(s_nextgamebig);
@@ -26,9 +26,9 @@ var StoreLayer = cc.Layer.extend({
                 menu.setPosition(cc.ccp(550, 150));
                 
                 this.describeLabel = cc.LabelTTF.create(" ",
-                    cc.SizeMake(300,200),cc.TEXT_ALIGNMENT_LEFT,'Arial',30
+                    cc.SizeMake(400,200),cc.TEXT_ALIGNMENT_LEFT,'Arial',25
                     );
-                this.describeLabel.setPosition(cc.ccp(110,170));
+                this.describeLabel.setPosition(cc.ccp(130,120));
                 this.describeLabel.setColor(new cc.Color3B(0,0,0));
                 this.describeLabel.setAnchorPoint(cc.PointZero());
 
@@ -84,6 +84,14 @@ var StoreLayer = cc.Layer.extend({
             this.addChild(tool, global.zOrder.Tool);
             j++;
         }
+    },
+
+    ccTouchesBegan: function (touches, event) {
+        // TODO
+    },
+
+    ccTouchesMoved: function (touches, event) {
+        // TODO
     },
 
     ccTouchesEnded: function (touches,event) {
@@ -164,12 +172,12 @@ var StoreLayer = cc.Layer.extend({
     },
 
     showIndication: function () {
-        var indications = ["钩子回收速度x2",
-                           "钩子回收速度x4",
-                           "钩子变长更易瞄准",
-                           "炸掉不需要的物品",
-                           "所有石头变为金子",
-                           "所有石头价格增加"];
+        var indications = ["钩子回收速度x2 $500",
+                           "钩子回收速度x4 $2000",
+                           "钩子变长更易瞄准 $500",
+                           "炸掉不需要的物品 $800",
+                           "所有骨头变为金子 $600",
+                           "所有石头价格增加 $200"];
         if (this.touchedObject != null) {
             var message = indications[this.touchedObject.type-global.Tag.Milk1];
             if (message) this.describeLabel.setString(message);
