@@ -43,19 +43,37 @@ var Gold = MineObject.extend({
             cowFrames.push(cowFrame3);
             var cowAnimation = cc.Animation.create(cowFrames,0.5);
             var cowAnimate = cc.Animate.create(cowAnimation,false);
+            this.setPosition(cc.ccp(object.x, object.y));
             this.runAction(cc.RepeatForever.create(cowAnimate));
         } else if(size == 2) {
-            this.initWithFile(MineType[type].middle.image);
+            var texture1 = cc.TextureCache.sharedTextureCache().addImage(s_sheep);
+            var sheepFrame1 = cc.SpriteFrame.create(texture1,cc.RectMake(0,0,110,170));
+            this.initWithSpriteFrame(sheepFrame1);
             this.value = MineType[type].middle.value;
             this.weight = MineType[type].middle.weight;
+            this.setScale(0.7);
+            var sheepFrame2 = cc.SpriteFrame.create(texture1,cc.RectMake(117,0,130,170));
+            var sheepFrame3 = cc.SpriteFrame.create(texture1,cc.RectMake(251,0,130,170));
+            var sheepFrame4 = cc.SpriteFrame.create(texture1,cc.RectMake(387,0,130,170));
+            var sheepFrames = [];
+            sheepFrames.push(sheepFrame1);
+            sheepFrames.push(sheepFrame2);
+            sheepFrames.push(sheepFrame3);
+            //sheepFrames.push(sheepFrame4);
+            var sheepAnimation = cc.Animation.create(sheepFrames,0.5);
+            var sheepAnimate = cc.Animate.create(sheepAnimation,false);
+            this.setPosition(cc.ccp(object.x, object.y));
+            this.runAction(cc.RepeatForever.create(sheepAnimate));
         } else {
+            var jump = cc.JumpBy.create(1,cc.PointMake(0,0),5,1);
             this.initWithFile(MineType[type].small.image);
             this.value = MineType[type].small.value;
             this.weight = MineType[type].small.weight;
+            this.setPosition(cc.ccp(object.x, object.y));
+            this.runAction(cc.RepeatForever.create(jump));
         }
 
         this.setScale(0.4);
-        this.setPosition(cc.ccp(object.x, object.y));
         this.type = object.type;
         this.zOrder = global.zOrder[type];
         this.scheduleUpdate();

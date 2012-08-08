@@ -24,6 +24,7 @@ var PropObject = cc.Sprite.extend({
 var Clock = PropObject.extend({
     ctor: function (object) {
         this.initWithFile(PropType.Clock.image);
+        this.setScale(0.5);
         this.setPosition(cc.ccp(object.x, object.y));
         this.type = object.type;
         this.scheduleUpdate();
@@ -52,12 +53,13 @@ var Clock = PropObject.extend({
         );
     }
 });
-
+/*
 var Thunder = PropObject.extend({
     ctor: function (object) {
         this.initWithFile(PropType.Thunder.image);
         this.setPosition(cc.ccp(object.x, object.y));
         this.type = object.type;
+        this.setScale(0.4);
         this.scheduleUpdate();
     },
     
@@ -93,6 +95,7 @@ var Sleep = PropObject.extend({
         this.initWithFile(PropType.Sleep.image);
         this.setPosition(cc.ccp(object.x, object.y));
         this.type = object.type;
+        this.setScale(0.4);
         this.scheduleUpdate();
     },
     
@@ -109,37 +112,75 @@ var Sleep = PropObject.extend({
             }
         }
     }
-});
+});*/
 
 var Bump = PropObject.extend({
     ctor: function (object) {
-        this.initWithFile(PropType.Sleep.image);
+        this.initWithFile(s_milk);
         this.setPosition(cc.ccp(object.x, object.y));
         this.type = object.type;
+        this.setScale(0.4);
         this.scheduleUpdate();
     },
     
     use: function () {
-        var that = this.getParent();
-        var bump = function () {
-            if (that._hook.getState() == "launch") {
-                var distance = null;
-                for (var i=0; i<that.mineContainer.length; i++) {
-                    if (that.mineContainer[i] != null) {
-                        var xlen = Math.pow(that._hook.getPositionX() - that.mineContainer[i].getPositionX(), 2);
-                        var ylen = Math.pow(that._hook.getPositionY() - that.mineContainer[i].getPositionY(), 2);
-                    
-                        distance = Math.sqrt(xlen + ylen);
-                        if (distance < 40) {
-                            that._hook.retrieve();
+        var parent = this.getParent();
+
+        if (parent._hook2) {
+            var bump = function () {
+                if (parent._hook.getState() == "launch") {
+                    var distance = null;
+                    for (var i=0; i<parent.mineContainer.length; i++) {
+                        if (parent.mineContainer[i] != null) {
+                            var xlen = Math.pow(parent._hook.getPositionX() - parent.mineContainer[i].getPositionX(), 2);
+                            var ylen = Math.pow(parent._hook.getPositionY() - parent.mineContainer[i].getPositionY(), 2);
+                        
+                            distance = Math.sqrt(xlen + ylen);
+                            if (distance < parent.mineContainer[i].getCollisionLength + 10) {
+                                parent._hook.retrieve();
+                            }
                         }
                     }
                 }
-            }
-        };
-        that.schedule(bump);
+
+                if (parent._hook2.getState() == "launch") {
+                    var distance = null;
+                    for (var i=0; i<parent.mineContainer.length; i++) {
+                        if (parent.mineContainer[i] != null) {
+                            var xlen = Math.pow(parent._hook2.getPositionX() - parent.mineContainer[i].getPositionX(), 2);
+                            var ylen = Math.pow(parent._hook2.getPositionY() - parent.mineContainer[i].getPositionY(), 2);
+                        
+                            distance = Math.sqrt(xlen + ylen);
+                            if (distance < parent.mineContainer[i].getCollisionLength + 10) {
+                                parent._hook2.retrieve();
+                            }
+                        }
+                    }
+                }
+            };
+
+        } else {
+            var bump = function () {
+                if (parent._hook.getState() == "launch") {
+                    var distance = null;
+                    for (var i=0; i<parent.mineContainer.length; i++) {
+                        if (parent.mineContainer[i] != null) {
+                            var xlen = Math.pow(parent._hook.getPositionX() - parent.mineContainer[i].getPositionX(), 2);
+                            var ylen = Math.pow(parent._hook.getPositionY() - parent.mineContainer[i].getPositionY(), 2);
+                        
+                            distance = Math.sqrt(xlen + ylen);
+                            if (distance < 40) {
+                                parent._hook.retrieve();
+                            }
+                        }
+                    }
+                }
+            };
+        }
+
+        parent.schedule(bump);
         setTimeout(function () {
-            that.unschedule(bump);
+            parent.unschedule(bump);
         },
         10 * 1000);
     }
@@ -147,51 +188,102 @@ var Bump = PropObject.extend({
 
 var Scan = PropObject.extend({
     ctor: function (object) {
-        this.initWithFile(PropType.Sleep.image);
+        this.initWithFile(s_milk);
         this.setPosition(cc.ccp(object.x, object.y));
         this.type = object.type;
+        this.setScale(0.4);
         this.scheduleUpdate();
     },
-    
+
     use: function () {
         var draw = this.getParent().draw;
-        this.getParent().draw = function () {
-            cc.renderContext.lineWidth = 2;
-            //cc.renderContext.strokeStyle = "#eedc4a";
-            var angle = this._hook.delegate.getRotation();
-            var border = 10;
-            var mx = winSize.width / 2;
-            var my = winSize.height - 50;
-            var desX, desY;
-            if (angle > this._criticalAngle) {
-                desX = 0 + border;
-                desY = my - Math.tan(((90-angle)*Math.PI)/180) * mx;
-            } else if (angle < this._criticalAngle && angle >0) {
-                desX = mx - Math.tan((angle*Math.PI)/180) * my;
-                desY = 0 + border;
-            } else if (angle > (-this._criticalAngle) && angle < 0) {
-                desX = mx + Math.tan((-angle*Math.PI)/180) * my
-                desY = 0 + border;
-            } else if (angle < -this._criticalAngle) {
-                desX = winSize.width - border;
-                desY = my - Math.tan(((90+angle)*Math.PI)/180) * mx;
-            }
-            
-            cc.drawingUtil.drawLine(this._hook.getOriginPosition(), cc.ccp(desX, desY));
-        };
-
         var parent = this.getParent();
+        if (parent._hook2) {
+            var newDraw = function () {
+                //cc.renderContext.lineWidth = 2;
+                cc.renderContext.strokeStyle = "#3f3e3e";
+                var angle = this._hook.delegate.getRotation();
+                var border = 10;
+                var mx = this._hook.getOriginPosition().x;
+                var my = this._hook.getOriginPosition().y;
+                var desX, desY;
+                if (angle > this._criticalAngle) {
+                    desX = 0 + border;
+                    desY = my - Math.tan(((90-angle)*Math.PI)/180) * mx;
+                } else if (angle < this._criticalAngle && angle >0) {
+                    desX = mx - Math.tan((angle*Math.PI)/180) * my;
+                    desY = 0 + border;
+                } else if (angle > (-this._criticalAngle) && angle < 0) {
+                    desX = mx + Math.tan((-angle*Math.PI)/180) * my
+                    desY = 0 + border;
+                } else if (angle < -this._criticalAngle) {
+                    desX = winSize.width - border;
+                    desY = my - Math.tan(((90+angle)*Math.PI)/180) * mx;
+                }
+                
+                cc.drawingUtil.drawLine(this._hook.getOriginPosition(), cc.ccp(desX, desY));
+
+                var angle2 = this._hook2.delegate.getRotation();
+                var mx2 = this._hook2.getOriginPosition().x;
+                var my2 = this._hook2.getOriginPosition().y;
+                var desX2, desY2;
+                if (angle2 > this._criticalAngle) {
+                    desX2 = 0 + border;
+                    desY2 = my2 - Math.tan(((90-angle2)*Math.PI)/180) * mx2;
+                } else if (angle < this._criticalAngle && angle2 >0) {
+                    desX2 = mx2 - Math.tan((angle2*Math.PI)/180) * my2;
+                    desY2 = 0 + border;
+                } else if (angle > (-this._criticalAngle) && angle2 < 0) {
+                    desX2 = mx2 + Math.tan((-angle2*Math.PI)/180) * my2;
+                    desY2 = 0 + border;
+                } else if (angle < -this._criticalAngle) {
+                    desX2 = winSize.width - border;
+                    desY2 = my2 - Math.tan(((90+angle2)*Math.PI)/180) * mx2;
+                }
+                
+                cc.drawingUtil.drawLine(this._hook2.getOriginPosition(), cc.ccp(desX2, desY2));
+            };
+        } else {
+            var newDraw = function () {
+                //cc.renderContext.lineWidth = 2;
+                cc.renderContext.strokeStyle = "#3f3e3e";
+                var angle = this._hook.delegate.getRotation();
+                var border = 10;
+                var mx = this._hook.getOriginPosition().x;
+                var my = this._hook.getOriginPosition().y;
+                var desX, desY;
+                if (angle > this._criticalAngle) {
+                    desX = 0 + border;
+                    desY = my - Math.tan(((90-angle)*Math.PI)/180) * mx;
+                } else if (angle < this._criticalAngle && angle >0) {
+                    desX = mx - Math.tan((angle*Math.PI)/180) * my;
+                    desY = 0 + border;
+                } else if (angle > (-this._criticalAngle) && angle < 0) {
+                    desX = mx + Math.tan((-angle*Math.PI)/180) * my
+                    desY = 0 + border;
+                } else if (angle < -this._criticalAngle) {
+                    desX = winSize.width - border;
+                    desY = my - Math.tan(((90+angle)*Math.PI)/180) * mx;
+                }
+                
+                cc.drawingUtil.drawLine(this._hook.getOriginPosition(), cc.ccp(desX, desY));
+            };
+        }
+
+        parent.draw = newDraw;
+        
         setTimeout(function () {
             parent.draw = draw;
-        }, 10 * 1000);
+        }, 13 * 1000);
     }
 });
-
+/*
 var Smaller = PropObject.extend({
     ctor: function (object) {
         this.initWithFile(PropType.Sleep.image);
         this.setPosition(cc.ccp(object.x, object.y));
         this.type = object.type;
+        this.setScale(0.3);
         this.scheduleUpdate();
     },
     
@@ -323,4 +415,4 @@ var Shift = PropObject.extend({
             parent._hook.originPosition = originPosition;
         }, 10 * 1000);
     }
-});
+});*/

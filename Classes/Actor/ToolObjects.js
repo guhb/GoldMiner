@@ -46,7 +46,7 @@ var Longer = cc.Sprite.extend({
         this.getParent()._hook.delegate.initWithFile(s_hook_long);
         this.getParent()._hook.setAnchorPoint(cc.ccp(0.5, 1));
         this.getParent()._hook.delegate.setAnchorPoint(cc.ccp(0.5, 1));
-        if (this.getParent()._hoo2) {
+        if ( this.getParent()._hook2 ) {
             this.getParent()._hook2.initWithFile(s_hook_long);
             this.getParent()._hook2.delegate.initWithFile(s_hook_long);
             this.getParent()._hook2.setAnchorPoint(cc.ccp(0.5, 1));
@@ -136,18 +136,20 @@ var BoneToGold = cc.Sprite.extend({
     },
     
     onUse: function () {
-        var children = this.getParent().getChildren();
-        for (var i = 0; i < children.length; i++) {
-            if (children[i].type == global.Tag.Bone) {
+        //var children = this.getParent().getChildren();
+        var mineContainer = this.getParent().mineContainer;
+        for (var i = 0; i < mineContainer.length; i++) {
+            if (mineContainer[i].type == global.Tag.Bone) {
                 // add bomb effect
                 var object = {};
-                object.x = children[i].getPositionX();
-                object.y = children[i].getPositionY();
+                object.x = mineContainer[i].getPositionX();
+                object.y = mineContainer[i].getPositionY();
                 object.type = global.Tag.Gold;
                 object = new MineType["Gold"].create(object, 1);
-                children[i].removeFromParentAndCleanup();
+                mineContainer[i].removeFromParentAndCleanup();
                 this.getParent().addChild(object, global.zOrder.Gold);
-                this.getParent().mineContainer.push(object);
+                //this.getParent().mineContainer.push(object);
+                mineContainer[i] = object;
             }
         }
     }
